@@ -14,6 +14,8 @@ bool Register(ClassInfo* classInfo) {
     if(classInfo) {
         if(ClassDB::m_classInfoMap.find(classInfo->m_className) == ClassDB::m_classInfoMap.end()) {
             ClassDB::m_classInfoMap.insert(std::map<std::string, ClassInfo*>::value_type(classInfo->m_className, classInfo));
+			return true;
         }
     }
+	return false;
 }

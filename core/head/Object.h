@@ -2,7 +2,7 @@
 #include <string>
 #include "ClassDB.h"
 class Object {
-    DECLARE_CLASS(Object);
+	DECLEAR_CLASS(Object);
 public:
     Object(){};
     virtual ~Object(){};
