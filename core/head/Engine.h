@@ -1,6 +1,9 @@
 #pragma once
 class Engine {
 public:
-Engine(){};
-~Engine(){};
+	static Engine* getInstance();
+	void init();
+private:
+	Engine() {};
+	~Engine() {};
 };

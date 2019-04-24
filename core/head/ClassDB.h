@@ -24,7 +24,9 @@ class ClassInfo {
 
 class ClassDB {
 public:
-    static std::map<std::string, ClassInfo*> m_classInfoMap;
+	ClassDB();
+	~ClassDB();
+    static std::map<std::string, ClassInfo*>* m_classInfoMap;
 };
 
 #define DECLEAR_CLASS(name)\

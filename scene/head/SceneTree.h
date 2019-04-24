@@ -1,8 +1,15 @@
 #pragma once
 #include "MainLoop.h"
+#include "GLContext.h"
+
 class SceneTree: public MainLoop {
+	DECLEAR_CLASS(SceneTree)
 public:
-    virtual void Init();
-    virtual void Run(double time);
+	SceneTree() ;
+	~SceneTree() ;
+    virtual bool Init();
+    virtual void Run();
     virtual void Destory();
+protected:
+	GLContext* context;
 };

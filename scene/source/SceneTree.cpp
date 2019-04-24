@@ -1,13 +1,30 @@
 #include "SceneTree.h"
 
-void SceneTree::Init() {
+IMPLEMENT_CLASS(SceneTree)
 
+bool SceneTree::Init() {
+	context = new GLContext;
+	return context->initContext();
 }
 
-void SceneTree::Run(double time) {
+void SceneTree::Run() {
+	while (context->isContextValid())
+	{
+		context->swapBuffers();
+		context->PollEvents();
+	}
 
 }
 
 void SceneTree::Destory() {
+	context->clearContext();
+	delete context;
+}
 
+SceneTree::SceneTree() {
+
+}
+
+SceneTree::~SceneTree() {
+	Destory();
 }
