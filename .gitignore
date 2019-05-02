@@ -1,3 +1,7 @@
 *.dblite
 build/
 core/head/.vscode/
+AdaEngine/.vs/
+AdaEngine/Debug/
+AdaEngine/packages/
+AdaEngine/x64/
