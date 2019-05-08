@@ -4,5 +4,5 @@
 class Mesh : public SceneNode {
 	//TODO
 private:
-	boost::container::vector<boost::shared_ptr<GeometryData>> meshDatas;
+	boost::container::vector<boost::shared_ptr<GeometryData>> meshSections;
 };

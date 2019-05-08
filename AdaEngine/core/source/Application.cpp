@@ -15,6 +15,7 @@ void Application::Initilize() {
 	mainLoop->Init();
 }
 
+// CPU build render commands(vao, vbo...) to GPU
 void Application::Run() {
 	// CPU JOB
 	mainLoop->Run();
