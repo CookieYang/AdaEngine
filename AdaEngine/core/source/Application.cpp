@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 Application::Application() {
-	mainLoop= boost::shared_ptr<MainLoop>(new MainLoop);
+	
 }
 
 Application::~Application() {
@@ -12,16 +12,26 @@ Application::~Application() {
 
 void Application::Initilize() {
 	Engine::getInstance()->init();
-	mainLoop->Init();
+	Engine::getInstance()->sceneTree->Init();
 }
 
 void Application::Run() {
-	// CPU JOB
-	mainLoop->Run();
-	// GPU JOB
-	Engine::getInstance()->renderInterface->Render();
+	while (Engine::getInstance()->renderInterface->Valid()) {
+		Engine::getInstance()->sceneTree->Run();
+		doRun();
+		Engine::getInstance()->renderInterface->Render();
+	}
 }
 
 void Application::Destory() {
-
+	
 }
+
+void init_PyApplication(pybind11::module &m) {
+	pybind11::class_<Application, PyApplication /* <--- trampoline*/>(m, "Application")
+		.def(pybind11::init<>())
+		.def("Initilize", &Application::Initilize)
+		.def("Destory", &Application::Destory)
+		.def("doRun", &Application::doRun)
+		.def("Run", &Application::Run);
+};

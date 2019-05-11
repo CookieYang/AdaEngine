@@ -1,5 +1,5 @@
 #include "IRenderInterface.h"
 #include "OglRenderInterface.h"
-boost::shared_ptr<RenderInterface> RenderInterface::CreateRenderInterface() {
-	return boost::shared_ptr<RenderInterface>(new OglRenderInterface);
+std::shared_ptr<RenderInterface> RenderInterface::CreateRenderInterface() {
+	return std::shared_ptr<RenderInterface>(new OglRenderInterface);
 }

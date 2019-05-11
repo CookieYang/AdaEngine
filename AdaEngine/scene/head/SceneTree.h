@@ -1,5 +1,4 @@
 #pragma once
-#include "MainLoop.h"
 #include "IRenderInterface.h"
 class SceneNode;
 
@@ -8,9 +7,9 @@ public:
     void Init();
     void Run();
     void Destory();
-	void AddNode(boost::shared_ptr<SceneNode>& node);
+	void AddNode(std::shared_ptr<SceneNode>& node);
 	SceneTree() ;
 	~SceneTree() ;
 private:
-	boost::shared_ptr<SceneNode> root;
+	std::shared_ptr<SceneNode> root;
 };

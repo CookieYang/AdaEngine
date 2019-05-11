@@ -1,13 +1,12 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <boost/container/vector.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <vector>
+#include <memory>
 class SceneNode {
 public:
 	SceneNode() {};
 	virtual ~SceneNode() {};
-	void AttachToParent(boost::shared_ptr<SceneNode>& parent);
+	void AttachToParent(std::shared_ptr<SceneNode>& parent);
 	void AttachToRoot();
 	inline glm::mat4 GetTransform();
 	inline glm::vec3 GetPosition();
@@ -24,9 +23,9 @@ protected:
 	glm::vec3 scale;
 	glm::vec3 rotation;
 
-	boost::container::vector<boost::shared_ptr<SceneNode>> childrens;
-	boost::weak_ptr<SceneNode> weak_parent;
+	std::vector<std::shared_ptr<SceneNode>> childrens;
+	std::weak_ptr<SceneNode> weak_parent;
 
 private:
-	void AddChildren(const boost::shared_ptr<SceneNode>& child);
+	void AddChildren(const std::shared_ptr<SceneNode>& child);
 };

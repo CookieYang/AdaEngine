@@ -9,7 +9,7 @@ Engine* Engine::getInstance() {
 
 void Engine::init() {
 	renderInterface = RenderInterface::CreateRenderInterface();
-	sceneTree = boost::shared_ptr<SceneTree>(new SceneTree);
+	sceneTree = std::shared_ptr<SceneTree>(new SceneTree);
 	bool bReadyRender = renderInterface->Init();
 	if (!bReadyRender) {
 		std::cout << "init Render Context failed" << std::endl;

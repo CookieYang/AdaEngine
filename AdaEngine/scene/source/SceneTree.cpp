@@ -13,7 +13,7 @@ void SceneTree::Destory() {
 	
 }
 
-void SceneTree::AddNode(boost::shared_ptr<SceneNode>& node) {
+void SceneTree::AddNode(std::shared_ptr<SceneNode>& node) {
 	node->AttachToParent(root);
 }
 

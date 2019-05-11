@@ -24,9 +24,6 @@
     <ClCompile Include="core\source\GLContext.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="core\source\MainLoop.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="scene\source\SceneTree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -51,6 +48,9 @@
     <ClCompile Include="scene\source\GeometryData.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="bind.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -63,9 +63,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="core\head\GLContext.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="core\head\MainLoop.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="core\head\Application.h">

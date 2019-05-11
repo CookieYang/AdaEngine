@@ -5,8 +5,8 @@ class Engine {
 public:
 	static Engine* getInstance();
 	void init();
-	boost::shared_ptr<RenderInterface> renderInterface;
-	boost::shared_ptr<SceneTree> sceneTree;
+	std::shared_ptr<RenderInterface> renderInterface;
+	std::shared_ptr<SceneTree> sceneTree;
 private:
 	Engine() {};
 	~Engine() {};

@@ -1,10 +1,11 @@
 #pragma once
-#include <boost/shared_ptr.hpp>
+#include <memory>
 class RenderInterface {
 public:
-	static boost::shared_ptr<RenderInterface> CreateRenderInterface();
+	static std::shared_ptr<RenderInterface> CreateRenderInterface();
 	virtual bool Init() = 0;
 	virtual void Render() = 0;
 	virtual void Destroy() = 0;
+	virtual bool Valid() = 0;
 	virtual ~RenderInterface() {};
 };

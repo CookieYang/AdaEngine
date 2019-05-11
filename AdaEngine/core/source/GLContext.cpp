@@ -1,4 +1,5 @@
 #include "GLContext.h"
+#include <iostream>
 GLContext::GLContext() {
 
 }
@@ -22,8 +23,12 @@ bool GLContext::initContext() {
 
 	makeCurrent();
 
-	if (!glewInit())
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
 	{
+		/* Problem: glewInit failed, something is seriously wrong. */
+		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+		std::cout << glewGetErrorString(err) << std::endl;
 		return false;
 	}
 

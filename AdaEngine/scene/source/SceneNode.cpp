@@ -1,11 +1,11 @@
 #include "SceneNode.h"
 #include "Engine.h"
-void SceneNode::AttachToParent(boost::shared_ptr<SceneNode>& parent) {
-	weak_parent = boost::weak_ptr<SceneNode>(parent);
-	parent->AddChildren(boost::shared_ptr<SceneNode>(this));
+void SceneNode::AttachToParent(std::shared_ptr<SceneNode>& parent) {
+	weak_parent = std::weak_ptr<SceneNode>(parent);
+	parent->AddChildren(std::shared_ptr<SceneNode>(this));
 }
 
-void SceneNode::AddChildren(const boost::shared_ptr<SceneNode>& child) {
+void SceneNode::AddChildren(const std::shared_ptr<SceneNode>& child) {
 	childrens.push_back(child);
 }
 
