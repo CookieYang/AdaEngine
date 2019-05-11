@@ -15,6 +15,7 @@ void Application::Initilize() {
 	Engine::getInstance()->sceneTree->Init();
 }
 
+// CPU build render commands(vao, vbo...) to GPU
 void Application::Run() {
 	while (Engine::getInstance()->renderInterface->Valid()) {
 		Engine::getInstance()->sceneTree->Run();
