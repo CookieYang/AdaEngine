@@ -45,3 +45,23 @@ CommandQueue::~CommandQueue() {
 	}
 	free(command_mem);
 }
+
+bool CommandQueue::dealloc_one() {
+tryagain:
+	if (deallocPtr == writePtr) {
+		return false;
+	}
+
+	uint32_t size = *(uint32_t*)&command_mem[deallocPtr];
+	if (size == 0) {
+		deallocPtr = 0;
+		goto tryagain;
+	}
+
+	if (size & 1) {
+		return false;
+	}
+
+	deallocPtr += (size >> 1) + 8;
+	return true;
+}

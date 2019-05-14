@@ -2,6 +2,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <cassert>
 
 class Semaphore {
 public:
@@ -51,6 +52,22 @@ class CommandQueue {
 	std::mutex* mutex;
 	Semaphore* sync;
 
+	template <class T>
+	T* allocate() {
+		uint32_t alloc_size = ((sizeof(T) + 8 - 1) & ~(8 - 1)) + 8;
+		assert(COMMAND_MEN_SIZE - writePtr > = 8);
+		
+		uint32_t size = (sizeof(T) + 8 - 1)&~(8 - 1);
+		uint32_t *p = (uint32_t*)&command_mem[writePtr];
+		*p = (size << 1) | 1;
+		writePtr += 8;
+		T* cmd = new(&command_mem[writePtr]) T;
+		writePtr += size;
+		return cmd;
+	}
+
+
+	bool dealloc_one();
 	CommandQueue(bool p_sync);
-	~CommandQueue()
+	~CommandQueue();
 };
