@@ -54,9 +54,39 @@ class CommandQueue {
 
 	template <class T>
 	T* allocate() {
+
 		uint32_t alloc_size = ((sizeof(T) + 8 - 1) & ~(8 - 1)) + 8;
-		assert(COMMAND_MEN_SIZE - writePtr > = 8);
-		
+
+	tryagain:
+		if (writePtr < deallocPtr) {
+			if ((deallocPtr - writePtr) <= alloc_size) {
+				// no more space for new alloc
+				if (dealloc_one()) {
+					goto tryagain;
+				}
+				return NULL;
+			}
+		}
+		else if (writePtr >= deallocPtr) {
+			// muse larger than one alloc and end flag(uint32_t)
+			if ((COMMAND_MEN_SIZE - writePtr) < alloc_size + sizeof(uint32_t)) {
+				if (deallocPtr == 0) {
+					if (dealloc_one()) {
+						goto tryagian;
+					}
+					return NULL;
+				}
+
+				assert(COMMAND_MEN_SIZE - writePtr > = 8);
+
+				// there is some space at head, move write prt to head
+				uint32_t* p = (uint32_t*)&command_mem[writePtr];
+				*p = 0;                                                                      // tell us where is the end (for read)[end flag]
+				writePtr = 0;
+				goto tryagain;
+			}
+		}
+
 		uint32_t size = (sizeof(T) + 8 - 1)&~(8 - 1);
 		uint32_t *p = (uint32_t*)&command_mem[writePtr];
 		*p = (size << 1) | 1;
@@ -66,7 +96,24 @@ class CommandQueue {
 		return cmd;
 	}
 
+	template <class T>
+	T* allocateAndLock() {
+		lock(); 
+		T* ret;
+		while ((ret = allocate<T>()) == NULL) {
+			unlock();
+			// unlock and sleep a little while
+			waitForFlush();
+			// try again
+			lock();
+		}
+		return ret;
+	}
 
+	void lock();
+	void unlock();
+	void waitForFlush();
+	
 	bool dealloc_one();
 	CommandQueue(bool p_sync);
 	~CommandQueue();

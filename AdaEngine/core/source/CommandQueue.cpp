@@ -48,20 +48,39 @@ CommandQueue::~CommandQueue() {
 
 bool CommandQueue::dealloc_one() {
 tryagain:
+	// empty queue
 	if (deallocPtr == writePtr) {
 		return false;
 	}
 
+	// at the end of queue
 	uint32_t size = *(uint32_t*)&command_mem[deallocPtr];
 	if (size == 0) {
 		deallocPtr = 0;
 		goto tryagain;
 	}
 
+	// no empty space to release
 	if (size & 1) {
 		return false;
 	}
 
 	deallocPtr += (size >> 1) + 8;
 	return true;
+}
+
+void CommandQueue::lock() {
+	if (mutex) {
+		mutex->lock();
+	}
+}
+
+void CommandQueue::unlock() {
+	if (mutex) {
+		mutex->unlock();
+	}
+}
+
+void CommandQueue::waitForFlush() {
+	// sleep
 }
