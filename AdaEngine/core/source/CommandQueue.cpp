@@ -1,5 +1,6 @@
 #include "CommandQueue.h"
 #include <memory>
+#include <Windows.h>
 
 void Semaphore::wait() {
 	std::unique_lock<std::mutex> lock(mutex);
@@ -83,4 +84,39 @@ void CommandQueue::unlock() {
 
 void CommandQueue::waitForFlush() {
 	// sleep
+	Sleep(1000);
+}
+
+bool CommandQueue::flushOne(bool bLock) {
+	if (bLock) {
+		lock();
+	}
+tryagain:
+	if (readPtr == writePtr) {
+		return false;
+	}
+	uint32_t sizePtr = readPtr;
+	uint32_t size = *(uint32_t*)&command_mem[readPtr] >> 1;
+	if (size == 0) {
+		readPtr = 0;
+		goto tryagain;
+	}
+	readPtr += 8;
+	CommandBase* cmd = reinterpret_cast<CommandBase*>(&command_mem[readPtr]);
+	readPtr += size;
+
+	if (bLock) {
+		unlock();
+	}
+	cmd->call();
+	if (bLock) {
+		lock();
+	}
+	cmd->signal();                           // wait for research
+	cmd->~CommandBase();
+	*(uint32_t*)&command_mem[sizePtr] &= ~1;
+	if (bLock) {
+		unlock();
+	}
+	return true;
 }
