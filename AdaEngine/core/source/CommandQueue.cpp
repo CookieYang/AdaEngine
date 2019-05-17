@@ -87,6 +87,29 @@ void CommandQueue::waitForFlush() {
 	Sleep(1000);
 }
 
+CommandQueue::SyncSemaphore* CommandQueue::allocSyncSem() {
+	int idx = -1;
+	while (true)
+	{
+		lock();
+		for (int i = 0; i < SYNC_SEMAPHORES; i++) {
+			if (!sync_sems[i].inUse) {
+				sync_sems[i].inUse = true;
+				idx = i;
+				break;
+			}
+		}
+		unlock();
+		if (idx == -1) {
+			waitForFlush();
+		}
+		else {
+			break;
+		}
+	}
+	return &sync_sems[idx];
+}
+
 bool CommandQueue::flushOne(bool bLock) {
 	if (bLock) {
 		lock();
@@ -112,7 +135,7 @@ tryagain:
 	if (bLock) {
 		lock();
 	}
-	cmd->signal();                           // wait for research
+	cmd->signal();                           // notify cmd has got result, return to call thread and get result
 	cmd->~CommandBase();
 	*(uint32_t*)&command_mem[sizePtr] &= ~1;
 	if (bLock) {
