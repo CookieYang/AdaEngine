@@ -8,6 +8,7 @@ class GLContext {
 public:
 	bool initContext();
 	void makeCurrent();
+	void makeCurrentNull();
 	bool isContextValid();
 	void swapBuffers();
 	void clearContext();

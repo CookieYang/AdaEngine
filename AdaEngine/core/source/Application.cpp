@@ -13,6 +13,7 @@ Application::~Application() {
 void Application::Initilize() {
 	Engine::getInstance()->init();
 	Engine::getInstance()->sceneTree->Init();
+	Engine::getInstance()->renderInterface->Init();
 }
 
 // CPU build render commands(vao, vbo...) to GPU
@@ -20,7 +21,8 @@ void Application::Run() {
 	while (Engine::getInstance()->renderInterface->Valid()) {
 		Engine::getInstance()->sceneTree->Run();
 		doRun();
-		Engine::getInstance()->renderInterface->Render();
+		Engine::getInstance()->renderInterface->Draw();
+		Engine::getInstance()->renderInterface->SwapBuffer();
 	}
 }
 

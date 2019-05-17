@@ -20,10 +20,9 @@ bool GLContext::initContext() {
 		clearContext();
 		return false;
 	}
-
 	makeCurrent();
-
 	GLenum err = glewInit();
+	makeCurrentNull();
 	if (GLEW_OK != err)
 	{
 		/* Problem: glewInit failed, something is seriously wrong. */
@@ -31,12 +30,16 @@ bool GLContext::initContext() {
 		std::cout << glewGetErrorString(err) << std::endl;
 		return false;
 	}
-
+	
 	return true;
 }
 
 void GLContext::makeCurrent() {
 	glfwMakeContextCurrent(window);
+}
+
+void GLContext::makeCurrentNull() {
+	glfwMakeContextCurrent(NULL);
 }
 
 bool GLContext::isContextValid() {
