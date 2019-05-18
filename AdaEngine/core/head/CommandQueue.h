@@ -4,6 +4,7 @@
 #include <condition_variable>
 #include <cassert>
 #include "SimpleType.h"
+#include "Engine.h"
 
 #define COMMA(N) _COMMA_##N
 #define _COMMA_0
@@ -211,7 +212,7 @@ public:
 	void signal();
 private:
 	int count;
-	std::mutex mutex;
+	std::mutex innerMutex;
 	std::condition_variable conditionVariable;
 };
 
@@ -282,7 +283,7 @@ class CommandQueue {
 			if ((COMMAND_MEN_SIZE - writePtr) < alloc_size + sizeof(uint32_t)) {
 				if (deallocPtr == 0) {
 					if (dealloc_one()) {
-						goto tryagian;
+						goto tryagain;
 					}
 					return NULL;
 				}
@@ -343,6 +344,7 @@ public:
 	void waitAndFlushOne() {
 		assert(sync != nullptr);
 		sync->wait();                               // wait for cmd
+		Engine::print("flush one");
 		flushOne();
 	}
 

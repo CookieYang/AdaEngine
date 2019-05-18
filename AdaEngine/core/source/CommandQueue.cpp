@@ -1,16 +1,16 @@
 #include "CommandQueue.h"
 #include <memory>
-#include <Windows.h>
+#include "Engine.h"
 
 void Semaphore::wait() {
-	std::unique_lock<std::mutex> lock(mutex);
+	std::unique_lock<std::mutex> lock(innerMutex);
 	if (--count < 0) {
 		conditionVariable.wait(lock);
 	}
 }
 
 void Semaphore::signal() {
-	std::unique_lock<std::mutex> lock(mutex);
+	std::unique_lock<std::mutex> lock(innerMutex);
 	if (++count <= 0) {
 		conditionVariable.notify_one();
 	}
@@ -84,7 +84,7 @@ void CommandQueue::unlock() {
 
 void CommandQueue::waitForFlush() {
 	// sleep
-	Sleep(1000);
+	Engine::sleep(1000);
 }
 
 CommandQueue::SyncSemaphore* CommandQueue::allocSyncSem() {
@@ -116,6 +116,9 @@ bool CommandQueue::flushOne(bool bLock) {
 	}
 tryagain:
 	if (readPtr == writePtr) {
+		if (bLock) {
+			unlock();
+		}
 		return false;
 	}
 	uint32_t sizePtr = readPtr;

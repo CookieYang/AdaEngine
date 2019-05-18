@@ -3,7 +3,7 @@
 void OglRenderInterface::Init() {
 	// init gl in rendering thread
 	MakeCurrent();
-	glClearColor(0.3, 0.1, 0.2, 1.0);
+	glClearColor(0.3f, 0.1f, 0.2f, 1.0f);
 }
 
 void OglRenderInterface::SwapBuffer() {
@@ -40,7 +40,15 @@ bool OglRenderInterface::Valid() {
 	return context->isContextValid();
 }
 
-void OglRenderInterface::Destroy() {
+void OglRenderInterface::sync() {
+
+}
+
+void OglRenderInterface::Finish() {
+
+}
+
+void OglRenderInterface::Destory() {
 	context->clearContext();
 }
 
@@ -50,5 +58,5 @@ OglRenderInterface::OglRenderInterface() {
 }
 
 OglRenderInterface::~OglRenderInterface() {
-	Destroy();
+	Destory();
 }

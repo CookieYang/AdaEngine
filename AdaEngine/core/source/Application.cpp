@@ -13,17 +13,21 @@ Application::~Application() {
 void Application::Initilize() {
 	Engine::getInstance()->init();
 	Engine::getInstance()->sceneTree->Init();
-	Engine::getInstance()->renderInterface->Init();
+	RenderInterface::getSingleton()->Init();
 }
 
 // CPU build render commands(vao, vbo...) to GPU
 void Application::Run() {
-	while (Engine::getInstance()->renderInterface->Valid()) {
+	while (RenderInterface::getSingleton()->Valid()) {
 		Engine::getInstance()->sceneTree->Run();
 		doRun();
-		Engine::getInstance()->renderInterface->Draw();
-		Engine::getInstance()->renderInterface->SwapBuffer();
+		RenderInterface::getSingleton()->sync();
+		Engine::print("main Loop");
+		RenderInterface::getSingleton()->Draw();
+		RenderInterface::getSingleton()->SwapBuffer();
 	}
+	RenderInterface::getSingleton()->Finish();
+	RenderInterface::getSingleton()->Destory();
 }
 
 void Application::Destory() {

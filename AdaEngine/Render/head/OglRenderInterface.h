@@ -7,8 +7,10 @@ public:
 	virtual void Init() override;
 	virtual void Draw() override;
 	virtual void SwapBuffer() override;
-	virtual void Destroy() override;
+	virtual void Destory() override;
 	virtual bool Valid() override;
+	virtual void sync() override;
+	virtual void Finish() override;
 	OglRenderInterface();
 	~OglRenderInterface();
 private:
