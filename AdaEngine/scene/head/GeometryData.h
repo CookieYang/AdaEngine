@@ -12,6 +12,5 @@ public:
 		std::vector<glm::vec3> vertexTangent;
 		std::vector<glm::vec3> vertexBTanget;
 	};
-	VertexData vertexData;
-	void InitTestData();
+	std::vector<VertexData> sectionsData;
 };
