@@ -2,12 +2,20 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <memory>
-class SceneNode {
+#include "RefCountedPtr.h"
+enum SceneNodeType
+{
+	NODERENDERABLE,
+	NODEDEFALUT
+};
+
+class SceneNode: public RefCountable {
 public:
-	SceneNode() {};
+	SceneNode():type(SceneNodeType::NODEDEFALUT) {};
 	virtual ~SceneNode() {};
-	void AttachToParent(std::shared_ptr<SceneNode>& parent);
+	void AttachToParent(RefCountedPtr<SceneNode>& parent);
 	void AttachToRoot();
+	SceneNodeType getNodeType();
 	inline glm::mat4 GetTransform();
 	inline glm::vec3 GetPosition();
 	inline glm::vec3 GetScale();
@@ -22,10 +30,9 @@ protected:
 	glm::vec3 position;
 	glm::vec3 scale;
 	glm::vec3 rotation;
-
-	std::vector<std::shared_ptr<SceneNode>> childrens;
-	std::weak_ptr<SceneNode> weak_parent;
-
+	SceneNodeType type;
+	std::vector<RefCountedPtr<SceneNode>> childrens;
+	SceneNode* weak_parent;                                           // be careful !!!
 private:
-	void AddChildren(const std::shared_ptr<SceneNode>& child);
+	void AddChildren(const RefCountedPtr<SceneNode>& child);
 };

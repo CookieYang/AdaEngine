@@ -1,16 +1,23 @@
 #include "SceneNode.h"
 #include "Engine.h"
-void SceneNode::AttachToParent(std::shared_ptr<SceneNode>& parent) {
-	weak_parent = std::weak_ptr<SceneNode>(parent);
-	parent->AddChildren(std::shared_ptr<SceneNode>(this));
+void SceneNode::AttachToParent(RefCountedPtr<SceneNode>& parent) {
+	if (parent.isValid())
+	{
+		weak_parent = parent.get();
+		parent->AddChildren(RefCountedPtr<SceneNode>(this));
+	}
 }
 
-void SceneNode::AddChildren(const std::shared_ptr<SceneNode>& child) {
+void SceneNode::AddChildren(const RefCountedPtr<SceneNode>& child) {
 	childrens.push_back(child);
 }
 
 void SceneNode::AttachToRoot() {
 
+}
+
+SceneNodeType SceneNode::getNodeType() {
+	return type;
 }
 
 glm::mat4 SceneNode::GetTransform() {

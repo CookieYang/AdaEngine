@@ -52,7 +52,7 @@ void RenderInterfaceWrap::renderingThreadLoop() {
 
 void RenderInterfaceWrap::sync() {
 	if (bRenderingThread) {
-		++drawPending; // keep pending while sync
+		++drawPending; // discard if the last frame  hasn't been draw
 		cmdQueue.pushAndSync(this, &RenderInterfaceWrap::renderingThreadFlush);
 	}
 	else {

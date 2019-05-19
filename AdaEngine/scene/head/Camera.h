@@ -10,4 +10,5 @@ private:
 	float farPlane;
 	float nearPlane;
 	float fov;
+	bool bActive;
 };

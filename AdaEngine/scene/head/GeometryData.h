@@ -1,7 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <vector>
-class GeometryData {
+#include "RawResource.h"
+class GeometryData: public RawResource {
 public:
 	struct VertexData
 	{

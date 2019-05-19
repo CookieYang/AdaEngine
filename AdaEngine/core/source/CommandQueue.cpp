@@ -24,11 +24,11 @@ CommandQueue::CommandQueue(bool p_sync) {
 	command_mem = (uint8_t*)malloc(COMMAND_MEN_SIZE);
 	for (size_t i = 0; i < SYNC_SEMAPHORES; i++)
 	{
-		sync_sems[i].sem = new Semaphore(1);
+		sync_sems[i].sem = new Semaphore(0);
 		sync_sems[i].inUse = false;
 	}
 	if (p_sync) {
-		sync = new Semaphore(1);
+		sync = new Semaphore(0);
 	}
 	else {
 		sync = nullptr;
