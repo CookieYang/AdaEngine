@@ -129,15 +129,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bind.cpp" />
+    <ClCompile Include="core\source\CommandQueue.cpp" />
     <ClCompile Include="core\source\Engine.cpp" />
     <ClCompile Include="core\source\GLContext.cpp" />
     <ClCompile Include="core\source\Application.cpp" />
+    <ClCompile Include="core\source\ResourceManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Render\source\IRenderInterface.cpp" />
+    <ClCompile Include="Render\source\MeshSource.cpp" />
     <ClCompile Include="Render\source\OglRenderInterface.cpp" />
+    <ClCompile Include="Render\source\RenderInterfaceWrap.cpp" />
     <ClCompile Include="scene\source\Camera.cpp" />
     <ClCompile Include="scene\source\GeometryData.cpp" />
-    <ClCompile Include="scene\source\Mesh.cpp" />
     <ClCompile Include="scene\source\SceneNode.cpp" />
     <ClCompile Include="scene\source\SceneTree.cpp" />
   </ItemGroup>
@@ -145,22 +148,31 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\head\CommandQueue.h" />
     <ClInclude Include="core\head\Engine.h" />
     <ClInclude Include="core\head\GLContext.h" />
     <ClInclude Include="core\head\Application.h" />
+    <ClInclude Include="core\head\RefCountedPtr.h" />
+    <ClInclude Include="core\head\ResourceManager.h" />
+    <ClInclude Include="core\head\SimpleType.h" />
     <ClInclude Include="Render\head\IRenderInterface.h" />
+    <ClInclude Include="Render\head\MeshSource.h" />
     <ClInclude Include="Render\head\OglRenderInterface.h" />
+    <ClInclude Include="Render\head\RenderInterfaceWrap.h" />
     <ClInclude Include="scene\head\Camera.h" />
     <ClInclude Include="scene\head\GeometryData.h" />
+    <ClInclude Include="scene\head\RawResource.h" />
+    <ClInclude Include="scene\head\SceneMesh.h" />
     <ClInclude Include="scene\head\SceneNode.h" />
     <ClInclude Include="scene\head\SceneTree.h" />
-    <ClInclude Include="scene\head\Mesh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\glfw.3.3.0.1\build\native\glfw.targets" Condition="Exists('packages\glfw.3.3.0.1\build\native\glfw.targets')" />
     <Import Project="packages\glew.v140.1.12.0\build\native\glew.v140.targets" Condition="Exists('packages\glew.v140.1.12.0\build\native\glew.v140.targets')" />
     <Import Project="packages\glm.0.9.9.500\build\native\glm.targets" Condition="Exists('packages\glm.0.9.9.500\build\native\glm.targets')" />
+    <Import Project="packages\assimp.v140.redist.3.2\build\native\assimp.v140.redist.targets" Condition="Exists('packages\assimp.v140.redist.3.2\build\native\assimp.v140.redist.targets')" />
+    <Import Project="packages\assimp.v140.3.2\build\native\assimp.v140.targets" Condition="Exists('packages\assimp.v140.3.2\build\native\assimp.v140.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -169,5 +181,7 @@
     <Error Condition="!Exists('packages\glfw.3.3.0.1\build\native\glfw.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\glfw.3.3.0.1\build\native\glfw.targets'))" />
     <Error Condition="!Exists('packages\glew.v140.1.12.0\build\native\glew.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\glew.v140.1.12.0\build\native\glew.v140.targets'))" />
     <Error Condition="!Exists('packages\glm.0.9.9.500\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\glm.0.9.9.500\build\native\glm.targets'))" />
+    <Error Condition="!Exists('packages\assimp.v140.redist.3.2\build\native\assimp.v140.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\assimp.v140.redist.3.2\build\native\assimp.v140.redist.targets'))" />
+    <Error Condition="!Exists('packages\assimp.v140.3.2\build\native\assimp.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\assimp.v140.3.2\build\native\assimp.v140.targets'))" />
   </Target>
 </Project>

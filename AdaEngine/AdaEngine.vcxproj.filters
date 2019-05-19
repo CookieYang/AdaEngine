@@ -42,13 +42,22 @@
     <ClCompile Include="scene\source\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="scene\source\Mesh.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="scene\source\GeometryData.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="bind.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="core\source\CommandQueue.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\source\RenderInterfaceWrap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\source\MeshSource.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="core\source\ResourceManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,10 +89,31 @@
     <ClInclude Include="scene\head\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene\head\Mesh.h">
+    <ClInclude Include="scene\head\GeometryData.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene\head\GeometryData.h">
+    <ClInclude Include="core\head\CommandQueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\head\SimpleType.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\head\RenderInterfaceWrap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\head\MeshSource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\head\SceneMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\head\ResourceManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\head\RefCountedPtr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\head\RawResource.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
