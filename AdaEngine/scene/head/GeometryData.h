@@ -10,7 +10,8 @@ public:
 		std::vector<glm::vec2> vertexUV;
 		std::vector<glm::vec3> vertexNormal;
 		std::vector<glm::vec3> vertexTangent;
-		std::vector<glm::vec3> vertexBTanget;
+		std::vector<glm::vec3> vertexBiTanget;
+		std::vector<unsigned int> vertexIndices;
 	};
 	std::vector<VertexData> sectionsData;
 };
