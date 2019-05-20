@@ -5,7 +5,7 @@
 class Application {
 public:
 	// do initilization(Engine)
-	virtual void Initilize();
+	void Initilize();
 	// run
 	void Run();
 
@@ -18,17 +18,19 @@ public:
 	// interface python need override(be public for simple, but don't call it forever)
 	virtual void doRun() {};
 
+	virtual void doInit() {};
+
 };
 
 class PyApplication : public Application {
 public:
 	using Application::Application;
 
-	void Initilize() override {
+	void doInit() override {
 		PYBIND11_OVERLOAD(
 			void,
 			Application,
-			Initilize,
+			doInit,
 
 		);
 	}

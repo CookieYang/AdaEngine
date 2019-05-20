@@ -14,6 +14,7 @@ void Application::Initilize() {
 	Engine::getInstance()->init();
 	Engine::getInstance()->sceneTree->Init();
 	RenderInterface::getSingleton()->Init();
+	doInit();
 }
 
 // CPU build render commands(vao, vbo...) to GPU
@@ -40,5 +41,6 @@ void init_PyApplication(pybind11::module &m) {
 		.def("Initilize", &Application::Initilize)
 		.def("Destory", &Application::Destory)
 		.def("doRun", &Application::doRun)
+		.def("doInit", &Application::doInit)
 		.def("Run", &Application::Run);
 };
