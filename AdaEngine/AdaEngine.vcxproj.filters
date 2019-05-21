@@ -60,6 +60,15 @@
     <ClCompile Include="core\source\ResourceManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="scene\source\SceneRenderable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\source\staticMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test\TestSceneMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -114,6 +123,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="scene\head\RawResource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\head\SceneRenderable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="test\TestSceneMesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

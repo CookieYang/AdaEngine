@@ -8,7 +8,7 @@
 #include "Engine.h"
 
 RawResource* ResourceManager::loadTestCube() {
-	std::string cubePath("..\\resource\\Cube.OBJ");
+	std::string cubePath("resource/Cube.OBJ");
 	return loadGeometryFromFile(cubePath);
 }
 
@@ -71,15 +71,22 @@ void ResourceManager::processMesh(RawResource*& raw, aiMesh* mesh, const aiScene
 	{
 		glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
 		// positions
-		vector.x = mesh->mVertices[i].x;
-		vector.y = mesh->mVertices[i].y;
-		vector.z = mesh->mVertices[i].z;
-		vertexData.vertexPosition.push_back(vector);
+		if (mesh->mVertices != nullptr)
+		{
+			vector.x = mesh->mVertices[i].x;
+			vector.y = mesh->mVertices[i].y;
+			vector.z = mesh->mVertices[i].z;
+			vertexData.vertexPosition.push_back(vector);
+		}
+
 		// normals
-		vector.x = mesh->mNormals[i].x;
-		vector.y = mesh->mNormals[i].y;
-		vector.z = mesh->mNormals[i].z;
-		vertexData.vertexNormal.push_back(vector);
+		if (mesh->mNormals != nullptr) {
+			vector.x = mesh->mNormals[i].x;
+			vector.y = mesh->mNormals[i].y;
+			vector.z = mesh->mNormals[i].z;
+			vertexData.vertexNormal.push_back(vector);
+		}
+
 		// texture coordinates
 		if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
 		{
@@ -95,15 +102,20 @@ void ResourceManager::processMesh(RawResource*& raw, aiMesh* mesh, const aiScene
 			vertexData.vertexUV.push_back(glm::vec2(0.0f, 0.0f));
 		}
 		// tangent
-		vector.x = mesh->mTangents[i].x;
-		vector.y = mesh->mTangents[i].y;
-		vector.z = mesh->mTangents[i].z;
-		vertexData.vertexTangent.push_back(vector);
+		if (mesh->mTangents != nullptr) {
+			vector.x = mesh->mTangents[i].x;
+			vector.y = mesh->mTangents[i].y;
+			vector.z = mesh->mTangents[i].z;
+			vertexData.vertexTangent.push_back(vector);
+		}
+
 		// bitangent
-		vector.x = mesh->mBitangents[i].x;
-		vector.y = mesh->mBitangents[i].y;
-		vector.z = mesh->mBitangents[i].z;
-		vertexData.vertexBiTanget.push_back(vector);
+		if (mesh->mBitangents) {
+			vector.x = mesh->mBitangents[i].x;
+			vector.y = mesh->mBitangents[i].y;
+			vector.z = mesh->mBitangents[i].z;
+			vertexData.vertexBiTanget.push_back(vector);
+		}
 	}
 	// now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)

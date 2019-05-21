@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <iostream>
-#include "Application.h"
-
+#include "test/TestSceneMesh.h"
 
 int main() {
-
-	Application mainApp;
+	TestSceneMesh mainApp;
 	mainApp.Initilize();
 	mainApp.Run();
 	return 0;

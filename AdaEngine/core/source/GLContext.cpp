@@ -57,3 +57,7 @@ void GLContext::clearContext() {
 void GLContext::PollEvents() {
 	glfwPollEvents();
 }
+
+double GLContext::getCurrentTime() {
+	return glfwGetTime();
+}

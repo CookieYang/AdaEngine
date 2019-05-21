@@ -1,23 +1,20 @@
 #include "SceneNode.h"
 #include "Engine.h"
-void SceneNode::AttachToParent(RefCountedPtr<SceneNode>& parent) {
-	if (parent.isValid())
+#include "SceneTree.h"
+void SceneNode::AttachToParent(SceneNode* parent) {
+	if (parent)
 	{
-		weak_parent = parent.get();
-		parent->AddChildren(RefCountedPtr<SceneNode>(this));
+		weak_parent = parent;
+		parent->AddChildren(this);
 	}
 }
 
-void SceneNode::AddChildren(const RefCountedPtr<SceneNode>& child) {
-	childrens.push_back(child);
+void SceneNode::AddChildren(SceneNode* child) {
+	childrens.push_back(RefCountedPtr<SceneNode>(child));
 }
 
 void SceneNode::AttachToRoot() {
-
-}
-
-SceneNodeType SceneNode::getNodeType() {
-	return type;
+	Engine::getInstance()->sceneTree->AddNode(this);
 }
 
 glm::mat4 SceneNode::GetTransform() {

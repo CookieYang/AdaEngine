@@ -145,7 +145,10 @@
     <ClCompile Include="scene\source\Camera.cpp" />
     <ClCompile Include="scene\source\GeometryData.cpp" />
     <ClCompile Include="scene\source\SceneNode.cpp" />
+    <ClCompile Include="scene\source\SceneRenderable.cpp" />
     <ClCompile Include="scene\source\SceneTree.cpp" />
+    <ClCompile Include="scene\source\staticMesh.cpp" />
+    <ClCompile Include="test\TestSceneMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -167,7 +170,9 @@
     <ClInclude Include="scene\head\RawResource.h" />
     <ClInclude Include="scene\head\SceneMesh.h" />
     <ClInclude Include="scene\head\SceneNode.h" />
+    <ClInclude Include="scene\head\SceneRenderable.h" />
     <ClInclude Include="scene\head\SceneTree.h" />
+    <ClInclude Include="test\TestSceneMesh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

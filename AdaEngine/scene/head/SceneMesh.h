@@ -1,7 +1,15 @@
 #pragma once
-#include "SceneNode.h" 
+#include "SceneRenderable.h"
 #include "MeshSource.h"
 
-class SceneMesh : public SceneNode {
+class GeometryData;
+
+class SceneMesh : public SceneRenderable {
 	RefCountedPtr<MeshSource> renderMesh;
+public:
+	SceneMesh();
+	~SceneMesh();
+	void setGeometryData(GeometryData* gData);
+	virtual void CreateRenderResource() override;
+	virtual void Run() override;
 };

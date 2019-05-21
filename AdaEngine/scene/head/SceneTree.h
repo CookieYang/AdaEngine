@@ -8,9 +8,10 @@ public:
     void Init();
     void Run();
     void Destory();
-	void AddNode(RefCountedPtr<SceneNode>& node);
+	void AddNode(SceneNode* node);
 	SceneTree() ;
 	~SceneTree() ;
 private:
 	RefCountedPtr<SceneNode> root;
+	void ergodic(SceneNode* node);
 };

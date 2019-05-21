@@ -19,9 +19,14 @@ void OglRenderInterface::MakeCurrent() {
 	context->makeCurrent();
 }
 
+double OglRenderInterface::getCurrentTime() {
+	return context->getCurrentTime();
+}
+
 void OglRenderInterface::Draw() {
 	// rendering thread draw
 	MakeCurrent();
+	double time = getCurrentTime();
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBegin(GL_TRIANGLES);
 	{

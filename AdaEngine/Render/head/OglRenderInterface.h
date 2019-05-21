@@ -17,4 +17,5 @@ private:
 	std::shared_ptr<GLContext> context;
 	virtual void ClearContext() override;
 	virtual void MakeCurrent() override;
+	double getCurrentTime();
 };

@@ -13,6 +13,7 @@ public:
 	void swapBuffers();
 	void clearContext();
 	void PollEvents();
+	double getCurrentTime();
 	GLContext();
 	~GLContext();
 private:
