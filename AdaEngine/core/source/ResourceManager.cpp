@@ -7,6 +7,7 @@
 #include <assimp/postprocess.h>
 #include <FreeImage.h>
 #include "Engine.h"
+#include "DefalutMaterial.h"
 
 ResourceManager* ResourceManager::resManager = nullptr;
 
@@ -15,6 +16,13 @@ RawResource* ResourceManager::loadTestCube() {
 	//std::string texPath("resource/defalut.jpg");
 	//loadTextureFromFile(texPath);
 	return loadGeometryFromFile(cubePath);
+}
+
+DefalutMaterial*	ResourceManager::loadDefalutMaterial() {
+	if (defalutMaterial == nullptr) {
+		defalutMaterial = new DefalutMaterial;
+	}
+	return defalutMaterial;
 }
 
 RawResource* ResourceManager::loadGeometryFromFile(std::string path) {
@@ -155,4 +163,5 @@ ResourceManager* ResourceManager::singleton() {
 
 ResourceManager::ResourceManager() {
 	resManager = this;
+	defalutMaterial = nullptr;
 }

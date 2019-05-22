@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneRenderable.h"
 #include "MeshSource.h"
+#include "Material.h"
 
 class GeometryData;
 
@@ -10,6 +11,7 @@ public:
 	SceneMesh();
 	~SceneMesh();
 	void setGeometryData(GeometryData* gData);
-	virtual void CreateRenderResource() override;
 	virtual void Run() override;
+private:
+	virtual void CreateRenderResource() override;
 };

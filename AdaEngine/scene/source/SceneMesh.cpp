@@ -1,4 +1,5 @@
 #include "SceneMesh.h"
+#include "DefaultRenderPass.h"
 
 SceneMesh::SceneMesh() {
 	renderMesh = RefCountedPtr<MeshSource>(new MeshSource);
@@ -13,7 +14,9 @@ void SceneMesh::setGeometryData(GeometryData* gData) {
 }
 
 void SceneMesh::CreateRenderResource() {
-
+	// upload geometry data
+	DefalutRenderPass dPass;
+	AddOnePass(dPass);
 }
 
 void SceneMesh::Run() {
