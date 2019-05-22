@@ -1,4 +1,4 @@
 1. glew, glfw, glm, assimp -----> nuget
 2. fbx sdk -------> auto desk fbx 
-3. pybind11 -------> already include
+3. pybind11 freeImage -------> already include
 4. python3.7 -------> https://www.python.org

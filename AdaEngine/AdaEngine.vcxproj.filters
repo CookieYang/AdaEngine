@@ -63,10 +63,10 @@
     <ClCompile Include="scene\source\SceneRenderable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="scene\source\staticMesh.cpp">
+    <ClCompile Include="test\TestSceneMesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="test\TestSceneMesh.cpp">
+    <ClCompile Include="scene\source\SceneMesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

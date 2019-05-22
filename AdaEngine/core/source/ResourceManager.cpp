@@ -5,10 +5,15 @@
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
+#include <FreeImage.h>
 #include "Engine.h"
+
+ResourceManager* ResourceManager::resManager = nullptr;
 
 RawResource* ResourceManager::loadTestCube() {
 	std::string cubePath("resource/Cube.OBJ");
+	//std::string texPath("resource/defalut.jpg");
+	//loadTextureFromFile(texPath);
 	return loadGeometryFromFile(cubePath);
 }
 
@@ -35,6 +40,17 @@ RawResource* ResourceManager::loadGeometryFromFile(std::string path) {
 		loadedResource.insert(std::pair<size_t, RawResource*>(hash, p));
 		return p;
 	}
+}
+
+RawResource* ResourceManager::loadTextureFromFile(std::string path) {
+	FreeImage_Initialise(TRUE);
+	FIBITMAP * JPEG = FreeImage_Load(FIF_JPEG, path.c_str(), JPEG_DEFAULT);
+	//获取影像的宽高，都以像素为单位
+	int Width = FreeImage_GetWidth(JPEG);
+	int Height = FreeImage_GetHeight(JPEG);
+	FreeImage_Unload(JPEG);
+	FreeImage_DeInitialise();
+	return nullptr;
 }
 
 void ResourceManager::loadGeometryModel(RawResource*& raw, std::string path) {
@@ -127,4 +143,16 @@ void ResourceManager::processMesh(RawResource*& raw, aiMesh* mesh, const aiScene
 	}
 	GeometryData* geoVertexData = dynamic_cast<GeometryData*>(raw);
 	geoVertexData->sectionsData.push_back(vertexData);
+}
+
+ResourceManager* ResourceManager::singleton() {
+	if (resManager)
+	{
+		return resManager;
+	}
+	return nullptr;
+}
+
+ResourceManager::ResourceManager() {
+	resManager = this;
 }

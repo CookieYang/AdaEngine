@@ -1,8 +1,8 @@
 #include "Engine.h"
-#include "SceneTree.h"
 #include <iostream>
 #include "OglRenderInterface.h"
 #include "RenderInterfaceWrap.h"
+#include "ResourceManager.h"
 #include <windows.h>
 
 
@@ -13,8 +13,9 @@ Engine* Engine::getInstance() {
 
 void Engine::init() {
 	OglRenderInterface* oglRenderInterface = new OglRenderInterface;
-	renderInterface = new RenderInterfaceWrap(oglRenderInterface, true);
-	sceneTree = std::shared_ptr<SceneTree>(new SceneTree);
+	new RenderInterfaceWrap(oglRenderInterface, true);
+	new ResourceManager;
+	sceneTree = std::unique_ptr<SceneTree>(new SceneTree);
 }
 
 void Engine::sleep(double time) {

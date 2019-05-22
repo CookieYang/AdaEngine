@@ -9,7 +9,7 @@ class SceneNode: public RefCountable {
 public:
 	SceneNode(){};
 	virtual ~SceneNode() {};
-	void AttachToRoot();
+	virtual void AttachToRoot();
 	void AttachToParent(SceneNode* parent);
 	inline glm::mat4 GetTransform();
 	inline glm::vec3 GetPosition();

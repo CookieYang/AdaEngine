@@ -10,10 +10,15 @@ class aiMesh;
 class ResourceManager {
 	std::map<size_t, RawResource*> loadedResource;   // raw resources
 	std::hash<std::string> stringHash;
+	static ResourceManager* resManager;
 	void loadGeometryModel(RawResource*& raw, std::string path);
 	void processNode(RawResource*& raw, aiNode* node, const aiScene* scene);
 	void processMesh(RawResource*& raw, aiMesh* mesh, const aiScene* scene);
 public:
+	static ResourceManager* singleton();
 	RawResource* loadTestCube();
 	RawResource* loadGeometryFromFile(std::string path);
+	RawResource* loadTextureFromFile(std::string path);
+	ResourceManager();
+	~ResourceManager() {};
 };
