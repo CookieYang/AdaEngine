@@ -142,6 +142,8 @@
     <ClCompile Include="Render\source\MeshSource.cpp" />
     <ClCompile Include="Render\source\OglRenderInterface.cpp" />
     <ClCompile Include="Render\source\RenderInterfaceWrap.cpp" />
+    <ClCompile Include="Render\source\ShaderSource.cpp" />
+    <ClCompile Include="Render\source\TextureSource.cpp" />
     <ClCompile Include="scene\source\Camera.cpp" />
     <ClCompile Include="scene\source\GeometryData.cpp" />
     <ClCompile Include="scene\source\SceneMesh.cpp" />
@@ -165,6 +167,8 @@
     <ClInclude Include="Render\head\MeshSource.h" />
     <ClInclude Include="Render\head\OglRenderInterface.h" />
     <ClInclude Include="Render\head\RenderInterfaceWrap.h" />
+    <ClInclude Include="Render\head\ShaderSource.h" />
+    <ClInclude Include="Render\head\TextureSource.h" />
     <ClInclude Include="scene\head\Camera.h" />
     <ClInclude Include="scene\head\GeometryData.h" />
     <ClInclude Include="scene\head\RawResource.h" />
@@ -172,6 +176,8 @@
     <ClInclude Include="scene\head\SceneNode.h" />
     <ClInclude Include="scene\head\SceneRenderable.h" />
     <ClInclude Include="scene\head\SceneTree.h" />
+    <ClInclude Include="scene\head\ShaderData.h" />
+    <ClInclude Include="scene\head\TextureData.h" />
     <ClInclude Include="test\TestSceneMesh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -69,6 +69,12 @@
     <ClCompile Include="scene\source\SceneMesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Render\source\TextureSource.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\source\ShaderSource.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -129,6 +135,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="test\TestSceneMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\head\TextureSource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\head\TextureData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\head\ShaderData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\head\ShaderSource.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
