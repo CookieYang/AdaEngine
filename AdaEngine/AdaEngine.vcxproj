@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{68DBF978-432E-470C-AED9-5CF3AA51AC9A}</ProjectGuid>
     <RootNamespace>AdaEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -138,13 +138,13 @@
     <ClCompile Include="core\source\Application.cpp" />
     <ClCompile Include="core\source\ResourceManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Render\source\DefalutMaterial.cpp" />
-    <ClCompile Include="Render\source\DefalutRenderPass.cpp" />
     <ClCompile Include="Render\source\IRenderInterface.cpp" />
     <ClCompile Include="Render\source\Material.cpp" />
     <ClCompile Include="Render\source\MeshSource.cpp" />
     <ClCompile Include="Render\source\OglRenderInterface.cpp" />
     <ClCompile Include="Render\source\RenderInterfaceWrap.cpp" />
+    <ClCompile Include="Render\source\RenderPass.cpp" />
+    <ClCompile Include="Render\source\RenderPineline.cpp" />
     <ClCompile Include="Render\source\ShaderSource.cpp" />
     <ClCompile Include="Render\source\TextureSource.cpp" />
     <ClCompile Include="scene\source\Camera.cpp" />
@@ -167,8 +167,6 @@
     <ClInclude Include="core\head\RefCountedPtr.h" />
     <ClInclude Include="core\head\ResourceManager.h" />
     <ClInclude Include="core\head\SimpleType.h" />
-    <ClInclude Include="Render\head\DefalutMaterial.h" />
-    <ClInclude Include="Render\head\DefaultRenderPass.h" />
     <ClInclude Include="Render\head\GPUResource.h" />
     <ClInclude Include="Render\head\IRenderInterface.h" />
     <ClInclude Include="Render\head\Material.h" />
@@ -176,6 +174,7 @@
     <ClInclude Include="Render\head\OglRenderInterface.h" />
     <ClInclude Include="Render\head\RenderInterfaceWrap.h" />
     <ClInclude Include="Render\head\RenderPass.h" />
+    <ClInclude Include="Render\head\RenderPineline.h" />
     <ClInclude Include="Render\head\ShaderSource.h" />
     <ClInclude Include="Render\head\TextureSource.h" />
     <ClInclude Include="scene\head\Camera.h" />

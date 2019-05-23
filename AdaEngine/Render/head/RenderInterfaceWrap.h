@@ -16,6 +16,11 @@ class RenderInterfaceWrap : public RenderInterface {
 	int poolMaxSize;
 	std::thread::id serverThreadID;
 
+	std::map<std::string, Material*> materials;
+	std::map<std::string, MeshSource*> meshes;
+	std::map<std::string, ShaderSource*> shaders;
+	std::map<std::string, TextureSource*> textures;
+
 	void renderingThreadCallback();
 	void renderingThreadLoop();
 	void renderingThreadExit();

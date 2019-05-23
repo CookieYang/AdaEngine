@@ -7,7 +7,7 @@
 #include <assimp/postprocess.h>
 #include <FreeImage.h>
 #include "Engine.h"
-#include "DefalutMaterial.h"
+
 
 ResourceManager* ResourceManager::resManager = nullptr;
 void loadGeometryModel(GeometryData*& raw, std::string path);
@@ -22,8 +22,6 @@ void processMesh(GeometryData*& raw, aiMesh* mesh, const aiScene* scene);
 //	return loadGeometryFromFile(cubePath);
 //}
 
-
-
 //RawResource* ResourceManager::loadTextureFromFile(std::string path) {
 //	FreeImage_Initialise(TRUE);
 //	FIBITMAP * JPEG = FreeImage_Load(FIF_JPEG, path.c_str(), JPEG_DEFAULT);
@@ -36,26 +34,6 @@ void processMesh(GeometryData*& raw, aiMesh* mesh, const aiScene* scene);
 //}
 
 CPUResource* ResourceManager::loadResourceFromFile(std::string path, CPUResource::CResourceType type) {
-	return nullptr;
-}
-
-Material* ResourceManager::createMaterial(std::string name, ShaderSource* shaderSource) {
-	return nullptr;
-}
-
-ShaderSource* ResourceManager::createShaderSource(std::string name, const std::vector<std::string>& paths) {
-	return nullptr;
-}
-
-TextureSource* ResourceManager::createTexture(std::string name, const std::string& path) {
-	return nullptr;
-}
-
-MeshSource* ResourceManager::createMesh(std::string name, const std::string& path) {
-	return nullptr;
-}
-
-GPUResource* ResourceManager::searchResourceByName(std::string name, GPUResource::GResourceType type) {
 	return nullptr;
 }
 

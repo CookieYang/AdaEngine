@@ -9,6 +9,5 @@ public:
 	unsigned int program;
 	std::vector<unsigned int> shaderIDs;
 	ShaderSource();
-	ShaderSource(ShaderData* shaderData);
 	~ShaderSource();
 };

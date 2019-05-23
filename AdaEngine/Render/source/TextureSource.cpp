@@ -1,15 +1,11 @@
 #include "TextureSource.h"
 
-TextureSource::TextureSource(TextureData* imgData) {
-	imageRef = RefCountedPtr<TextureData>(imgData);
-}
-
-TextureSource::TextureSource():bindingID(0) {
+TextureSource::TextureSource() {
 
 }
 
 void TextureSource::setImageRef(TextureData* imageData) {
-	
+	imageRef = RefCountedPtr<TextureData>(imageData);
 }
 
 TextureSource::~TextureSource() {

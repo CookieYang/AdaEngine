@@ -1,17 +1,20 @@
 #include "MeshSource.h"
-MeshSource::MeshSource(GeometryData* gData) {
-	sections = RefCountedPtr<GeometryData>(gData);
-	size_t length = gData->sectionsData.size();
-	vaos.resize(length, 0);
-	vbos.resize(length, 0);
-	ebos.resize(length, 0);
-	// upload to gpu (sync)
-}
 
 MeshSource::~MeshSource() {
 
 }
 
-void MeshSource::setGeometry(GeometryData* gData) {
+int MeshSource::getSectionNum() {
+	return sectionNum;
+}
 
+void MeshSource::setGeometry(GeometryData* gData) {
+	sections = RefCountedPtr<GeometryData>(gData);
+	size_t length = gData->sectionsData.size();
+	meshSections.resize(length);
+	sectionNum = length;
+}
+
+void MeshSource::setMaterial(Material* material, int index) {
+	meshSections[index].material = RefCountedPtr<Material>(material);
 }

@@ -75,16 +75,16 @@
     <ClCompile Include="Render\source\ShaderSource.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Render\source\DefalutRenderPass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\source\DefalutMaterial.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Render\source\Material.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="scene\source\RawSource.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\source\RenderPineline.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\source\RenderPass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,16 +167,13 @@
     <ClInclude Include="Render\head\RenderPass.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Render\head\DefaultRenderPass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\head\DefalutMaterial.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="scene\head\CPUResource.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Render\head\GPUResource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\head\RenderPineline.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
