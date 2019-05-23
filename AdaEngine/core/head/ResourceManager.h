@@ -2,6 +2,7 @@
 #include "GPUResource.h"
 #include "CPUResource.h"
 #include <map>
+#include <vector>
 
 class aiNode;
 class aiScene;
@@ -22,7 +23,10 @@ class ResourceManager {
 	CPUResource* loadResourceFromFile(std::string path, CPUResource::CResourceType type);
 public:
 	static ResourceManager* singleton();
-	GPUResource* createResourceByType(std::string name, GPUResource::GResourceType type);             // must create new one
+	Material* createMaterial(std::string name, ShaderSource* shaderSource);
+	ShaderSource* createShaderSource(std::string name, const std::vector<std::string>& paths);
+	TextureSource* createTexture(std::string name, const std::string& path);
+	MeshSource* createMesh(std::string name, const std::string& path);
 	GPUResource* searchResourceByName(std::string name, GPUResource::GResourceType type);          // try to copy first
 	ResourceManager();
 	~ResourceManager() {};

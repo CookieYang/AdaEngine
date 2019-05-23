@@ -39,7 +39,19 @@ CPUResource* ResourceManager::loadResourceFromFile(std::string path, CPUResource
 	return nullptr;
 }
 
-GPUResource* ResourceManager::createResourceByType(std::string name, GPUResource::GResourceType type) {
+Material* ResourceManager::createMaterial(std::string name, ShaderSource* shaderSource) {
+	return nullptr;
+}
+
+ShaderSource* ResourceManager::createShaderSource(std::string name, const std::vector<std::string>& paths) {
+	return nullptr;
+}
+
+TextureSource* ResourceManager::createTexture(std::string name, const std::string& path) {
+	return nullptr;
+}
+
+MeshSource* ResourceManager::createMesh(std::string name, const std::string& path) {
 	return nullptr;
 }
 
