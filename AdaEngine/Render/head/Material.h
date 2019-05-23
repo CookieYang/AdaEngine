@@ -1,10 +1,11 @@
 #pragma once
-#include "RefCountedPtr.h"
+#include "GPUResource.h"
 #include "TextureSource.h"
 #include "ShaderSource.h"
 #include <vector>
+#include <string>
 
-class Material : public RefCountable {
+class Material : public GPUResource {
 public:
 	std::vector<RefCountedPtr<TextureSource>> textures;
 	std::vector<std::string> textureNames;

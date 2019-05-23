@@ -1,7 +1,7 @@
 #pragma once
-#include "RawResource.h"
+#include "CPUResource.h"
 
-class TextureData : public RawResource {
+class TextureData : public CPUResource {
 public:
 	unsigned char* imageData;
 };

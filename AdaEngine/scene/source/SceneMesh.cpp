@@ -2,19 +2,22 @@
 #include "DefaultRenderPass.h"
 
 SceneMesh::SceneMesh() {
-	renderMesh = RefCountedPtr<MeshSource>(new MeshSource);
+	
+}
+
+SceneMesh::SceneMesh(MeshSource* mesh) {
+	renderMesh = RefCountedPtr<MeshSource>(mesh);
 }
 
 SceneMesh::~SceneMesh() {
 
 }
 
-void SceneMesh::setGeometryData(GeometryData* gData) {
-	renderMesh->setGeometry(gData);
+void SceneMesh::setGeometryData(MeshSource* gData) {
+	
 }
 
 void SceneMesh::CreateRenderResource() {
-	// upload geometry data
 	DefalutRenderPass dPass;
 	AddOnePass(dPass);
 }

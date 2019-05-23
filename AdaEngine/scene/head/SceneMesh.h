@@ -9,8 +9,9 @@ class SceneMesh : public SceneRenderable {
 	RefCountedPtr<MeshSource> renderMesh;
 public:
 	SceneMesh();
+	SceneMesh(MeshSource* mesh);
 	~SceneMesh();
-	void setGeometryData(GeometryData* gData);
+	void setGeometryData(MeshSource* gData);
 	virtual void Run() override;
 private:
 	virtual void CreateRenderResource() override;

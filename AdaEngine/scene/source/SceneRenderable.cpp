@@ -8,8 +8,8 @@ void SceneRenderable::Run() {
 }
 
 void SceneRenderable::AttachToRoot() {
-	SceneNode::AttachToRoot();
 	CreateRenderResource();
+	SceneNode::AttachToRoot();
 }
 
 void SceneRenderable::AddOnePass(const RenderPass& onePass) {

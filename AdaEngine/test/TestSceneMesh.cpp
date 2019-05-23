@@ -5,8 +5,8 @@
 
 void TestSceneMesh::doInit() {
 	SceneMesh* cube = new SceneMesh;
-	GeometryData* cubeGeometry = dynamic_cast<GeometryData*>(ResourceManager::singleton()->loadTestCube());
-	cube->setGeometryData(cubeGeometry);
+
+	//cube->setGeometryData(cubeGeometry);
 	cube->AttachToRoot();
 }
 

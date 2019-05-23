@@ -10,58 +10,44 @@
 #include "DefalutMaterial.h"
 
 ResourceManager* ResourceManager::resManager = nullptr;
+void loadGeometryModel(GeometryData*& raw, std::string path);
+void processNode(GeometryData*& raw, aiNode* node, const aiScene* scene);
+void processMesh(GeometryData*& raw, aiMesh* mesh, const aiScene* scene);
 
-RawResource* ResourceManager::loadTestCube() {
-	std::string cubePath("resource/Cube.OBJ");
-	//std::string texPath("resource/defalut.jpg");
-	//loadTextureFromFile(texPath);
-	return loadGeometryFromFile(cubePath);
-}
 
-DefalutMaterial*	ResourceManager::loadDefalutMaterial() {
-	if (defalutMaterial == nullptr) {
-		defalutMaterial = new DefalutMaterial;
-	}
-	return defalutMaterial;
-}
+//RawResource* ResourceManager::loadTestCube() {
+//	std::string cubePath("resource/Cube.OBJ");
+//	//std::string texPath("resource/defalut.jpg");
+//	//loadTextureFromFile(texPath);
+//	return loadGeometryFromFile(cubePath);
+//}
 
-RawResource* ResourceManager::loadGeometryFromFile(std::string path) {
-	size_t hash = stringHash(path);
-	auto it = loadedResource.find(hash);
-	RawResource* p = nullptr;
-	if (it != loadedResource.end()) {
-		if (it->second != nullptr) {
-			return it->second;
-		}
-		else {
-			// load from file
-			p = new GeometryData;
-			loadGeometryModel(p, path);
-			it->second = p;
-			return p;
-		}
-	}
-	else {
-		// load from file
-		p = new GeometryData;
-		loadGeometryModel(p, path);
-		loadedResource.insert(std::pair<size_t, RawResource*>(hash, p));
-		return p;
-	}
-}
 
-RawResource* ResourceManager::loadTextureFromFile(std::string path) {
-	FreeImage_Initialise(TRUE);
-	FIBITMAP * JPEG = FreeImage_Load(FIF_JPEG, path.c_str(), JPEG_DEFAULT);
-	//获取影像的宽高，都以像素为单位
-	int Width = FreeImage_GetWidth(JPEG);
-	int Height = FreeImage_GetHeight(JPEG);
-	FreeImage_Unload(JPEG);
-	FreeImage_DeInitialise();
+
+//RawResource* ResourceManager::loadTextureFromFile(std::string path) {
+//	FreeImage_Initialise(TRUE);
+//	FIBITMAP * JPEG = FreeImage_Load(FIF_JPEG, path.c_str(), JPEG_DEFAULT);
+//	//获取影像的宽高，都以像素为单位
+//	int Width = FreeImage_GetWidth(JPEG);
+//	int Height = FreeImage_GetHeight(JPEG);
+//	FreeImage_Unload(JPEG);
+//	FreeImage_DeInitialise();
+//	return nullptr;
+//}
+
+CPUResource* ResourceManager::loadResourceFromFile(std::string path, CPUResource::CResourceType type) {
 	return nullptr;
 }
 
-void ResourceManager::loadGeometryModel(RawResource*& raw, std::string path) {
+GPUResource* ResourceManager::createResourceByType(std::string name, GPUResource::GResourceType type) {
+	return nullptr;
+}
+
+GPUResource* ResourceManager::searchResourceByName(std::string name, GPUResource::GResourceType type) {
+	return nullptr;
+}
+
+ static void loadGeometryModel(GeometryData*& raw, std::string path) {
 	Assimp::Importer impoter;
 	const aiScene* scene = impoter.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
@@ -73,7 +59,7 @@ void ResourceManager::loadGeometryModel(RawResource*& raw, std::string path) {
 	//fbxManager = FbxManager::Create();
 }
 
-void ResourceManager::processNode(RawResource*& raw, aiNode* node, const aiScene* scene) {
+static void processNode(GeometryData*& raw, aiNode* node, const aiScene* scene) {
 	// Process each mesh located at the current node
 	for (size_t i = 0; i < node->mNumMeshes; i++)
 	{
@@ -88,7 +74,7 @@ void ResourceManager::processNode(RawResource*& raw, aiNode* node, const aiScene
 		processNode(raw, node->mChildren[i], scene);
 	}
 }
-void ResourceManager::processMesh(RawResource*& raw, aiMesh* mesh, const aiScene* scene) {
+static void processMesh(GeometryData*& raw, aiMesh* mesh, const aiScene* scene) {
 	GeometryData::VertexData vertexData;
 	// Walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -163,5 +149,4 @@ ResourceManager* ResourceManager::singleton() {
 
 ResourceManager::ResourceManager() {
 	resManager = this;
-	defalutMaterial = nullptr;
 }

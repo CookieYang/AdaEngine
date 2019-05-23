@@ -3,9 +3,9 @@
 #include "ResourceManager.h"
 
 void DefalutRenderPass::setSectionNum(int n) {
-	Material* dMaterial = ResourceManager::singleton()->loadDefalutMaterial();
+	//Material* dMaterial = ResourceManager::singleton()->loadDefalutMaterial();
 	for (size_t i = 0; i < n; i++)
 	{
-		materials.push_back(RefCountedPtr<Material>(dMaterial));
+		//materials.push_back(RefCountedPtr<Material>(dMaterial));
 	}
 }

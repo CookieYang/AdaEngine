@@ -1,9 +1,9 @@
 #pragma once
-#include "RawResource.h"
+#include "CPUResource.h"
 #include <string>
 #include <vector>
 
-class ShaderData : public RawResource {
+class ShaderData : public CPUResource {
 public:
 	enum ShaderType
 	{
