@@ -9,9 +9,10 @@ enum PinelineType
 };
 class RenderPineline {
 public:
-	virtual void Draw() = 0;
-	virtual void addRenderPass(std::string name)  = 0;
-	virtual void addMaterialToPass(Material* mat)  = 0;
-	virtual void removeMaterialFromPass(std::string name)  = 0;
+	std::vector<RenderPass> passes;
+	virtual void Draw() {};
+	virtual void addRenderPass(std::string name) {};
+	virtual void addMaterialToPass(Material* mat) {};
+	virtual void removeMaterialFromPass(std::string name) {};
 	static RenderPineline* createPineline(PinelineType type);
 };

@@ -43,19 +43,22 @@ public:
 	std::map<std::string, RefCountedPtr<ShaderSource>> ShaderSourceMap;
 	std::map<std::string, MeshSource*> MeshSourceMap;                         // 应当交给资源管理（导入时创建，目前就用名字吧）
 	std::map<std::string, TextureSource*> TextureSourceMap;
+	std::map<std::string, MaterialInstance*> MaterialInstanceMap;
 	RenderPineline* pineLine;
 
 	virtual Material* createMaterial(const std::string& name, const std::string& shaderName) override;
+	virtual MaterialInstance* createMaterialInstance(const std::string& matInstanceName, const std::string& matName) override;
+
 	virtual ShaderSource* createShader(const std::string& name) override;
 	virtual TextureSource* createTexture(const std::string& name) override;
 	virtual MeshSource* createMesh(const std::string& name) override;
 
 	virtual RenderPineline* createPineline(PinelineType type) override;
 	virtual void addMaterialToPineline(Material* mat) override;
+	virtual RenderPineline* getCurrentPineline() override;
 
 	FUNC1(uploadTexture, TextureSource*)
 	FUNC1(uploadGeometry, MeshSection*)
-	FUNC1(passDraw, RenderPass*)
 
 	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) override;
 };

@@ -6,9 +6,11 @@ class ShaderSource: public GPUResource {
 	RefCountedPtr<ShaderData> mShaderData;
 	bool dirty;
 public:
+	bool getDirty();
+	void setDirty(bool dirty);
 	void setShaderData(const std::string& name);
+	ShaderData* getShaderData();
 	unsigned int program;
-	std::vector<unsigned int> shaderIDs;
 	ShaderSource();
 	~ShaderSource();
 };

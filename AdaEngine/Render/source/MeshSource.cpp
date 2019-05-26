@@ -9,15 +9,6 @@ int MeshSource::getSectionNum() {
 	return sectionNum;
 }
 
-MaterialInstance* MeshSource::getMatreialInstanceForSection(int sectionIndex) {
-	if (sectionIndex >= sectionNum) {
-		return nullptr;
-	}
-	else {
-		return &meshSections[sectionIndex].mInstance;
-	}
-}
-
 void MeshSource::setGeometry(const std::string& name) {
 	// load CPU data
 	GeometryData* gData = (GeometryData*)ResourceManager::singleton()->GetResourceByName(name);

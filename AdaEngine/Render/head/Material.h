@@ -14,9 +14,12 @@ public:
 	std::string passName;
 	void attachShader(ShaderSource* shader);
 	void attachToMeshSection(MeshSection* meshSection);
+	ShaderSource* getShader();
 	Material():dirty(true) {};
 	virtual ~Material() {};
 	std::vector<MeshSection*> meshRefs;
+	bool getDirty();
+	void setDirty(bool dirty);
 };
 
 struct MaterialVar
@@ -48,9 +51,10 @@ struct MaterialVar
 	std::string bindingName;
 };
 
-class MaterialInstance {
-	std::vector<RefCountedPtr<TextureSource>> textureIDs;          // copys
+class MaterialInstance : public GPUResource {
 public:
+	std::vector<RefCountedPtr<TextureSource>> textureIDs;          // copys
 	std::vector<MaterialVar> materialVars;
 	void attachTexture(const std::string& name);
+	Material* mat;
 };

@@ -8,7 +8,8 @@ public:
 		MESH,
 		SHDADER,
 		TEXTURE,
-		MATRERIAL
+		MATRERIAL,
+		MATERIALINS
 	};
 	GResourceType resourceType;
 };

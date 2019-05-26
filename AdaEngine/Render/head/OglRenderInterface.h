@@ -17,6 +17,8 @@ public:
 
 	virtual Material* _createMaterial(RenderInterfaceWrap* wrap, const std::string& name, const std::string& shaderName) override;
 	virtual Material* createMaterial(const std::string& name, const std::string& shaderName) override { return nullptr; };
+	virtual MaterialInstance* createMaterialInstance(const std::string& matInstanceName, const std::string& matName) override { return nullptr; };
+	virtual MaterialInstance* _createMaterialInstance(RenderInterfaceWrap* wrap, const std::string& matInstanceName, const std::string& matName) override;
 	virtual ShaderSource* createShader(const std::string& name) override;
 
 	virtual TextureSource* createTexture(const std::string& name) override;
@@ -28,7 +30,8 @@ public:
 	virtual RenderPineline* createPineline(PinelineType type) override;
 	virtual void _addMaterialToPineline(RenderInterfaceWrap* wrap, Material* mat) override;
 	virtual void addMaterialToPineline(Material* mat) override {};
-	void passDraw(RenderPass* pass) override;
+	virtual RenderPineline* getCurrentPineline() override { return nullptr; };
+	virtual RenderPineline* _getCurrentPineline(RenderInterfaceWrap* wrap) override;
 
 	virtual GPUResource* _GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) override;
 	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) override { return nullptr; };

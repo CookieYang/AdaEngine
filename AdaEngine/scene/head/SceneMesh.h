@@ -14,7 +14,6 @@ public:
 	void setMesh(const std::string& name);
 	void setMaterial(const std::string& name);
 	void setMaterialForSection(const std::string& name, int sectionIndex);
-	MaterialInstance* getMaterialInstanceForSection(int sectionIndex);
 	int getSectionNum();
 	virtual void Run() override;
 };

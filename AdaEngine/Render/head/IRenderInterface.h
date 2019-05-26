@@ -31,6 +31,7 @@ public:
 	virtual void sync() = 0;
 
 	virtual Material* createMaterial(const std::string& name, const std::string& shaderName) = 0;
+	virtual MaterialInstance* createMaterialInstance(const std::string& matInstanceName, const std::string& matName) = 0;
 	virtual ShaderSource* createShader(const std::string& name) = 0;
 	virtual TextureSource* createTexture(const std::string& name) = 0;
 	virtual void uploadTexture(TextureSource* tex) = 0;
@@ -38,12 +39,14 @@ public:
 	virtual MeshSource* createMesh(const std::string& name) = 0;
 	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) = 0;
 	virtual Material* _createMaterial(RenderInterfaceWrap* wrap, const std::string& name, const std::string& shaderName) { return nullptr; };
+	virtual MaterialInstance* _createMaterialInstance(RenderInterfaceWrap* wrap, const std::string& matInstanceName, const std::string& matName) { return nullptr; };
 	virtual void _addMaterialToPineline(RenderInterfaceWrap* wrap, Material* mat) { };
 	virtual GPUResource* _GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) { return nullptr; };
 
 	virtual RenderPineline* createPineline(PinelineType type) = 0;
 	virtual void addMaterialToPineline(Material* mat) = 0;
-	virtual void passDraw(RenderPass* pass) = 0;
+	virtual RenderPineline* getCurrentPineline() = 0;
+	virtual RenderPineline* _getCurrentPineline(RenderInterfaceWrap* wrap) { return nullptr; };
 
 	RenderInterface();
 	virtual ~RenderInterface();

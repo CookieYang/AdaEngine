@@ -27,12 +27,8 @@ void SceneMesh::setMaterial(const std::string& name) {
 }
 
 void SceneMesh::setMaterialForSection(const std::string& name, int sectionIndex) {
-	Material* m = (Material*)RenderInterface::getSingleton()->GetResourceByName(name, GPUResource::GResourceType::MATRERIAL);
-	m->attachToMeshSection(renderMesh->getMeshSection(sectionIndex));
-}
-
-MaterialInstance* SceneMesh::getMaterialInstanceForSection(int sectionIndex) {
-	return renderMesh->getMatreialInstanceForSection(sectionIndex);
+	MaterialInstance* m = (MaterialInstance*)RenderInterface::getSingleton()->GetResourceByName(name, GPUResource::GResourceType::MATERIALINS);
+	renderMesh->getMeshSection(sectionIndex)->attachMaterial(m);
 }
 
 int SceneMesh::getSectionNum() {

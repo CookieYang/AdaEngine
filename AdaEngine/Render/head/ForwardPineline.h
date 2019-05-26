@@ -2,7 +2,6 @@
 #include "RenderPineline.h"
 
 class ForwardPineline : public RenderPineline {
-	std::vector<RenderPass> passes;
 public:
 	ForwardPineline();
 	~ForwardPineline() {};

@@ -10,10 +10,13 @@ struct MeshSection
 	unsigned int vao = 0;
 	unsigned int vbo = 0;
 	unsigned int ebo = 0;
-	Material* material;
-	MaterialInstance mInstance;
+	RefCountedPtr<MaterialInstance> mInstance;
 	GeometryData::VertexData* vData;
-	volatile bool loaded = false;
+	bool loaded = false;
+	void attachMaterial(MaterialInstance* matInstance) {
+		mInstance = RefCountedPtr<MaterialInstance>(matInstance);
+		mInstance->mat->attachToMeshSection(this);
+	}
 };
 
 class MeshSource : public GPUResource {
@@ -21,7 +24,6 @@ public:
 	MeshSource():sectionNum(0) {};
 	~MeshSource();
 	void setGeometry(const std::string& name);
-	MaterialInstance* getMatreialInstanceForSection(int sectionIndex);
 	int getSectionNum();
 	MeshSection* getMeshSection(int sectionIndex);
 private:

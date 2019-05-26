@@ -3,12 +3,13 @@
 
 class Material;
 class RenderPass {
-	std::vector<Material*> activeMaterials;
 public:
+	std::vector<Material*> activeMaterials;
 	RenderPass() {};
 	virtual ~RenderPass() {};
 	std::string passName;
 	void Draw();
 	void addMaterial(Material* material);
 	void removeMaterial(Material* material) {};
+	double currentTime;
 };

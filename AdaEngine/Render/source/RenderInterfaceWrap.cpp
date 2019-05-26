@@ -148,6 +148,22 @@ Material* RenderInterfaceWrap::createMaterial(const std::string& name, const std
 	}
 }
 
+MaterialInstance* RenderInterfaceWrap::createMaterialInstance(const std::string& matInstanceName, const std::string& matName) {
+	if (std::this_thread::get_id() != serverThreadID) {
+		MaterialInstance* m = nullptr;
+		allocMutex->lock();
+		cmdQueue.pushAndRet(innerRenderInterface, &RenderInterface::_createMaterialInstance, this, matInstanceName, matName, &m);
+		MaterialInstanceMap.insert(std::pair<std::string, MaterialInstance*>(m->getName(), m));
+		allocMutex->unlock();
+		return m;
+	}
+	else {
+		MaterialInstance* m = innerRenderInterface->_createMaterialInstance(this, matInstanceName, matName);
+		MaterialInstanceMap.insert(std::pair<std::string, MaterialInstance*>(m->getName(), m));
+		return m;
+	}
+}
+
 ShaderSource* RenderInterfaceWrap::createShader(const std::string& name) {
 	if (std::this_thread::get_id() != serverThreadID) {
 		ShaderSource* m = nullptr;
@@ -204,6 +220,17 @@ RenderPineline* RenderInterfaceWrap::createPineline(PinelineType type) {
 		pineLine = innerRenderInterface->createPineline(type);
 	}
 	return pineLine;
+}
+
+RenderPineline* RenderInterfaceWrap::getCurrentPineline() {
+	if (std::this_thread::get_id() != serverThreadID) {
+		return pineLine;
+	}
+	else {
+		RenderPineline* p;
+		p = innerRenderInterface->_getCurrentPineline(this);
+		return p;
+	}
 }
 
 void RenderInterfaceWrap::addMaterialToPineline(Material* mat) {

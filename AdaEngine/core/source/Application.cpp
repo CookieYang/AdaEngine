@@ -18,21 +18,25 @@ void Application::createDefalutResource() {
 
 	ResourceManager::singleton()->loadGeometryResourceFromFile("cube_mesh_c", "resource/Cube.OBJ");
 
-	ResourceManager::singleton()->loadTextureFromFile("defalut_tex", "resource/defalut.jpg", FIF_JPEG, JPEG_ACCURATE);
+	ResourceManager::singleton()->loadTextureFromFile("defalut_tex_c", "resource/defalut.jpg", FIF_JPEG, JPEG_ACCURATE);
 
 	// create forward pineline
 	RenderInterface::getSingleton()->createPineline(PinelineType::FORWARD);
 	
 	// create GPU resource
 	ShaderSource* sha = RenderInterface::getSingleton()->createShader("defalut_shader");
-
 	sha->setShaderData("defalut_shader_c");
 
 	RenderInterface::getSingleton()->createMaterial("defalut_mat", "defalut_shader");
 
-	RenderInterface::getSingleton()->createMesh("cube_mesh");
+	MeshSource* mesh = RenderInterface::getSingleton()->createMesh("cube_mesh");
+	mesh->setGeometry("cube_mesh_c");
 
-	RenderInterface::getSingleton()->createTexture("defalut_tex");
+	TextureSource* tex = RenderInterface::getSingleton()->createTexture("defalut_tex");
+	tex->setImageRef("defalut_tex_c");
+
+	MaterialInstance* matInstance = RenderInterface::getSingleton()->createMaterialInstance("defalut_mat_ins", "defalut_mat");
+	matInstance->attachTexture("defalut_tex");
 }
 
 void Application::Initilize() {
