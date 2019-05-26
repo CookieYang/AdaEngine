@@ -4,15 +4,53 @@
 #include "ShaderSource.h"
 #include <vector>
 #include <string>
-#include <list>
+#include <glm/glm.hpp>
 
 class MeshSection;
 class Material : public GPUResource {
-public:
-	std::vector<RefCountedPtr<TextureSource>> textures;
-	std::vector<std::string> textureNames;
 	RefCountedPtr<ShaderSource> materialShader;
-	std::list<MeshSection*> meshRefs;
-	Material() {};
+	volatile bool dirty;
+public:
+	std::string passName;
+	void attachShader(ShaderSource* shader);
+	void attachToMeshSection(MeshSection* meshSection);
+	Material():dirty(true) {};
 	virtual ~Material() {};
+	std::vector<MeshSection*> meshRefs;
+};
+
+struct MaterialVar
+{
+	union VarData
+	{
+		glm::mat4 mat4;
+		glm::mat3 mat3;
+		glm::vec4 vec4;
+		glm::vec3 vec3;
+		glm::vec2 vec2;
+		float f;
+		int i;
+		bool b;
+	};
+	enum VarType
+	{
+		MAT4,
+		MAT3,
+		VEC4,
+		VEC3,
+		VEC2,
+		FLOAT,
+		INT,
+		BOOL
+	};
+	VarType mType;
+	VarData mVar;
+	std::string bindingName;
+};
+
+class MaterialInstance {
+	std::vector<RefCountedPtr<TextureSource>> textureIDs;          // copys
+public:
+	std::vector<MaterialVar> materialVars;
+	void attachTexture(const std::string& name);
 };

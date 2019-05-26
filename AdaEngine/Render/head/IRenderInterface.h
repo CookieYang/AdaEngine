@@ -1,11 +1,22 @@
 #pragma once
 #include <memory>
+#include <string>
+#include "RenderPineline.h"
+#include "RenderPass.h"
+#include "MeshSource.h"
+#include "ShaderSource.h"
+#include "TextureSource.h"
 
-class MeshSource;
-class Material;
-class ShaderSource;
-class TextureSource;
-class GPUResource;
+#define FUNC1(m_type, m_arg1)                          \
+	virtual void m_type(m_arg1 p1) {						\
+		if (std::this_thread::get_id() != serverThreadID) {                                                \
+			cmdQueue.push(innerRenderInterface, &RenderInterface::m_type, p1);          \
+		} else {                                                                                       \
+			innerRenderInterface->m_type(p1);                                           \
+		}                                                                                              \
+	}
+
+class RenderInterfaceWrap;
 
 class RenderInterface {
 public:
@@ -19,11 +30,20 @@ public:
 	virtual bool Valid() = 0;
 	virtual void sync() = 0;
 
-	virtual Material* createMaterial(std::string name) = 0;
-	virtual ShaderSource* createShader(std::string name) = 0;
-	virtual TextureSource* createTexture(std::string name) = 0;
-	virtual MeshSource* createMesh(std::string name) = 0;
-	virtual GPUResource* searchResourceByName(std::string name, GPUResource::GResourceType type) = 0;    // try to copy first
+	virtual Material* createMaterial(const std::string& name, const std::string& shaderName) = 0;
+	virtual ShaderSource* createShader(const std::string& name) = 0;
+	virtual TextureSource* createTexture(const std::string& name) = 0;
+	virtual void uploadTexture(TextureSource* tex) = 0;
+	virtual void uploadGeometry(MeshSection* mesh) = 0;
+	virtual MeshSource* createMesh(const std::string& name) = 0;
+	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) = 0;
+	virtual Material* _createMaterial(RenderInterfaceWrap* wrap, const std::string& name, const std::string& shaderName) { return nullptr; };
+	virtual void _addMaterialToPineline(RenderInterfaceWrap* wrap, Material* mat) { };
+	virtual GPUResource* _GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) { return nullptr; };
+
+	virtual RenderPineline* createPineline(PinelineType type) = 0;
+	virtual void addMaterialToPineline(Material* mat) = 0;
+	virtual void passDraw(RenderPass* pass) = 0;
 
 	RenderInterface();
 	virtual ~RenderInterface();

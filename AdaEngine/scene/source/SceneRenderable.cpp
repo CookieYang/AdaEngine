@@ -5,6 +5,5 @@ void SceneRenderable::Run() {
 }
 
 void SceneRenderable::AttachToRoot() {
-	CreateRenderResource();
 	SceneNode::AttachToRoot();
 }

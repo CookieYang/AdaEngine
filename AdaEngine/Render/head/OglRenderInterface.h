@@ -1,7 +1,8 @@
 #pragma once
 #include "GLContext.h"
 #include "IRenderInterface.h"
-#include <memory>
+#include <map>
+
 class OglRenderInterface : public RenderInterface {
 public:
 	virtual void Init() override;
@@ -13,9 +14,29 @@ public:
 	virtual void Finish() override;
 	OglRenderInterface();
 	~OglRenderInterface();
+
+	virtual Material* _createMaterial(RenderInterfaceWrap* wrap, const std::string& name, const std::string& shaderName) override;
+	virtual Material* createMaterial(const std::string& name, const std::string& shaderName) override { return nullptr; };
+	virtual ShaderSource* createShader(const std::string& name) override;
+
+	virtual TextureSource* createTexture(const std::string& name) override;
+	virtual void uploadTexture(TextureSource* tex) override;
+
+	virtual MeshSource* createMesh(const std::string& name) override;
+	virtual void uploadGeometry(MeshSection* mesh) override;
+
+	virtual RenderPineline* createPineline(PinelineType type) override;
+	virtual void _addMaterialToPineline(RenderInterfaceWrap* wrap, Material* mat) override;
+	virtual void addMaterialToPineline(Material* mat) override {};
+	void passDraw(RenderPass* pass) override;
+
+	virtual GPUResource* _GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) override;
+	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) override { return nullptr; };
 private:
 	std::shared_ptr<GLContext> context;
 	virtual void ClearContext() override;
 	virtual void MakeCurrent() override;
 	double getCurrentTime();
+
+
 };

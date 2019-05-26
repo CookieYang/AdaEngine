@@ -87,6 +87,12 @@
     <ClCompile Include="Render\source\RenderPass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Render\source\ForwardPineline.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\source\TextureData.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -174,6 +180,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Render\head\RenderPineline.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\head\ForwardPineline.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,5 @@
 #include "OglRenderInterface.h"
+#include "RenderInterfaceWrap.h"
 
 void OglRenderInterface::Init() {
 	// init gl in rendering thread
@@ -64,4 +65,73 @@ OglRenderInterface::OglRenderInterface() {
 
 OglRenderInterface::~OglRenderInterface() {
 	Destory();
+}
+
+
+RenderPineline* OglRenderInterface::createPineline(PinelineType type) {
+	return RenderPineline::createPineline(type);
+}
+
+void OglRenderInterface::_addMaterialToPineline(RenderInterfaceWrap* wrap, Material* mat) {
+	return wrap->pineLine->addMaterialToPass(mat);
+}
+
+void OglRenderInterface::passDraw(RenderPass* pass) {
+
+}
+
+Material* OglRenderInterface::_createMaterial(RenderInterfaceWrap* wrap, const std::string& name, const std::string& shaderName) {
+	Material* m = new Material;
+	ShaderSource* shader = (ShaderSource*)this->_GetResourceByName(wrap, "defalut_shader", GPUResource::GResourceType::SHDADER);
+	m->setName(name);
+	m->attachShader(shader);
+	return m;
+}
+
+ShaderSource* OglRenderInterface::createShader(const std::string& name) {
+	ShaderSource* shader = new ShaderSource;
+	shader->setName(name);
+	return shader;
+}
+
+TextureSource* OglRenderInterface::createTexture(const std::string& name) {
+	TextureSource* tex =  new TextureSource;
+	tex->setName(name);
+	return tex;
+}
+
+void OglRenderInterface::uploadTexture(TextureSource* tex) {
+
+}
+
+MeshSource* OglRenderInterface::createMesh(const std::string& name) {
+	MeshSource* mesh = new MeshSource;
+	mesh->setName(name);
+	return mesh;
+}
+
+void OglRenderInterface::uploadGeometry(MeshSection* mesh) {
+
+}
+
+GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) {
+	GPUResource* resource = nullptr;
+	switch (type)
+	{
+	case GPUResource::MESH:
+		resource = wrap->MeshSourceMap[name];
+		break;
+	case GPUResource::SHDADER:
+		resource = wrap->ShaderSourceMap[name].get();
+		break;
+	case GPUResource::TEXTURE:
+		resource = wrap->TextureSourceMap[name];
+		break;
+	case GPUResource::MATRERIAL:
+		resource = wrap->MaterialMap[name].get();
+		break;
+	default:
+		break;
+	}
+	return resource;
 }

@@ -4,8 +4,9 @@
 
 class ShaderSource: public GPUResource {
 	RefCountedPtr<ShaderData> mShaderData;
+	bool dirty;
 public:
-	void setShaderData(ShaderData* shaderData);
+	void setShaderData(const std::string& name);
 	unsigned int program;
 	std::vector<unsigned int> shaderIDs;
 	ShaderSource();

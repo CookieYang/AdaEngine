@@ -3,8 +3,6 @@
 #include "OglRenderInterface.h"
 #include "RenderInterfaceWrap.h"
 #include "ResourceManager.h"
-#include <windows.h>
-
 
 Engine* Engine::getInstance() {
 	static Engine engine;
@@ -19,7 +17,8 @@ void Engine::init() {
 }
 
 void Engine::sleep(double time) {
-	Sleep(time);
+	std::chrono::milliseconds timespan((int)time); 
+	std::this_thread::sleep_for(timespan);
 }
 
 void Engine::print(std::string log) {

@@ -1,7 +1,12 @@
 #pragma once
 #include "CPUResource.h"
+#include "FreeImage.h"
 
 class TextureData : public CPUResource {
 public:
-	unsigned char* imageData;
+	FIBITMAP* imageData;
+	int width;
+	int height;
+	TextureData() {};
+	~TextureData();
 };

@@ -20,6 +20,8 @@ public:
 
 	virtual void doInit() {};
 
+private:
+	void createDefalutResource();
 };
 
 class PyApplication : public Application {

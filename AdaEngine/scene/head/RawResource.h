@@ -8,6 +8,8 @@ protected:
 public:
 	void setName(const std::string& name);
 	std::string getName();
+	void setResPath(const std::string& path);
+	std::string getResPath();
 	RawResource();
 	virtual ~RawResource() {};
 };

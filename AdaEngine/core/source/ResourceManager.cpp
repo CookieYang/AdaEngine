@@ -1,40 +1,73 @@
 #include "ResourceManager.h"
-#include "GeometryData.h"
 #include <fbxsdk.h>
 #include <fbxsdk/core/fbxmanager.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
-#include <FreeImage.h>
 #include "Engine.h"
-
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
 ResourceManager* ResourceManager::resManager = nullptr;
 void loadGeometryModel(GeometryData*& raw, std::string path);
 void processNode(GeometryData*& raw, aiNode* node, const aiScene* scene);
 void processMesh(GeometryData*& raw, aiMesh* mesh, const aiScene* scene);
+std::string readFileToString(const std::string& path);
 
+CPUResource* ResourceManager::loadTextureFromFile(const std::string& name, const std::string& path, FREE_IMAGE_FORMAT imageFormat, int loadFlag) {
+	TextureData* tex = new TextureData;
+	FIBITMAP * img = FreeImage_Load(imageFormat, path.c_str(), loadFlag);
+	int Width = FreeImage_GetWidth(img);
+	int Height = FreeImage_GetHeight(img);
+	tex->setName(name);
+	tex->setResPath(path);
+	tex->imageData = img;
+	tex->height = Height;
+	tex->width = Width;
+	loadedResource.insert(std::pair<std::string, CPUResource*>(tex->getName(), tex));
+	return tex;
+}
 
-//RawResource* ResourceManager::loadTestCube() {
-//	std::string cubePath("resource/Cube.OBJ");
-//	//std::string texPath("resource/defalut.jpg");
-//	//loadTextureFromFile(texPath);
-//	return loadGeometryFromFile(cubePath);
-//}
+CPUResource* ResourceManager::loadGeometryResourceFromFile(const std::string& name, const std::string& path) {
+	GeometryData* gData = new GeometryData;
+	loadGeometryModel(gData, path);
+	gData->setName(name);
+	gData->setResPath(path);
+	loadedResource.insert(std::pair<std::string, CPUResource*>(gData->getName(), gData));
+	return gData;
+}
 
-//RawResource* ResourceManager::loadTextureFromFile(std::string path) {
-//	FreeImage_Initialise(TRUE);
-//	FIBITMAP * JPEG = FreeImage_Load(FIF_JPEG, path.c_str(), JPEG_DEFAULT);
-//	//获取影像的宽高，都以像素为单位
-//	int Width = FreeImage_GetWidth(JPEG);
-//	int Height = FreeImage_GetHeight(JPEG);
-//	FreeImage_Unload(JPEG);
-//	FreeImage_DeInitialise();
-//	return nullptr;
-//}
+std::string readFileToString(const std::string& path) {
+	std::ifstream ifile(path);
+	//将文件读入到ostringstream对象buf中
+	std::ostringstream buf;
+	char ch;
+	while (buf&&ifile.get(ch))
+		buf.put(ch);
+	//返回与流对象buf关联的字符串
+	return buf.str();
+}
 
-CPUResource* ResourceManager::loadResourceFromFile(std::string path, CPUResource::CResourceType type) {
-	return nullptr;
+CPUResource* ResourceManager::loadShaderGroupFromFile(const std::string& name) {
+	ShaderData* shader = new ShaderData;
+	shader->setName(name);
+	ShaderData::shaderString shaderFrag1;
+	shaderFrag1.shaderType = ShaderData::ShaderType::VERTEXSHADER;
+	shaderFrag1.shaderStr = readFileToString("shaders/forward/defalut_fs.glsl");
+	ShaderData::shaderString shaderFrag2;
+	shaderFrag2.shaderType = ShaderData::ShaderType::FRAGMENTSHADER;
+	shaderFrag1.shaderStr = readFileToString("shaders/forward/defalut_ps.glsl");
+	shader->shaderStrs.push_back(shaderFrag1);
+	shader->shaderStrs.push_back(shaderFrag2);
+	loadedResource.insert(std::pair<std::string, CPUResource*>(shader->getName(), shader));
+	return shader;
+}
+
+CPUResource* ResourceManager::GetResourceByName(const std::string& name) {
+	CPUResource* res = nullptr;
+	res = loadedResource[name];
+	return res;
 }
 
  static void loadGeometryModel(GeometryData*& raw, std::string path) {
@@ -139,4 +172,9 @@ ResourceManager* ResourceManager::singleton() {
 
 ResourceManager::ResourceManager() {
 	resManager = this;
+	FreeImage_Initialise(TRUE);
+}
+
+ResourceManager::~ResourceManager() {
+	FreeImage_DeInitialise();
 }

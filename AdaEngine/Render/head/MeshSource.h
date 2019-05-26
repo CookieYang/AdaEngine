@@ -4,20 +4,26 @@
 #include <vector>
 #include "Material.h"
 
+
+struct MeshSection
+{
+	unsigned int vao = 0;
+	unsigned int vbo = 0;
+	unsigned int ebo = 0;
+	Material* material;
+	MaterialInstance mInstance;
+	GeometryData::VertexData* vData;
+	volatile bool loaded = false;
+};
+
 class MeshSource : public GPUResource {
-	struct MeshSection
-	{
-		unsigned int vao;
-		unsigned int vbo;
-		unsigned int ebo;
-		RefCountedPtr<Material> material;
-	};
 public:
 	MeshSource():sectionNum(0) {};
 	~MeshSource();
-	void setGeometry(GeometryData* gData);
-	void setMaterial(Material* material, int index);
+	void setGeometry(const std::string& name);
+	MaterialInstance* getMatreialInstanceForSection(int sectionIndex);
 	int getSectionNum();
+	MeshSection* getMeshSection(int sectionIndex);
 private:
 	RefCountedPtr<GeometryData> sections;
 	std::vector<MeshSection> meshSections;
