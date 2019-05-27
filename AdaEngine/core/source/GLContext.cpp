@@ -1,8 +1,9 @@
 #include "GLContext.h"
-#include <iostream>
+#include "Engine.h"
+#include "IRenderInterface.h"
 
 static void resizeCallback(GLFWwindow* win, int width, int height) {
-	
+	RenderInterface::getSingleton()->resizeViewport(width, height);
 }
 
 GLContext::GLContext() {
@@ -38,9 +39,7 @@ bool GLContext::initContext() {
 	makeCurrentNull();
 	if (GLEW_OK != err)
 	{
-		/* Problem: glewInit failed, something is seriously wrong. */
-		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
-		std::cout << glewGetErrorString(err) << std::endl;
+		Engine::print("init glew failed");
 		return false;
 	}
 	

@@ -17,11 +17,3 @@ void ForwardPineline::addMaterialToPass(Material* mat) {
 		}
 	}
 }
-
-void ForwardPineline::Draw() {
-	for (size_t i = 0; i < passes.size(); i++)
-	{
-		RenderPass pass = passes[i];
-		pass.Draw();
-	}
-}

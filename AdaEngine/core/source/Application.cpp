@@ -53,7 +53,6 @@ void Application::Run() {
 		Engine::getInstance()->sceneTree->Run();
 		doRun();
 		RenderInterface::getSingleton()->sync();
-		Engine::print("main Loop");
 		RenderInterface::getSingleton()->Draw();
 		RenderInterface::getSingleton()->SwapBuffer();
 	}

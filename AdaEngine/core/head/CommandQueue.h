@@ -344,7 +344,6 @@ public:
 	void waitAndFlushOne() {
 		assert(sync != nullptr);
 		sync->wait();                               // wait for cmd
-		Engine::print("flush one");
 		flushOne();
 	}
 

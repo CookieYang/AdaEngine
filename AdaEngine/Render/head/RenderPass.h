@@ -7,8 +7,9 @@ public:
 	std::vector<Material*> activeMaterials;
 	RenderPass() {};
 	virtual ~RenderPass() {};
+	virtual void passBegin();
+	virtual void passEnd();
 	std::string passName;
-	void Draw();
 	void addMaterial(Material* material);
 	void removeMaterial(Material* material) {};
 	double currentTime;

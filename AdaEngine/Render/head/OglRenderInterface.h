@@ -35,10 +35,11 @@ public:
 
 	virtual GPUResource* _GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) override;
 	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) override { return nullptr; };
+
+	virtual void resizeViewport(int width, int height) override;
 private:
 	std::shared_ptr<GLContext> context;
 	virtual void ClearContext() override;
 	virtual void MakeCurrent() override;
-	void resizeCallback(int width, int height);
 	double getCurrentTime();
 };

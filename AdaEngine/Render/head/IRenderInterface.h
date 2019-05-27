@@ -16,6 +16,15 @@
 		}                                                                                              \
 	}
 
+#define FUNC2(m_type, m_arg1, m_arg2)                          \
+	virtual void m_type(m_arg1 p1, m_arg2 p2) {						\
+		if (std::this_thread::get_id() != serverThreadID) {                                                \
+			cmdQueue.push(innerRenderInterface, &RenderInterface::m_type, p1, p2);          \
+		} else {                                                                                       \
+			innerRenderInterface->m_type(p1, p2);                                           \
+		}                                                                                              \
+	}
+
 class RenderInterfaceWrap;
 
 class RenderInterface {
@@ -47,6 +56,8 @@ public:
 	virtual void addMaterialToPineline(Material* mat) = 0;
 	virtual RenderPineline* getCurrentPineline() = 0;
 	virtual RenderPineline* _getCurrentPineline(RenderInterfaceWrap* wrap) { return nullptr; };
+
+	virtual void resizeViewport(int width, int height) = 0;
 
 	RenderInterface();
 	virtual ~RenderInterface();

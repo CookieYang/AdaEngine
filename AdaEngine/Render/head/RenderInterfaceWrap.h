@@ -59,6 +59,7 @@ public:
 
 	FUNC1(uploadTexture, TextureSource*)
 	FUNC1(uploadGeometry, MeshSection*)
+	FUNC2(resizeViewport, int, int)
 
 	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) override;
 };

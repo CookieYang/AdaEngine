@@ -1,9 +1,15 @@
 #include "RenderPass.h"
 #include "IRenderInterface.h"
+#include <GL/glew.h>
 
-void RenderPass::Draw() {
-      // renderInterface draw
-	/*RenderInterface::getSingleton()->passDraw(this);*/
+void RenderPass::passBegin() {
+	// call in rendering thread!!!
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+}
+
+void RenderPass::passEnd() {
+
 }
 
 void RenderPass::addMaterial(Material* material) {

@@ -12,6 +12,7 @@ void OglRenderInterface::Init() {
 	// init gl in rendering thread
 	MakeCurrent();
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearDepth(1.0f);
 	glViewport(0, 0, 1280, 720);
 }
 
@@ -36,7 +37,6 @@ void OglRenderInterface::Draw() {
 	// rendering thread draw
 	MakeCurrent();
 	double time = getCurrentTime();
-	glClear(GL_COLOR_BUFFER_BIT);
 	//glBegin(GL_TRIANGLES);
 	//{
 	//	glColor3f(1.0, 0.0, 0.0);
@@ -50,8 +50,10 @@ void OglRenderInterface::Draw() {
 	RenderPineline* pineLine = RenderInterface::getSingleton()->getCurrentPineline();
 	for (auto pass : pineLine->passes) {
 		pass.currentTime = time;
+		pass.passBegin();
 		buildPass(&pass);
 		passDraw(&pass);
+		pass.passEnd();
 	}
 	ClearContext();
 }
@@ -374,8 +376,10 @@ GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, s
 	return resource;
 }
 
-void OglRenderInterface::resizeCallback(int width, int height) {
+void OglRenderInterface::resizeViewport(int width, int height) {
 	MakeCurrent();
 	glViewport(0, 0, width, height);
 	ClearContext();
 }
+
+

@@ -45,8 +45,6 @@ void RenderInterfaceWrap::renderingThreadLoop() {
 	drawThreadUp = true;
 	while (!exit) {
 		cmdQueue.waitAndFlushOne();
-	//	innerRenderInterface->Draw();
-		Engine::print("loop");
 	}
 	cmdQueue.flushAll();
 	innerRenderInterface->Finish();
@@ -65,7 +63,6 @@ void RenderInterfaceWrap::sync() {
 void RenderInterfaceWrap::Draw() {
 	if (bRenderingThread) {
 		++drawPending; 
-		Engine::print("push draw call");
 		cmdQueue.push(this, &RenderInterfaceWrap::renderingThreadDraw);
 	}
 	else {
