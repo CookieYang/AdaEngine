@@ -34,6 +34,7 @@ struct MaterialVar
 		float f;
 		int i;
 		bool b;
+		unsigned int* tex;
 	};
 	enum VarType
 	{
@@ -44,7 +45,8 @@ struct MaterialVar
 		VEC2,
 		FLOAT,
 		INT,
-		BOOL
+		BOOL,
+		TEXTURE2D
 	};
 	VarType mType;
 	VarData mVar;
@@ -53,7 +55,7 @@ struct MaterialVar
 
 class MaterialInstance : public GPUResource {
 public:
-	std::vector<RefCountedPtr<TextureSource>> textureIDs;          // copys
+	std::vector<RefCountedPtr<TextureSource>> textureRefs; // for release count (when there are too much texture existing)
 	std::vector<MaterialVar> materialVars;
 	void attachTexture(const std::string& name);
 	Material* mat;

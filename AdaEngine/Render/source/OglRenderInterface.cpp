@@ -6,8 +6,7 @@
 void passDraw(RenderPass* pass);
 void buildPass(RenderPass* pass);
 void buildShader(ShaderSource* shader);
-void setMaterialUniforms(GLuint program, MaterialVar var);
-void setTexture(GLuint program, TextureSource* tex, unsigned int index);
+void setMaterialUniforms(GLuint program, MaterialVar var, int index);
 
 void OglRenderInterface::Init() {
 	// init gl in rendering thread
@@ -180,13 +179,15 @@ static void passDraw(RenderPass* pass) {
 		glUseProgram(mat->getShader()->program);
 		for (auto mesh : mat->meshRefs) {
 			glBindVertexArray(mesh->vao);
-			for (auto var : mesh->mInstance.get()->materialVars) {
-				setMaterialUniforms(mat->getShader()->program, var);
-			}
-			for (size_t i = 0; i < mesh->mInstance.get()->textureIDs.size(); i++)
+			int texIndex = 0;
+			for (size_t i = 0; i < mesh->mInstance.get()->materialVars.size(); i++)
 			{
-				TextureSource* tex = mesh->mInstance.get()->textureIDs[i].get();
-				setTexture(mat->getShader()->program, tex, i);
+				MaterialVar var = mesh->mInstance.get()->materialVars[i];
+				setMaterialUniforms(mat->getShader()->program, var, texIndex);
+				if (var.mType == MaterialVar::VarType::TEXTURE2D)
+				{
+					texIndex++;
+				}
 			}
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
 			glDrawElements(GL_TRIANGLES, mesh->vData->vertexIndices.size(), GL_UNSIGNED_INT, 0);
@@ -197,7 +198,7 @@ static void passDraw(RenderPass* pass) {
 	}
 }
 
-static void setMaterialUniforms(GLuint program, MaterialVar mat) {
+static void setMaterialUniforms(GLuint program, MaterialVar mat, int index) {
 	switch (mat.mType)
 	{
 	case MaterialVar::VarType::MAT4:
@@ -205,15 +206,16 @@ static void setMaterialUniforms(GLuint program, MaterialVar mat) {
 		glUniform4fv(glGetUniformLocation(program, mat.bindingName.c_str()), 1, glm::value_ptr(mat.mVar.mat4));
 	}
 		break;
+	case MaterialVar::VarType::TEXTURE2D:
+	{
+		glActiveTexture(GL_TEXTURE0 + index);
+		glBindTexture(GL_TEXTURE_2D, *mat.mVar.tex);
+		glUniform1i(glGetUniformLocation(program, mat.bindingName.c_str()), index);
+	}
+	break;
 	default:
 		break;
 	}
-}
-
-static void  setTexture(GLuint program, TextureSource* tex, unsigned int index) {
-	glActiveTexture(GL_TEXTURE0 + index);
-	glBindTexture(GL_TEXTURE_2D, *tex->textureID);
-	glUniform1i(glGetUniformLocation(program, tex->bindingName.c_str()), index);
 }
 
 RenderPineline* OglRenderInterface::_getCurrentPineline(RenderInterfaceWrap* wrap) {
@@ -271,8 +273,8 @@ TextureSource* OglRenderInterface::createTexture(const std::string& name) {
 
 void OglRenderInterface::uploadTexture(TextureSource* tex) {
 	MakeCurrent();
-	glGenTextures(1, tex->textureID);
-	glBindTexture(GL_TEXTURE_2D, *tex->textureID);
+	glGenTextures(1, &tex->textureID);
+	glBindTexture(GL_TEXTURE_2D, tex->textureID);
 	// 为当前绑定的纹理对象设置环绕、过滤方式
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

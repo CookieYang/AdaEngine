@@ -25,9 +25,12 @@ void Material::attachShader(ShaderSource* shader) {
 
 void MaterialInstance::attachTexture(const std::string& name) {
 	TextureSource* tex = (TextureSource*)RenderInterface::getSingleton()->GetResourceByName(name, GPUResource::GResourceType::TEXTURE);
-	TextureSource* cTex = TextureSource::copy(tex);
-	cTex->bindingName = "baseColor";
-	textureIDs.push_back(RefCountedPtr<TextureSource>(cTex));
+	MaterialVar var;
+	var.mVar.tex = &tex->textureID;
+	var.mType = MaterialVar::VarType::TEXTURE2D;
+	var.bindingName = "baseColor";
+	materialVars.push_back(var);
+	textureRefs.push_back(RefCountedPtr<TextureSource>(tex));
 	if (!tex->loaded)
 	{
 		// update texture to GPU
