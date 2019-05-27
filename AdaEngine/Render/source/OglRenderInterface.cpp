@@ -12,7 +12,8 @@ void setTexture(GLuint program, TextureSource* tex, unsigned int index);
 void OglRenderInterface::Init() {
 	// init gl in rendering thread
 	MakeCurrent();
-	glClearColor(0.3f, 0.1f, 0.2f, 1.0f);
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glViewport(0, 0, 1280, 720);
 }
 
 void OglRenderInterface::SwapBuffer() {
@@ -36,7 +37,7 @@ void OglRenderInterface::Draw() {
 	// rendering thread draw
 	MakeCurrent();
 	double time = getCurrentTime();
-	//glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	//glBegin(GL_TRIANGLES);
 	//{
 	//	glColor3f(1.0, 0.0, 0.0);
@@ -187,9 +188,11 @@ static void passDraw(RenderPass* pass) {
 				TextureSource* tex = mesh->mInstance.get()->textureIDs[i].get();
 				setTexture(mat->getShader()->program, tex, i);
 			}
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
 			glDrawElements(GL_TRIANGLES, mesh->vData->vertexIndices.size(), GL_UNSIGNED_INT, 0);
-			GLenum e = glGetError();
+			glDrawArrays(GL_TRIANGLES, 0, 3);
 			glBindVertexArray(0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
 }
@@ -209,7 +212,7 @@ static void setMaterialUniforms(GLuint program, MaterialVar mat) {
 
 static void  setTexture(GLuint program, TextureSource* tex, unsigned int index) {
 	glActiveTexture(GL_TEXTURE0 + index);
-	glBindTexture(GL_TEXTURE_2D, tex->textureID);
+	glBindTexture(GL_TEXTURE_2D, *tex->textureID);
 	glUniform1i(glGetUniformLocation(program, tex->bindingName.c_str()), index);
 }
 
@@ -235,7 +238,7 @@ MaterialInstance* OglRenderInterface::_createMaterialInstance(RenderInterfaceWra
 	MaterialVar var1;
 	var1.bindingName = "modelMat";
 	var1.mType = MaterialVar::VarType::MAT4;
-	var1.mVar.mat4 = glm::mat4(1.0f);
+	var1.mVar.mat4 = glm::scale(glm::mat4(1.0f), glm::vec3(0.5, 0.5, 0.1));
 
 	MaterialVar var2;
 	var2.bindingName = "viewMat";
@@ -267,8 +270,9 @@ TextureSource* OglRenderInterface::createTexture(const std::string& name) {
 }
 
 void OglRenderInterface::uploadTexture(TextureSource* tex) {
-	glGenTextures(1, &tex->textureID);
-	glBindTexture(GL_TEXTURE_2D, tex->textureID);
+	MakeCurrent();
+	glGenTextures(1, tex->textureID);
+	glBindTexture(GL_TEXTURE_2D, *tex->textureID);
 	// 为当前绑定的纹理对象设置环绕、过滤方式
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -280,6 +284,8 @@ void OglRenderInterface::uploadTexture(TextureSource* tex) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex->getWidth(), tex->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, rawData);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	ClearContext();
 }
 
 MeshSource* OglRenderInterface::createMesh(const std::string& name) {
@@ -289,83 +295,56 @@ MeshSource* OglRenderInterface::createMesh(const std::string& name) {
 }
 
 void OglRenderInterface::uploadGeometry(MeshSection* mesh) {
+	MakeCurrent();
 	glGenVertexArrays(1, &mesh->vao);
-	glGenBuffers(1, &mesh->vbo);
+	glGenBuffers(mesh->vbos.size(), mesh->vbos.data());
 	glGenBuffers(1, &mesh->ebo);
+
 	glBindVertexArray(mesh->vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->vData->vertexIndices.size() * sizeof(unsigned int), mesh->vData->vertexIndices.data(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
-	size_t totalSize = 0; 
-	
-	size_t offset = 0;
-	glm::vec3* vP = mesh->vData->vertexPosition.data();
-	glm::vec2* vUV = mesh->vData->vertexUV.data();
-	glm::vec3* vN = mesh->vData->vertexNormal.data();
-	glm::vec3* vT = mesh->vData->vertexTangent.data();
-	glm::vec3* vB = mesh->vData->vertexBiTanget.data();
-	if (vP) {
-		totalSize += mesh->vData->vertexPosition.size() * sizeof(glm::vec3);
-	}
-	if (vUV) {
-		totalSize += mesh->vData->vertexUV.size() * sizeof(glm::vec2);
-	}
-	if (vN) {
-		totalSize += mesh->vData->vertexNormal.size() * sizeof(glm::vec3);
-	}
-	if (vT) {
-		totalSize += mesh->vData->vertexTangent.size() * sizeof(glm::vec3);
-	}
-	if (vB) {
-		totalSize += mesh->vData->vertexBiTanget.size() * sizeof(glm::vec3);
-	}
-	glBufferData(GL_ARRAY_BUFFER, totalSize, nullptr, GL_STATIC_DRAW);
-	if (vP)
-	{
-		size_t  offVP = mesh->vData->vertexPosition.size() * sizeof(glm::vec3);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, offVP, vP);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(offset));
+
+	//float vertex[] = {1.0, 0.0, 0.0,  0.0, 1.0, 0.0,  0.0, 0.0, 0.0};
+	//float uv[] = {1.0, 0.0,   0.0, 1.0,  0.0, 0.0 };
+
+	if (mesh->vData->vertexPosition.size() != 0) {
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[0]);
+		glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vData->vertexPosition.size(), mesh->vData->vertexPosition.data(), GL_STATIC_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
 		glEnableVertexAttribArray(0);
-		offset += offVP;
 	}
-	
 
-	if (vUV)
-	{
-		size_t offUV = mesh->vData->vertexUV.size() * sizeof(glm::vec2);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, offUV, vUV);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(offset));
+	if (mesh->vData->vertexUV.size() != 0) {
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[1]);
+		glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(float) * mesh->vData->vertexUV.size(), mesh->vData->vertexUV.data(), GL_STATIC_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(uv), uv, GL_STATIC_DRAW);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(0 * sizeof(float)));
 		glEnableVertexAttribArray(1);
-		offset += offUV;
 	}
 
-	if (vN)
-	{
-		size_t offN = mesh->vData->vertexNormal.size() * sizeof(glm::vec3);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, offN, vN);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(offset));
+	if (mesh->vData->vertexNormal.size() != 0) {
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[2]);
+		glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vData->vertexNormal.size(), mesh->vData->vertexNormal.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
 		glEnableVertexAttribArray(2);
-		offset += offN;
 	}
 
-	if (vT)
-	{
-		size_t offT = mesh->vData->vertexTangent.size() * sizeof(glm::vec3);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, offT, vT);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(offset));
+	if (mesh->vData->vertexTangent.size() != 0) {
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[3]);
+		glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vData->vertexTangent.size(), mesh->vData->vertexTangent.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
 		glEnableVertexAttribArray(3);
-		offset += offT;
 	}
 
-	if (vB)
-	{
-		size_t offB = mesh->vData->vertexBiTanget.size() * sizeof(glm::vec3);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, offB, vB);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(offset));
+	if (mesh->vData->vertexBiTanget.size() != 0) {
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[4]);
+		glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vData->vertexBiTanget.size(), mesh->vData->vertexBiTanget.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
 		glEnableVertexAttribArray(4);
-		offset += offB;
 	}
 	glBindVertexArray(0);
+	ClearContext();
 }
 
 GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) {

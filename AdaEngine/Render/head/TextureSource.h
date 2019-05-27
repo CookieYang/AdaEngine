@@ -6,7 +6,7 @@ class TextureSource : public GPUResource {
 	RefCountedPtr<TextureData> imageRef;
 public:
 	bool loaded;
-	unsigned int textureID;
+	unsigned int* textureID;
 	std::string bindingName;
 	static TextureSource* copy(TextureSource* tex);
 	void setImageRef(const std::string& name);

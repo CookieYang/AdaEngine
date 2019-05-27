@@ -4,6 +4,6 @@ in vec2 pTexCoord;
 uniform sampler2D baseColor;
 
 void main() {
-    /*fragColor = texture2D(baseColor, pTexCoord);*/
-	fragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    fragColor = texture(baseColor, pTexCoord);
+	//fragColor = vec4(pTexCoord, 0.0, 1.0);
 }

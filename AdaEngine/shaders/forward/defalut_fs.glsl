@@ -13,5 +13,6 @@ out vec2 pTexCoord;
 
 void main() {
     pTexCoord = vTexCoord;
-    gl_Position = projMat * viewMat * modelMat * vec4(vPos, 1.0);
+   // gl_Position = projMat * viewMat * modelMat * vec4(vPos, 1.0);
+	gl_Position = vec4(vPos, 1.0);
 }

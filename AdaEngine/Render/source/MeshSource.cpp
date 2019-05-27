@@ -18,6 +18,7 @@ void MeshSource::setGeometry(const std::string& name) {
 	{
 		MeshSection section;
 		section.vData = &gData->sectionsData[i];
+		section.resizeVBOs();
 		meshSections.push_back(section);
 	}
 }

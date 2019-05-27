@@ -57,7 +57,7 @@ CPUResource* ResourceManager::loadShaderGroupFromFile(const std::string& name) {
 	shaderFrag1.shaderStr = readFileToString("shaders/forward/defalut_fs.glsl");
 	ShaderData::shaderString shaderFrag2;
 	shaderFrag2.shaderType = ShaderData::ShaderType::FRAGMENTSHADER;
-	shaderFrag1.shaderStr = readFileToString("shaders/forward/defalut_ps.glsl");
+	shaderFrag2.shaderStr = readFileToString("shaders/forward/defalut_ps.glsl");
 	shader->shaderStrs.push_back(shaderFrag1);
 	shader->shaderStrs.push_back(shaderFrag2);
 	loadedResource.insert(std::pair<std::string, CPUResource*>(shader->getName(), shader));

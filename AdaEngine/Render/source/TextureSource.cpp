@@ -2,7 +2,7 @@
 #include "ResourceManager.h"
 
 TextureSource::TextureSource(): loaded(false) {
-
+	textureID = new unsigned int;
 }
 
 void TextureSource::setImageRef(const std::string& name) {
