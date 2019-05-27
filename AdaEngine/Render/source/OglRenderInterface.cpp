@@ -203,7 +203,7 @@ static void setMaterialUniforms(GLuint program, MaterialVar mat, int index) {
 	{
 	case MaterialVar::VarType::MAT4:
 	{
-		glUniform4fv(glGetUniformLocation(program, mat.bindingName.c_str()), 1, glm::value_ptr(mat.mVar.mat4));
+		glUniformMatrix4fv(glGetUniformLocation(program, mat.bindingName.c_str()), 1, GL_FALSE, glm::value_ptr(mat.mVar.mat4));
 	}
 		break;
 	case MaterialVar::VarType::TEXTURE2D:
@@ -240,7 +240,7 @@ MaterialInstance* OglRenderInterface::_createMaterialInstance(RenderInterfaceWra
 	MaterialVar var1;
 	var1.bindingName = "modelMat";
 	var1.mType = MaterialVar::VarType::MAT4;
-	var1.mVar.mat4 = glm::scale(glm::mat4(1.0f), glm::vec3(0.5, 0.5, 0.1));
+	var1.mVar.mat4 = glm::scale(glm::mat4(1.0f), glm::vec3(0.01, 0.01, 0.01));
 
 	MaterialVar var2;
 	var2.bindingName = "viewMat";
@@ -372,4 +372,10 @@ GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, s
 		break;
 	}
 	return resource;
+}
+
+void OglRenderInterface::resizeCallback(int width, int height) {
+	MakeCurrent();
+	glViewport(0, 0, width, height);
+	ClearContext();
 }

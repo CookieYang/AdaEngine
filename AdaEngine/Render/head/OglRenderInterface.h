@@ -39,7 +39,6 @@ private:
 	std::shared_ptr<GLContext> context;
 	virtual void ClearContext() override;
 	virtual void MakeCurrent() override;
+	void resizeCallback(int width, int height);
 	double getCurrentTime();
-
-
 };

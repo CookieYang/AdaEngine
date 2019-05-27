@@ -16,9 +16,9 @@ void Application::createDefalutResource() {
 	// create CPU data
 	ResourceManager::singleton()->loadShaderGroupFromFile("defalut_shader_c");
 
-	ResourceManager::singleton()->loadGeometryResourceFromFile("cube_mesh_c", "resource/Plane.obj");
+	ResourceManager::singleton()->loadGeometryResourceFromFile("cube_mesh_c", "resource/Cube.OBJ");
 
-	ResourceManager::singleton()->loadTextureFromFile("defalut_tex_c", "resource/defalut.jpg", FIF_JPEG, JPEG_ACCURATE);
+	ResourceManager::singleton()->loadTextureFromFile("defalut_tex_c", "resource/defalut.jpg", FIF_JPEG, JPEG_DEFAULT);
 
 	// create forward pineline
 	RenderInterface::getSingleton()->createPineline(PinelineType::FORWARD);

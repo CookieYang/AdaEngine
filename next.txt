@@ -1,5 +1,5 @@
-1.资源加载接口
-2.cmd 接口
-3.texture resource
-4.shader resource
-5.mesh resourece 
+1.相机
+2.物体transform
+3.shader json化
+4.配置文件
+5.资源销毁
