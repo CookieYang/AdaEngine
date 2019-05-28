@@ -137,6 +137,7 @@
     <ClCompile Include="core\source\GLContext.cpp" />
     <ClCompile Include="core\source\Application.cpp" />
     <ClCompile Include="core\source\ResourceManager.cpp" />
+    <ClCompile Include="core\source\Window.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Render\source\ForwardPineline.cpp" />
     <ClCompile Include="Render\source\IRenderInterface.cpp" />
@@ -163,12 +164,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\head\CommandQueue.h" />
+    <ClInclude Include="core\head\Delegate.h" />
     <ClInclude Include="core\head\Engine.h" />
     <ClInclude Include="core\head\GLContext.h" />
     <ClInclude Include="core\head\Application.h" />
     <ClInclude Include="core\head\RefCountedPtr.h" />
     <ClInclude Include="core\head\ResourceManager.h" />
     <ClInclude Include="core\head\SimpleType.h" />
+    <ClInclude Include="core\head\Window.h" />
     <ClInclude Include="Render\head\ForwardPineline.h" />
     <ClInclude Include="Render\head\GPUResource.h" />
     <ClInclude Include="Render\head\IRenderInterface.h" />

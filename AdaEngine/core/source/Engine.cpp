@@ -4,12 +4,19 @@
 #include "RenderInterfaceWrap.h"
 #include "ResourceManager.h"
 
+void Engine::resizeViewPort(int width, int height) {
+	RenderInterface::getSingleton()->resizeViewport(width, height);
+}
+
 Engine* Engine::getInstance() {
 	static Engine engine;
 	return &engine;
 }
 
 void Engine::init() {
+	win = std::unique_ptr<Window>(new Window);
+	win->Init();
+	Window::resizeDelegate += mem_call(*Engine::getInstance(), &Engine::resizeViewPort);
 	OglRenderInterface* oglRenderInterface = new OglRenderInterface;
 	new RenderInterfaceWrap(oglRenderInterface, true);
 	new ResourceManager;

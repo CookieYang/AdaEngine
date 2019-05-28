@@ -4,7 +4,6 @@
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
-#include "Engine.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -74,7 +73,7 @@ CPUResource* ResourceManager::GetResourceByName(const std::string& name) {
 	Assimp::Importer impoter;
 	const aiScene* scene = impoter.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-		Engine::print(impoter.GetErrorString());
+		
 		return;
 	}
 	processNode(raw, scene->mRootNode, scene);

@@ -6,10 +6,7 @@
 class OglRenderInterface : public RenderInterface {
 public:
 	virtual void Init() override;
-	virtual void Draw() override;
-	virtual void SwapBuffer() override;
-	virtual void Destory() override;
-	virtual bool Valid() override;
+	virtual void Draw(double time) override;
 	virtual void sync() override;
 	virtual void Finish() override;
 	OglRenderInterface();
@@ -38,8 +35,5 @@ public:
 
 	virtual void resizeViewport(int width, int height) override;
 private:
-	std::shared_ptr<GLContext> context;
-	virtual void ClearContext() override;
-	virtual void MakeCurrent() override;
-	double getCurrentTime();
+	std::unique_ptr<GLContext> context;
 };

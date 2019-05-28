@@ -1,5 +1,6 @@
 #include "IRenderInterface.h"
-#include "OglRenderInterface.h"
+#include "Engine.h"
+
 RenderInterface* RenderInterface::singleton = nullptr;
 
 RenderInterface* RenderInterface::getSingleton() {
@@ -15,4 +16,12 @@ RenderInterface::RenderInterface() {
 
 RenderInterface::~RenderInterface() {
 	singleton = nullptr;
+}
+
+void RenderInterface::ClearCurrent() {
+	Engine::getInstance()->win->ClearCurrent();
+}
+
+void RenderInterface::MakeCurrent() {
+	Engine::getInstance()->win->MakeCurrent();
 }

@@ -24,20 +24,15 @@ class RenderInterfaceWrap : public RenderInterface {
 	void renderingThreadCallback();
 	void renderingThreadLoop();
 	void renderingThreadExit();
-	void renderingThreadDraw();
+	void renderingThreadDraw(double time);
 	void renderingThreadFlush();
 public:
 	RenderInterfaceWrap(RenderInterface* innerRender, bool bCreateThread);
 	~RenderInterfaceWrap();
 	virtual void Init() override;
 	virtual void sync() override;
-	virtual void Draw() override;
+	virtual void Draw(double time) override;
 	virtual void Finish() override;
-	virtual void Destory() override;
-	virtual void SwapBuffer() override;
-	virtual void ClearContext() override;
-	virtual void MakeCurrent() override;
-	virtual bool Valid() override;
 
 	std::map<std::string, RefCountedPtr<Material>> MaterialMap;
 	std::map<std::string, RefCountedPtr<ShaderSource>> ShaderSourceMap;

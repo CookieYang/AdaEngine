@@ -5,7 +5,6 @@
 
 void RenderInterfaceWrap::Init() {
 	if (bRenderingThread) {
-		Engine::print("Creating rendering thread");
 		renderingThread = new std::thread(std::bind(&RenderInterfaceWrap::renderingThreadCallback, this));
 		while (!drawThreadUp)
 		{
@@ -21,9 +20,9 @@ void RenderInterfaceWrap::renderingThreadExit() {
 	exit = true;
 }
 
-void RenderInterfaceWrap::renderingThreadDraw() {
+void RenderInterfaceWrap::renderingThreadDraw(double time) {
 	if (!(--drawPending)) {
-		innerRenderInterface->Draw();
+		innerRenderInterface->Draw(time);
 	}
 }
 
@@ -60,13 +59,13 @@ void RenderInterfaceWrap::sync() {
 	}
 }
 
-void RenderInterfaceWrap::Draw() {
+void RenderInterfaceWrap::Draw(double time) {
 	if (bRenderingThread) {
 		++drawPending; 
-		cmdQueue.push(this, &RenderInterfaceWrap::renderingThreadDraw);
+		cmdQueue.push(this, &RenderInterfaceWrap::renderingThreadDraw, time);
 	}
 	else {
-		innerRenderInterface->Draw();
+		innerRenderInterface->Draw(time);
 	}
 }
 
@@ -82,26 +81,6 @@ void RenderInterfaceWrap::Finish() {
 		innerRenderInterface->Finish();
 	}
 	// free all rendering resource
-}
-
-void RenderInterfaceWrap::Destory() {
-	innerRenderInterface->Destory();
-}
-
-void RenderInterfaceWrap::SwapBuffer() {
-	innerRenderInterface->SwapBuffer();
-}
-
-void RenderInterfaceWrap::ClearContext() {
-	innerRenderInterface->ClearContext();
-}
-
-bool RenderInterfaceWrap::Valid() {
-	return innerRenderInterface->Valid();
-}
-
-void RenderInterfaceWrap::MakeCurrent() {
-	innerRenderInterface->MakeCurrent();
 }
 
 RenderInterfaceWrap* RenderInterfaceWrap::wrap = nullptr;

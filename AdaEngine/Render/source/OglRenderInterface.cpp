@@ -10,33 +10,16 @@ void setMaterialUniforms(GLuint program, MaterialVar var, int index);
 
 void OglRenderInterface::Init() {
 	// init gl in rendering thread
-	MakeCurrent();
+	RenderInterface::MakeCurrent();
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClearDepth(1.0f);
 	glViewport(0, 0, 1280, 720);
+	RenderInterface::ClearCurrent();
 }
 
-void OglRenderInterface::SwapBuffer() {
-	context->swapBuffers();
-	context->PollEvents();
-}
-
-void OglRenderInterface::ClearContext() {
-	context->makeCurrentNull();
-}
-
-void OglRenderInterface::MakeCurrent() {
-	context->makeCurrent();
-}
-
-double OglRenderInterface::getCurrentTime() {
-	return context->getCurrentTime();
-}
-
-void OglRenderInterface::Draw() {
+void OglRenderInterface::Draw(double time) {
 	// rendering thread draw
-	MakeCurrent();
-	double time = getCurrentTime();
+	RenderInterface::MakeCurrent();
 	//glBegin(GL_TRIANGLES);
 	//{
 	//	glColor3f(1.0, 0.0, 0.0);
@@ -49,17 +32,12 @@ void OglRenderInterface::Draw() {
 	//glEnd();
 	RenderPineline* pineLine = RenderInterface::getSingleton()->getCurrentPineline();
 	for (auto pass : pineLine->passes) {
-		pass.currentTime = time;
 		pass.passBegin();
 		buildPass(&pass);
 		passDraw(&pass);
 		pass.passEnd();
 	}
-	ClearContext();
-}
-
-bool OglRenderInterface::Valid() {
-	return context->isContextValid();
+	RenderInterface::ClearCurrent();
 }
 
 void OglRenderInterface::sync() {
@@ -70,19 +48,17 @@ void OglRenderInterface::Finish() {
 
 }
 
-void OglRenderInterface::Destory() {
-	context->clearContext();
-}
 
 OglRenderInterface::OglRenderInterface() {
-	context = std::shared_ptr<GLContext>(new GLContext);
+	RenderInterface::MakeCurrent();
+	context = std::unique_ptr<GLContext>(new GLContext);
 	context->initContext();
+	RenderInterface::ClearCurrent();
 }
 
 OglRenderInterface::~OglRenderInterface() {
-	Destory();
+	
 }
-
 
 RenderPineline* OglRenderInterface::createPineline(PinelineType type) {
 	return RenderPineline::createPineline(type);
@@ -274,7 +250,7 @@ TextureSource* OglRenderInterface::createTexture(const std::string& name) {
 }
 
 void OglRenderInterface::uploadTexture(TextureSource* tex) {
-	MakeCurrent();
+	RenderInterface::MakeCurrent();
 	glGenTextures(1, &tex->textureID);
 	glBindTexture(GL_TEXTURE_2D, tex->textureID);
 	// 为当前绑定的纹理对象设置环绕、过滤方式
@@ -289,7 +265,7 @@ void OglRenderInterface::uploadTexture(TextureSource* tex) {
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
-	ClearContext();
+	RenderInterface::ClearCurrent();
 }
 
 MeshSource* OglRenderInterface::createMesh(const std::string& name) {
@@ -299,7 +275,7 @@ MeshSource* OglRenderInterface::createMesh(const std::string& name) {
 }
 
 void OglRenderInterface::uploadGeometry(MeshSection* mesh) {
-	MakeCurrent();
+	RenderInterface::MakeCurrent();
 	glGenVertexArrays(1, &mesh->vao);
 	glGenBuffers(mesh->vbos.size(), mesh->vbos.data());
 	glGenBuffers(1, &mesh->ebo);
@@ -348,7 +324,7 @@ void OglRenderInterface::uploadGeometry(MeshSection* mesh) {
 		glEnableVertexAttribArray(4);
 	}
 	glBindVertexArray(0);
-	ClearContext();
+	RenderInterface::ClearCurrent();
 }
 
 GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) {
@@ -377,9 +353,9 @@ GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, s
 }
 
 void OglRenderInterface::resizeViewport(int width, int height) {
-	MakeCurrent();
+	RenderInterface::MakeCurrent();
 	glViewport(0, 0, width, height);
-	ClearContext();
+	RenderInterface::ClearCurrent();
 }
 
 

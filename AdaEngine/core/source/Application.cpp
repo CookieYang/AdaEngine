@@ -49,15 +49,17 @@ void Application::Initilize() {
 
 // CPU build render commands(vao, vbo...) to GPU
 void Application::Run() {
-	while (RenderInterface::getSingleton()->Valid()) {
+	while (!Engine::getInstance()->win->Closed()) {
+		double currentTime = Engine::getInstance()->win->GetCurrentTime();
 		Engine::getInstance()->sceneTree->Run();
 		doRun();
 		RenderInterface::getSingleton()->sync();
-		RenderInterface::getSingleton()->Draw();
-		RenderInterface::getSingleton()->SwapBuffer();
+		RenderInterface::getSingleton()->Draw(currentTime);
+		Engine::getInstance()->win->SwapBuffer();
+		Engine::getInstance()->win->PollEvent();
 	}
 	RenderInterface::getSingleton()->Finish();
-	RenderInterface::getSingleton()->Destory();
+	Engine::getInstance()->win->Teminal();
 }
 
 void Application::Destory() {
