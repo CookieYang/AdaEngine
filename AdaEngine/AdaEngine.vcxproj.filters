@@ -42,19 +42,10 @@
     <ClCompile Include="scene\source\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="scene\source\GeometryData.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="bind.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="core\source\CommandQueue.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Render\source\RenderInterfaceWrap.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\source\MeshSource.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="core\source\ResourceManager.cpp">
@@ -69,18 +60,6 @@
     <ClCompile Include="scene\source\SceneMesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Render\source\TextureSource.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\source\ShaderSource.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\source\Material.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="scene\source\RawSource.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Render\source\RenderPineline.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -90,10 +69,31 @@
     <ClCompile Include="Render\source\ForwardPineline.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="scene\source\TextureData.cpp">
+    <ClCompile Include="core\source\Window.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="core\source\Window.cpp">
+    <ClCompile Include="utils\source\CommandQueue.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="data\source\Material.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="data\source\MeshSource.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="data\source\ShaderSource.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="data\source\TextureSource.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="data\source\GeometryData.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="data\source\RawSource.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="data\source\TextureData.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,19 +125,7 @@
     <ClInclude Include="scene\head\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene\head\GeometryData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="core\head\CommandQueue.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="core\head\SimpleType.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Render\head\RenderInterfaceWrap.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\head\MeshSource.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="scene\head\SceneMesh.h">
@@ -146,40 +134,13 @@
     <ClInclude Include="core\head\ResourceManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="core\head\RefCountedPtr.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="scene\head\RawResource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="scene\head\SceneRenderable.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="test\TestSceneMesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Render\head\TextureSource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="scene\head\TextureData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="scene\head\ShaderData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\head\ShaderSource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\head\Material.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Render\head\RenderPass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="scene\head\CPUResource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\head\GPUResource.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Render\head\RenderPineline.h">
@@ -191,7 +152,46 @@
     <ClInclude Include="core\head\Window.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="core\head\Delegate.h">
+    <ClInclude Include="utils\head\CommandQueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\head\Delegate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\head\RefCountedPtr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\head\SimpleType.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\GPUResource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\Material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\MeshSource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\ShaderSource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\TextureSource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\CPUResource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\GeometryData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\RawResource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\ShaderData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="data\head\TextureData.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

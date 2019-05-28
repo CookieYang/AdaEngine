@@ -90,7 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)scene\head;$(ProjectDir)core\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)scene\head;$(ProjectDir)core\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -121,7 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)core\head;$(ProjectDir)scene\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)core\head;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)scene\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -132,7 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bind.cpp" />
-    <ClCompile Include="core\source\CommandQueue.cpp" />
+    <ClCompile Include="utils\source\CommandQueue.cpp" />
     <ClCompile Include="core\source\Engine.cpp" />
     <ClCompile Include="core\source\GLContext.cpp" />
     <ClCompile Include="core\source\Application.cpp" />
@@ -141,58 +141,58 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Render\source\ForwardPineline.cpp" />
     <ClCompile Include="Render\source\IRenderInterface.cpp" />
-    <ClCompile Include="Render\source\Material.cpp" />
-    <ClCompile Include="Render\source\MeshSource.cpp" />
+    <ClCompile Include="data\source\Material.cpp" />
+    <ClCompile Include="data\source\MeshSource.cpp" />
     <ClCompile Include="Render\source\OglRenderInterface.cpp" />
     <ClCompile Include="Render\source\RenderInterfaceWrap.cpp" />
     <ClCompile Include="Render\source\RenderPass.cpp" />
     <ClCompile Include="Render\source\RenderPineline.cpp" />
-    <ClCompile Include="Render\source\ShaderSource.cpp" />
-    <ClCompile Include="Render\source\TextureSource.cpp" />
+    <ClCompile Include="data\source\ShaderSource.cpp" />
+    <ClCompile Include="data\source\TextureSource.cpp" />
     <ClCompile Include="scene\source\Camera.cpp" />
-    <ClCompile Include="scene\source\GeometryData.cpp" />
-    <ClCompile Include="scene\source\RawSource.cpp" />
+    <ClCompile Include="data\source\GeometryData.cpp" />
+    <ClCompile Include="data\source\RawSource.cpp" />
     <ClCompile Include="scene\source\SceneMesh.cpp" />
     <ClCompile Include="scene\source\SceneNode.cpp" />
     <ClCompile Include="scene\source\SceneRenderable.cpp" />
     <ClCompile Include="scene\source\SceneTree.cpp" />
-    <ClCompile Include="scene\source\TextureData.cpp" />
+    <ClCompile Include="data\source\TextureData.cpp" />
     <ClCompile Include="test\TestSceneMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core\head\CommandQueue.h" />
-    <ClInclude Include="core\head\Delegate.h" />
+    <ClInclude Include="utils\head\CommandQueue.h" />
+    <ClInclude Include="utils\head\Delegate.h" />
     <ClInclude Include="core\head\Engine.h" />
     <ClInclude Include="core\head\GLContext.h" />
     <ClInclude Include="core\head\Application.h" />
-    <ClInclude Include="core\head\RefCountedPtr.h" />
+    <ClInclude Include="utils\head\RefCountedPtr.h" />
     <ClInclude Include="core\head\ResourceManager.h" />
-    <ClInclude Include="core\head\SimpleType.h" />
+    <ClInclude Include="utils\head\SimpleType.h" />
     <ClInclude Include="core\head\Window.h" />
     <ClInclude Include="Render\head\ForwardPineline.h" />
-    <ClInclude Include="Render\head\GPUResource.h" />
+    <ClInclude Include="data\head\GPUResource.h" />
     <ClInclude Include="Render\head\IRenderInterface.h" />
-    <ClInclude Include="Render\head\Material.h" />
-    <ClInclude Include="Render\head\MeshSource.h" />
+    <ClInclude Include="data\head\Material.h" />
+    <ClInclude Include="data\head\MeshSource.h" />
     <ClInclude Include="Render\head\OglRenderInterface.h" />
     <ClInclude Include="Render\head\RenderInterfaceWrap.h" />
     <ClInclude Include="Render\head\RenderPass.h" />
     <ClInclude Include="Render\head\RenderPineline.h" />
-    <ClInclude Include="Render\head\ShaderSource.h" />
-    <ClInclude Include="Render\head\TextureSource.h" />
+    <ClInclude Include="data\head\ShaderSource.h" />
+    <ClInclude Include="data\head\TextureSource.h" />
     <ClInclude Include="scene\head\Camera.h" />
-    <ClInclude Include="scene\head\CPUResource.h" />
-    <ClInclude Include="scene\head\GeometryData.h" />
-    <ClInclude Include="scene\head\RawResource.h" />
+    <ClInclude Include="data\head\CPUResource.h" />
+    <ClInclude Include="data\head\GeometryData.h" />
+    <ClInclude Include="data\head\RawResource.h" />
     <ClInclude Include="scene\head\SceneMesh.h" />
     <ClInclude Include="scene\head\SceneNode.h" />
     <ClInclude Include="scene\head\SceneRenderable.h" />
     <ClInclude Include="scene\head\SceneTree.h" />
-    <ClInclude Include="scene\head\ShaderData.h" />
-    <ClInclude Include="scene\head\TextureData.h" />
+    <ClInclude Include="data\head\ShaderData.h" />
+    <ClInclude Include="data\head\TextureData.h" />
     <ClInclude Include="test\TestSceneMesh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
