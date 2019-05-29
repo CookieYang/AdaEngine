@@ -13,6 +13,7 @@ void TestSceneMesh::doInit() {
 	cube->setMaterial("defalut_mat_ins");
 
 	cube->AttachToRoot();
+
 }
 
 void TestSceneMesh::doRun() {

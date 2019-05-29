@@ -18,7 +18,7 @@ void Engine::init() {
 	win->Init();
 	Window::resizeDelegate += mem_call(*Engine::getInstance(), &Engine::resizeViewPort);
 	OglRenderInterface* oglRenderInterface = new OglRenderInterface;
-	new RenderInterfaceWrap(oglRenderInterface, true);
+	new RenderInterfaceWrap(oglRenderInterface, false);
 	new ResourceManager;
 	sceneTree = std::unique_ptr<SceneTree>(new SceneTree);
 }
