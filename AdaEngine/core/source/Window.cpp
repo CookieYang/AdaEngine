@@ -47,6 +47,10 @@ void Window::SwapBuffer () {
 	glfwSwapBuffers(win);
 }
 
+void Window::SetSwapInterval(int i) {
+	glfwSwapInterval(i);
+}
+
 void Window::Teminal() {
 	glfwTerminate();
 }

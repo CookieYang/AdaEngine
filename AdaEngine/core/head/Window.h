@@ -13,6 +13,7 @@ public:
 	bool Init();
 	bool Closed();
 	void SwapBuffer();
+	void SetSwapInterval(int i);
 	void Teminal();
 	void PollEvent();
 	void MakeCurrent();

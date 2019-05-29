@@ -14,12 +14,11 @@ void OglRenderInterface::Init() {
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClearDepth(1.0f);
 	glViewport(0, 0, 1280, 720);
-	//RenderInterface::ClearCurrent();
 }
 
 void OglRenderInterface::Draw(double time) {
 	// rendering thread draw
-	//RenderInterface::MakeCurrent();
+	RenderInterface::MakeCurrent();
 	//glBegin(GL_TRIANGLES);
 	//{
 	//	glColor3f(1.0, 0.0, 0.0);
@@ -37,7 +36,7 @@ void OglRenderInterface::Draw(double time) {
 		passDraw(&pass);
 		pass.passEnd();
 	}
-	//RenderInterface::ClearCurrent();
+	Engine::getInstance()->win->SwapBuffer();
 }
 
 void OglRenderInterface::sync() {
@@ -48,9 +47,9 @@ void OglRenderInterface::Finish() {
 
 }
 
-
 OglRenderInterface::OglRenderInterface() {
 	RenderInterface::MakeCurrent();
+	Engine::getInstance()->win->SetSwapInterval(0);
 	context = std::unique_ptr<GLContext>(new GLContext);
 	context->initContext();
 	RenderInterface::ClearCurrent();
@@ -250,7 +249,7 @@ TextureSource* OglRenderInterface::createTexture(const std::string& name) {
 }
 
 void OglRenderInterface::uploadTexture(TextureSource* tex) {
-	//RenderInterface::MakeCurrent();
+	RenderInterface::MakeCurrent();
 	glGenTextures(1, &tex->textureID);
 	glBindTexture(GL_TEXTURE_2D, tex->textureID);
 	// 为当前绑定的纹理对象设置环绕、过滤方式
@@ -265,7 +264,6 @@ void OglRenderInterface::uploadTexture(TextureSource* tex) {
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
-	//RenderInterface::ClearCurrent();
 }
 
 MeshSource* OglRenderInterface::createMesh(const std::string& name) {
@@ -275,7 +273,7 @@ MeshSource* OglRenderInterface::createMesh(const std::string& name) {
 }
 
 void OglRenderInterface::uploadGeometry(MeshSection* mesh) {
-	//RenderInterface::MakeCurrent();
+	RenderInterface::MakeCurrent();
 	glGenVertexArrays(1, &mesh->vao);
 	glGenBuffers(mesh->vbos.size(), mesh->vbos.data());
 	glGenBuffers(1, &mesh->ebo);
@@ -324,7 +322,6 @@ void OglRenderInterface::uploadGeometry(MeshSection* mesh) {
 		glEnableVertexAttribArray(4);
 	}
 	glBindVertexArray(0);
-	//RenderInterface::ClearCurrent();
 }
 
 GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) {
@@ -353,9 +350,8 @@ GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, s
 }
 
 void OglRenderInterface::resizeViewport(int width, int height) {
-	//RenderInterface::MakeCurrent();
+	RenderInterface::MakeCurrent();
 	glViewport(0, 0, width, height);
-	//RenderInterface::ClearCurrent();
 }
 
 

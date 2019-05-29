@@ -21,6 +21,6 @@ void TestSceneMesh::doRun() {
 	glm::mat4 trans(1.0f);
 	trans = glm::scale(trans, glm::vec3(0.01, 0.01, 0.01));
 	trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-	trans = glm::rotate(trans, (float)time * 0.8f, glm::vec3(1.0f, 0.0f, 1.0f));
+	trans = glm::rotate(trans, (float)time * 0.8f, glm::vec3(1.0f, 1.0f, 1.0f));
 	cube->SetTransform(trans);
 }
