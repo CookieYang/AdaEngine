@@ -9,18 +9,19 @@ class SceneNode: public RefCountable {
 public:
 	SceneNode(){};
 	virtual ~SceneNode() {};
-	virtual void AttachToRoot();
+	void AttachToRoot();
 	void AttachToParent(SceneNode* parent);
-	inline glm::mat4 GetTransform();
-	inline glm::vec3 GetPosition();
-	inline glm::vec3 GetScale();
-	inline glm::vec3 GetRotation();
-	inline void SetTransform(glm::mat4 newTransform);
-	inline void SetPosition(glm::vec3 newPosition);
-	inline void SetScale(glm::vec3 newScale);
-	inline void SetRotation(glm::vec3 newRotation);
+	glm::mat4 GetTransform();
+	glm::vec3 GetPosition();
+	glm::vec3 GetScale();
+	glm::vec3 GetRotation();
+	void SetTransform(glm::mat4 newTransform);
+	void SetPosition(glm::vec3 newPosition);
+	void SetScale(glm::vec3 newScale);
+	void SetRotation(glm::vec3 newRotation);
 	virtual void Run() {};
 protected:
+	virtual void updateTransform(const glm::mat4& tran);
 	glm::mat4 transform;
 	glm::vec3 position;
 	glm::vec3 scale;

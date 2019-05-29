@@ -8,5 +8,4 @@ public:
 	virtual ~SceneRenderable() {};
 	virtual void CreateRenderResource() {};
 	virtual void Run() override;
-	virtual void AttachToRoot() override;
 };

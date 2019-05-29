@@ -3,7 +3,7 @@
 #include "TextureSource.h"
 #include "ShaderSource.h"
 #include <vector>
-#include <string>
+#include <map>
 #include <glm/glm.hpp>
 
 class MeshSection;
@@ -50,13 +50,12 @@ struct MaterialVar
 	};
 	VarType mType;
 	VarData mVar;
-	std::string bindingName;
 };
 
 class MaterialInstance : public GPUResource {
 public:
 	std::vector<RefCountedPtr<TextureSource>> textureRefs; // for release count (when there are too much texture existing)
-	std::vector<MaterialVar> materialVars;
+	std::map<std::string, MaterialVar> materialVars;
 	void attachTexture(const std::string& name);
 	Material* mat;
 };

@@ -6,7 +6,7 @@
 void passDraw(RenderPass* pass);
 void buildPass(RenderPass* pass);
 void buildShader(ShaderSource* shader);
-void setMaterialUniforms(GLuint program, MaterialVar var, int index);
+void setMaterialUniforms(GLuint program, const std::string& bindingName, MaterialVar var, int index);
 
 void OglRenderInterface::Init() {
 	// init gl in rendering thread
@@ -158,10 +158,9 @@ static void passDraw(RenderPass* pass) {
 		for (auto mesh : mat->meshRefs) {
 			glBindVertexArray(mesh->vao);
 			int texIndex = 0;
-			for (size_t i = 0; i < mesh->mInstance.get()->materialVars.size(); i++)
-			{
-				MaterialVar var = mesh->mInstance.get()->materialVars[i];
-				setMaterialUniforms(mat->getShader()->program, var, texIndex);
+			for (auto item : mesh->mInstance.get()->materialVars) {
+				MaterialVar var = item.second;
+				setMaterialUniforms(mat->getShader()->program, item.first, var, texIndex);
 				if (var.mType == MaterialVar::VarType::TEXTURE2D)
 				{
 					texIndex++;
@@ -176,19 +175,19 @@ static void passDraw(RenderPass* pass) {
 	}
 }
 
-static void setMaterialUniforms(GLuint program, MaterialVar mat, int index) {
+static void setMaterialUniforms(GLuint program, const std::string& bindingName, MaterialVar mat, int index) {
 	switch (mat.mType)
 	{
 	case MaterialVar::VarType::MAT4:
 	{
-		glUniformMatrix4fv(glGetUniformLocation(program, mat.bindingName.c_str()), 1, GL_FALSE, glm::value_ptr(mat.mVar.mat4));
+		glUniformMatrix4fv(glGetUniformLocation(program, bindingName.c_str()), 1, GL_FALSE, glm::value_ptr(mat.mVar.mat4));
 	}
 		break;
 	case MaterialVar::VarType::TEXTURE2D:
 	{
 		glActiveTexture(GL_TEXTURE0 + index);
 		glBindTexture(GL_TEXTURE_2D, *mat.mVar.tex);
-		glUniform1i(glGetUniformLocation(program, mat.bindingName.c_str()), index);
+		glUniform1i(glGetUniformLocation(program, bindingName.c_str()), index);
 	}
 	break;
 	default:
@@ -216,25 +215,26 @@ MaterialInstance* OglRenderInterface::_createMaterialInstance(RenderInterfaceWra
 
 	// create defalut material Instance
 	MaterialVar var1;
-	var1.bindingName = "modelMat";
 	var1.mType = MaterialVar::VarType::MAT4;
-	var1.mVar.mat4 = glm::scale(glm::mat4(1.0f), glm::vec3(0.01, 0.01, 0.01));
+	var1.mVar.mat4 =glm::mat4(1.0f);
 
 	MaterialVar var2;
-	var2.bindingName = "viewMat";
 	var2.mType = MaterialVar::VarType::MAT4;
 	var2.mVar.mat4 = glm::mat4(1.0f);
 
 	MaterialVar var3;
-	var3.bindingName = "projMat";
 	var3.mType = MaterialVar::VarType::MAT4;
 	var3.mVar.mat4 = glm::mat4(1.0f);
 
-	matInstance->materialVars.push_back(var1);
-	matInstance->materialVars.push_back(var2);
-	matInstance->materialVars.push_back(var3);
+	matInstance->materialVars["modelMat"] = var1;
+	matInstance->materialVars["viewMat"] = var2;
+	matInstance->materialVars["projMat"] = var3;
 
 	return matInstance;
+}
+
+void OglRenderInterface::updateMaterialParam(MaterialInstance* mat, const std::string& paramName, MaterialVar var) {
+	mat->materialVars[paramName] = var;
 }
 
 ShaderSource* OglRenderInterface::createShader(const std::string& name) {

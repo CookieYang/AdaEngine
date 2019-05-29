@@ -28,8 +28,7 @@ void MaterialInstance::attachTexture(const std::string& name) {
 	MaterialVar var;
 	var.mVar.tex = &tex->textureID;
 	var.mType = MaterialVar::VarType::TEXTURE2D;
-	var.bindingName = "baseColor";
-	materialVars.push_back(var);
+	materialVars["baseColor"] = var;
 	textureRefs.push_back(RefCountedPtr<TextureSource>(tex));
 	if (!tex->loaded)
 	{

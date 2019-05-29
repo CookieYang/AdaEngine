@@ -18,7 +18,7 @@ void Application::createDefalutResource() {
 
 	ResourceManager::singleton()->loadGeometryResourceFromFile("cube_mesh_c", "resource/Cube.OBJ");
 
-	ResourceManager::singleton()->loadTextureFromFile("defalut_tex_c", "resource/defalut.jpg", FIF_JPEG, JPEG_DEFAULT);
+	ResourceManager::singleton()->loadTextureFromFile("defalut_tex_c", "resource/timg.jpg", FIF_JPEG, JPEG_DEFAULT);
 
 	// create forward pineline
 	RenderInterface::getSingleton()->createPineline(PinelineType::FORWARD);

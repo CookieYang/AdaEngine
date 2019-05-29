@@ -35,6 +35,7 @@ glm::vec3 SceneNode::GetRotation() {
 
 void SceneNode::SetTransform(glm::mat4 newTransform) {
 	transform = newTransform;
+	updateTransform(transform);
 }
 
 void SceneNode::SetPosition(glm::vec3 newPosition) {
@@ -47,4 +48,8 @@ void SceneNode::SetScale(glm::vec3 newScale) {
 
 void SceneNode::SetRotation(glm::vec3 newRotation) {
 	rotation = newRotation;
+}
+
+void SceneNode::updateTransform(const glm::mat4& tran) {
+
 }

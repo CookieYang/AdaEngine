@@ -3,7 +3,3 @@
 void SceneRenderable::Run() {
 
 }
-
-void SceneRenderable::AttachToRoot() {
-	SceneNode::AttachToRoot();
-}

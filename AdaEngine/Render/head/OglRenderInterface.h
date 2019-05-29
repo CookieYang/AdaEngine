@@ -16,6 +16,9 @@ public:
 	virtual Material* createMaterial(const std::string& name, const std::string& shaderName) override { return nullptr; };
 	virtual MaterialInstance* createMaterialInstance(const std::string& matInstanceName, const std::string& matName) override { return nullptr; };
 	virtual MaterialInstance* _createMaterialInstance(RenderInterfaceWrap* wrap, const std::string& matInstanceName, const std::string& matName) override;
+	virtual void updateMaterialParam(MaterialInstance* mat, const std::string& paramName, MaterialVar var) override;
+
+
 	virtual ShaderSource* createShader(const std::string& name) override;
 
 	virtual TextureSource* createTexture(const std::string& name) override;

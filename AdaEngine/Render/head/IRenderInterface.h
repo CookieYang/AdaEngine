@@ -25,6 +25,15 @@
 		}                                                                                              \
 	}
 
+#define FUNC3(m_type, m_arg1, m_arg2, m_arg3)                          \
+	virtual void m_type(m_arg1 p1, m_arg2 p2, m_arg3 p3) {						\
+		if (std::this_thread::get_id() != serverThreadID) {                                                \
+			cmdQueue.push(innerRenderInterface, &RenderInterface::m_type, p1, p2, p3);          \
+		} else {                                                                                       \
+			innerRenderInterface->m_type(p1, p2, p3);                                           \
+		}                                                                                              \
+	}
+
 class RenderInterfaceWrap;
 
 class RenderInterface {
@@ -38,9 +47,13 @@ public:
 
 	virtual Material* createMaterial(const std::string& name, const std::string& shaderName) = 0;
 	virtual MaterialInstance* createMaterialInstance(const std::string& matInstanceName, const std::string& matName) = 0;
+	virtual void updateMaterialParam(MaterialInstance* mat, const std::string& paramName, MaterialVar var) = 0;
+
 	virtual ShaderSource* createShader(const std::string& name) = 0;
+
 	virtual TextureSource* createTexture(const std::string& name) = 0;
 	virtual void uploadTexture(TextureSource* tex) = 0;
+
 	virtual void uploadGeometry(MeshSection* mesh) = 0;
 	virtual MeshSource* createMesh(const std::string& name) = 0;
 	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) = 0;

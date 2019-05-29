@@ -1,5 +1,5 @@
 1.相机
-2.物体transform
+2.python接口
 3.shader json化
 4.配置文件
 5.资源销毁
