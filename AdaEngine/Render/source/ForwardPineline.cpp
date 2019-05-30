@@ -3,7 +3,7 @@
 
 ForwardPineline::ForwardPineline() {
 	RenderPass pass;
-	pass.passName = "MeshPass";
+	pass.passMask = pass.passMask << 1;
 	passes.push_back(pass);
 }
 
@@ -11,9 +11,6 @@ void ForwardPineline::addMaterialToPass(Material* mat) {
 	for (size_t i = 0; i < passes.size(); i++)
 	{
 		RenderPass* pass = &passes[i];
-		if (pass->passName == mat->passName)
-		{
-			pass->addMaterial(mat);
-		}
+		pass->addMaterial(mat);
 	}
 }

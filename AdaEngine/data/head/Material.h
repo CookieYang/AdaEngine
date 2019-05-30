@@ -11,7 +11,6 @@ class Material : public GPUResource {
 	RefCountedPtr<ShaderSource> materialShader;
 	volatile bool dirty;
 public:
-	std::string passName;
 	void attachShader(ShaderSource* shader);
 	void attachToMeshSection(MeshSection* meshSection);
 	ShaderSource* getShader();

@@ -11,7 +11,7 @@ void Material::attachToMeshSection(MeshSection* meshSection) {
 	}
 
 	if (meshRefs.size() == 0) {
-		// add to render pass;
+		// add to render pass once;
 		RenderInterface::getSingleton()->addMaterialToPineline(this);
 	}
 
@@ -20,7 +20,6 @@ void Material::attachToMeshSection(MeshSection* meshSection) {
 
 void Material::attachShader(ShaderSource* shader) {
 	materialShader = RefCountedPtr<ShaderSource>(shader);
-	passName = "MeshPass";
 }
 
 void MaterialInstance::attachTexture(const std::string& name) {

@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bind.cpp" />
+    <ClCompile Include="Render\source\RenderProxy.cpp" />
     <ClCompile Include="utils\source\CommandQueue.cpp" />
     <ClCompile Include="core\source\Engine.cpp" />
     <ClCompile Include="core\source\GLContext.cpp" />
@@ -163,6 +164,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Render\head\RenderProxy.h" />
     <ClInclude Include="utils\head\CommandQueue.h" />
     <ClInclude Include="utils\head\Delegate.h" />
     <ClInclude Include="core\head\Engine.h" />

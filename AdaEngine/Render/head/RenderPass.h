@@ -4,12 +4,12 @@
 class Material;
 class RenderPass {
 public:
+	unsigned long passMask = 1;
 	std::vector<Material*> activeMaterials;
 	RenderPass() {};
 	virtual ~RenderPass() {};
 	virtual void passBegin();
 	virtual void passEnd();
-	std::string passName;
 	void addMaterial(Material* material);
 	void removeMaterial(Material* material) {};
 	double currentTime;

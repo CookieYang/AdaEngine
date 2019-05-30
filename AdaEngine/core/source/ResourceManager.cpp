@@ -24,7 +24,7 @@ CPUResource* ResourceManager::loadTextureFromFile(const std::string& name, const
 	tex->imageData = img;
 	tex->height = Height;
 	tex->width = Width;
-	loadedResource.insert(std::pair<std::string, CPUResource*>(tex->getName(), tex));
+	loadedResource.insert(std::pair<std::string, RefCountedPtr<CPUResource>>(tex->getName(), tex));
 	return tex;
 }
 
@@ -33,7 +33,7 @@ CPUResource* ResourceManager::loadGeometryResourceFromFile(const std::string& na
 	loadGeometryModel(gData, path);
 	gData->setName(name);
 	gData->setResPath(path);
-	loadedResource.insert(std::pair<std::string, CPUResource*>(gData->getName(), gData));
+	loadedResource.insert(std::pair<std::string, RefCountedPtr<CPUResource>>(gData->getName(), gData));
 	return gData;
 }
 
@@ -59,13 +59,13 @@ CPUResource* ResourceManager::loadShaderGroupFromFile(const std::string& name) {
 	shaderFrag2.shaderStr = readFileToString("shaders/forward/defalut_ps.glsl");
 	shader->shaderStrs.push_back(shaderFrag1);
 	shader->shaderStrs.push_back(shaderFrag2);
-	loadedResource.insert(std::pair<std::string, CPUResource*>(shader->getName(), shader));
+	loadedResource.insert(std::pair<std::string, RefCountedPtr<CPUResource>>(shader->getName(), shader));
 	return shader;
 }
 
 CPUResource* ResourceManager::GetResourceByName(const std::string& name) {
 	CPUResource* res = nullptr;
-	res = loadedResource[name];
+	res = loadedResource[name].get();
 	return res;
 }
 

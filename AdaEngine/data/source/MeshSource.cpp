@@ -2,7 +2,7 @@
 #include "ResourceManager.h"
 
 MeshSource::~MeshSource() {
-
+	passMask = passMask << 1;
 }
 
 int MeshSource::getSectionNum() {
@@ -17,6 +17,7 @@ void MeshSource::setGeometry(const std::string& name) {
 	for (size_t i = 0; i < sectionNum; i++)
 	{
 		MeshSection section;
+		section.passMask = passMask;
 		section.vData = &gData->sectionsData[i];
 		section.resizeVBOs();
 		meshSections.push_back(section);

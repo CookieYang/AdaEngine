@@ -7,6 +7,7 @@
 
 struct MeshSection
 {
+	unsigned int passMask = 1;
 	unsigned int vao = 0;
 	std::vector<unsigned int> vbos;
 	unsigned int ebo = 0;
@@ -41,7 +42,8 @@ struct MeshSection
 
 class MeshSource : public GPUResource {
 public:
-	MeshSource():sectionNum(0) {};
+	unsigned int passMask;
+	MeshSource():sectionNum(0),passMask(1) {};
 	~MeshSource();
 	void setGeometry(const std::string& name);
 	int getSectionNum();

@@ -13,7 +13,7 @@ class aiScene;
 class aiMesh;
 
 class ResourceManager {
-	std::map<std::string, CPUResource*> loadedResource;   // cpu resources 
+	std::map<std::string, RefCountedPtr<CPUResource>> loadedResource;   // cpu resources 
 	static ResourceManager* resManager;
 public:
 	CPUResource* loadTextureFromFile(const std::string& name, const std::string& path, FREE_IMAGE_FORMAT imageFormat, int loadFlag);
