@@ -149,27 +149,31 @@ static void buildShader(ShaderSource* shader) {
 	{
 		glDeleteShader(shaderFrags[i]);
 	}
+
 }
 
 static void passDraw(RenderPass* pass) {
 	for (auto mat : pass->activeMaterials) {
 		glUseProgram(mat->getShader()->program);
 		for (auto mesh : mat->meshRefs) {
-			glBindVertexArray(mesh->vao);
-			int texIndex = 0;
-			for (auto item : mesh->mInstance.get()->materialVars) {
-				MaterialVar var = item.second;
-				setMaterialUniforms(mat->getShader()->program, item.first, var, texIndex);
-				if (var.mType == MaterialVar::VarType::TEXTURE2D)
-				{
-					texIndex++;
+			if (mesh->passMask & pass->passMask)
+			{
+				glBindVertexArray(mesh->vao);
+				int texIndex = 0;
+				for (auto item : mesh->mInstance.get()->materialVars) {
+					MaterialVar var = item.second;
+					setMaterialUniforms(mat->getShader()->program, item.first, var, texIndex);
+					if (var.mType == MaterialVar::VarType::TEXTURE2D)
+					{
+						texIndex++;
+					}
 				}
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
+				glDrawElements(GL_TRIANGLES, mesh->drawCount, GL_UNSIGNED_INT, 0);
+				//glDrawArrays(GL_TRIANGLES, 0, 144);
+				glBindVertexArray(0);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			}
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
-			glDrawElements(GL_TRIANGLES, mesh->vData->vertexIndices.size(), GL_UNSIGNED_INT, 0);
-			glDrawArrays(GL_TRIANGLES, 0, 3);
-			glBindVertexArray(0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
 }
@@ -272,56 +276,66 @@ MeshSource* OglRenderInterface::createMesh(const std::string& name) {
 	return mesh;
 }
 
-void OglRenderInterface::uploadGeometry(MeshSection* mesh) {
+void OglRenderInterface::uploadGeometry(MeshSource* meshSource) {
 	RenderInterface::MakeCurrent();
-	glGenVertexArrays(1, &mesh->vao);
-	glGenBuffers(mesh->vbos.size(), mesh->vbos.data());
-	glGenBuffers(1, &mesh->ebo);
+	for (size_t i = 0; i < meshSource->getSectionNum(); i++)
+	{
+		MeshSection* mesh = meshSource->getMeshSection(i);
+		GeometryData::VertexData* vData = meshSource->getSectionData(i);
+		glGenVertexArrays(1, &mesh->vao);
+		glGenBuffers(mesh->vbos.size(), mesh->vbos.data());
+		glGenBuffers(1, &mesh->ebo);
 
-	glBindVertexArray(mesh->vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->vData->vertexIndices.size() * sizeof(unsigned int), mesh->vData->vertexIndices.data(), GL_STATIC_DRAW);
+		glBindVertexArray(mesh->vao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, vData->vertexIndices.size() * sizeof(unsigned int), vData->vertexIndices.data(), GL_STATIC_DRAW);
 
-	//float vertex[] = {1.0, 0.0, 0.0,  0.0, 1.0, 0.0,  0.0, 0.0, 0.0};
-	//float uv[] = {1.0, 0.0,   0.0, 1.0,  0.0, 0.0 };
+		//float vertex[] = {1.0, 0.0, 0.0,  0.0, 1.0, 0.0,  0.0, 0.0, 0.0};
+		//float uv[] = {1.0, 0.0,   0.0, 1.0,  0.0, 0.0 };
 
-	if (mesh->vData->vertexPosition.size() != 0) {
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[0]);
-		glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vData->vertexPosition.size(), mesh->vData->vertexPosition.data(), GL_STATIC_DRAW);
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
-		glEnableVertexAttribArray(0);
+		if (vData->vertexPosition.size() != 0) {
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[0]);
+			glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vData->vertexPosition.size(), vData->vertexPosition.data(), GL_STATIC_DRAW);
+			//glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
+			glEnableVertexAttribArray(0);
+		}
+
+
+		if (vData->vertexUV.size() != 0) {
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[1]);
+			glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(float) * vData->vertexUV.size(), vData->vertexUV.data(), GL_STATIC_DRAW);
+			//glBufferData(GL_ARRAY_BUFFER, sizeof(uv), uv, GL_STATIC_DRAW);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(0 * sizeof(float)));
+			glEnableVertexAttribArray(1);
+		}
+
+		if (vData->vertexNormal.size() != 0) {
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[2]);
+			glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vData->vertexNormal.size(), vData->vertexNormal.data(), GL_STATIC_DRAW);
+			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
+			glEnableVertexAttribArray(2);
+		}
+
+
+		if (vData->vertexTangent.size() != 0) {
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[3]);
+			glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vData->vertexTangent.size(), vData->vertexTangent.data(), GL_STATIC_DRAW);
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
+			glEnableVertexAttribArray(3);
+		}
+
+		if (vData->vertexBiTanget.size() != 0) {
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[4]);
+			glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vData->vertexBiTanget.size(), vData->vertexBiTanget.data(), GL_STATIC_DRAW);
+			glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
+			glEnableVertexAttribArray(4);
+		}
+
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-
-	if (mesh->vData->vertexUV.size() != 0) {
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[1]);
-		glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(float) * mesh->vData->vertexUV.size(), mesh->vData->vertexUV.data(), GL_STATIC_DRAW);
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(uv), uv, GL_STATIC_DRAW);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(0 * sizeof(float)));
-		glEnableVertexAttribArray(1);
-	}
-
-	if (mesh->vData->vertexNormal.size() != 0) {
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[2]);
-		glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vData->vertexNormal.size(), mesh->vData->vertexNormal.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
-		glEnableVertexAttribArray(2);
-	}
-
-	if (mesh->vData->vertexTangent.size() != 0) {
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[3]);
-		glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vData->vertexTangent.size(), mesh->vData->vertexTangent.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
-		glEnableVertexAttribArray(3);
-	}
-
-	if (mesh->vData->vertexBiTanget.size() != 0) {
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->vbos[4]);
-		glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vData->vertexBiTanget.size(), mesh->vData->vertexBiTanget.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
-		glEnableVertexAttribArray(4);
-	}
-	glBindVertexArray(0);
 }
 
 GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) {

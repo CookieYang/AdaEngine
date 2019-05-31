@@ -11,29 +11,8 @@ struct MeshSection
 	unsigned int vao = 0;
 	std::vector<unsigned int> vbos;
 	unsigned int ebo = 0;
-	RefCountedPtr<MaterialInstance> mInstance;
-	GeometryData::VertexData* vData;
-	bool loaded = false;
-	void resizeVBOs() {
-		int size = 0;
-		if (vData->vertexPosition.size() != 0)
-		{
-			size++;
-		}
-		if (vData->vertexUV.size() != 0) {
-			size++;
-		}
-		if (vData->vertexNormal.size() != 0) {
-			size++;
-		}
-		if (vData->vertexTangent.size() != 0) {
-			size++;
-		}
-		if (vData->vertexBiTanget.size() != 0) {
-			size++;
-		}
-		vbos.resize(size, 0);
-	}
+	unsigned long drawCount = 0;
+	RefCountedPtr<MaterialInstance> mInstance = nullptr;
 	void attachMaterial(MaterialInstance* matInstance) {
 		mInstance = RefCountedPtr<MaterialInstance>(matInstance);
 		mInstance->mat->attachToMeshSection(this);
@@ -42,14 +21,16 @@ struct MeshSection
 
 class MeshSource : public GPUResource {
 public:
+	bool loaded;
 	unsigned int passMask;
-	MeshSource():sectionNum(0),passMask(1) {};
+	MeshSource():sectionNum(0),passMask(1 << 1),loaded(false) {};
 	~MeshSource();
 	void setGeometry(const std::string& name);
 	int getSectionNum();
 	MeshSection* getMeshSection(int sectionIndex);
+	GeometryData::VertexData* getSectionData(int sectionIndex);
 private:
 	RefCountedPtr<GeometryData> sections;
-	std::vector<MeshSection> meshSections;
+	std::vector<MeshSection*> meshSections;
 	int sectionNum;
 };

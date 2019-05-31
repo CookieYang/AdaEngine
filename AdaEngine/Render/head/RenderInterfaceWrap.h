@@ -53,7 +53,7 @@ public:
 	virtual RenderPineline* getCurrentPineline() override;
 
 	FUNC1(uploadTexture, TextureSource*)
-	FUNC1(uploadGeometry, MeshSection*)
+	FUNC1(uploadGeometry, MeshSource*)
 	FUNC2(resizeViewport, int, int)
 	FUNC3(updateMaterialParam, MaterialInstance*, const std::string&, MaterialVar)
 

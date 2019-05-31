@@ -98,6 +98,21 @@ static void processNode(GeometryData*& raw, aiNode* node, const aiScene* scene) 
 }
 static void processMesh(GeometryData*& raw, aiMesh* mesh, const aiScene* scene) {
 	GeometryData::VertexData vertexData;
+
+	if (mesh->mVertices != nullptr)
+	{
+		raw->vboSize++;
+	}
+	raw->vboSize++;
+	if (mesh->mNormals != nullptr) {
+		raw->vboSize++;
+	}
+	if (mesh->mTangents != nullptr) {
+		raw->vboSize++;
+	}
+	if (mesh->mBitangents) {
+		raw->vboSize++;
+	}
 	// Walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{

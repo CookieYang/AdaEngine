@@ -25,7 +25,7 @@ public:
 	virtual void uploadTexture(TextureSource* tex) override;
 
 	virtual MeshSource* createMesh(const std::string& name) override;
-	virtual void uploadGeometry(MeshSection* mesh) override;
+	virtual void uploadGeometry(MeshSource* mesh) override;
 
 	virtual RenderPineline* createPineline(PinelineType type) override;
 	virtual void _addMaterialToPineline(RenderInterfaceWrap* wrap, Material* mat) override;

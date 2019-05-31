@@ -54,7 +54,7 @@ public:
 	virtual TextureSource* createTexture(const std::string& name) = 0;
 	virtual void uploadTexture(TextureSource* tex) = 0;
 
-	virtual void uploadGeometry(MeshSection* mesh) = 0;
+	virtual void uploadGeometry(MeshSource* mesh) = 0;
 	virtual MeshSource* createMesh(const std::string& name) = 0;
 	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) = 0;
 	virtual Material* _createMaterial(RenderInterfaceWrap* wrap, const std::string& name, const std::string& shaderName) { return nullptr; };

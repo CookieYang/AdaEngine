@@ -1,8 +1,9 @@
 #include "MeshSource.h"
 #include "ResourceManager.h"
+#include "IRenderInterface.h"
 
 MeshSource::~MeshSource() {
-	passMask = passMask << 1;
+	
 }
 
 int MeshSource::getSectionNum() {
@@ -16,15 +17,27 @@ void MeshSource::setGeometry(const std::string& name) {
 	sections = RefCountedPtr<GeometryData>(gData);
 	for (size_t i = 0; i < sectionNum; i++)
 	{
-		MeshSection section;
-		section.passMask = passMask;
-		section.vData = &gData->sectionsData[i];
-		section.resizeVBOs();
+		MeshSection* section = new MeshSection;
+		section->passMask = passMask;
+		section->vbos.resize(gData->vboSize, 0);
+		section->drawCount = gData->sectionsData[i].vertexIndices.size();
 		meshSections.push_back(section);
+	}
+	if (!loaded) {
+		// load to GPU
+		RenderInterface::getSingleton()->uploadGeometry(this);
+		loaded = true;
+	}
+	else {
+		// TODO: change mesh
 	}
 }
 
 MeshSection* MeshSource::getMeshSection(int sectionIndex) {
-	return &meshSections[sectionIndex];
+	return meshSections[sectionIndex];
+}
+
+GeometryData::VertexData* MeshSource::getSectionData(int sectionIndex) {
+	return &sections.get()->sectionsData[sectionIndex];
 }
 

@@ -7,8 +7,7 @@ class SceneMesh : public SceneRenderable {
 	RefCountedPtr<MeshSource> renderMesh;
 	std::string meshName;
 	std::vector<std::string> materialNames;
-
-	virtual void updateTransform(const glm::mat4& tran) override;
+	virtual void updateTransform() override;
 public:
 	SceneMesh();
 	~SceneMesh();

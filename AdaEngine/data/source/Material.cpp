@@ -3,18 +3,11 @@
 #include "IRenderInterface.h"
 void Material::attachToMeshSection(MeshSection* meshSection) {
 
-	if (!meshSection->loaded)
-	{
-		// upload mesh to GPU
-		RenderInterface::getSingleton()->uploadGeometry(meshSection);
-		meshSection->loaded = true;
-	}
-
 	if (meshRefs.size() == 0) {
 		// add to render pass once;
+		
 		RenderInterface::getSingleton()->addMaterialToPineline(this);
 	}
-
 	meshRefs.push_back(meshSection);
 }
 

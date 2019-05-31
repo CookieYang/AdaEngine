@@ -11,6 +11,7 @@ void SceneTree::ergodic(SceneNode* node) {
 	{
 		SceneNode* child = node->childrens[i].get();
 		child->Run();
+		child->updateTransform();
 	}
 }
 

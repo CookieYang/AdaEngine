@@ -20,8 +20,8 @@ public:
 	void SetScale(glm::vec3 newScale);
 	void SetRotation(glm::vec3 newRotation);
 	virtual void Run() {};
+	virtual void updateTransform() {};
 protected:
-	virtual void updateTransform(const glm::mat4& tran);
 	glm::mat4 transform;
 	glm::vec3 position;
 	glm::vec3 scale;

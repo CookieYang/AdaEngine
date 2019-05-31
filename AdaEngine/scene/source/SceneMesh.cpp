@@ -39,13 +39,13 @@ void SceneMesh::Run() {
 	SceneRenderable::Run();
 }
 
-void SceneMesh::updateTransform(const glm::mat4& tran) {
+void SceneMesh::updateTransform() {
 	for (size_t i = 0; i < getSectionNum(); i++)
 	{
 		MeshSection* section = renderMesh->getMeshSection(i);
 		MaterialVar var;
 		var.mType = MaterialVar::VarType::MAT4;
-		var.mVar.mat4 = tran;
+		var.mVar.mat4 = transform;
 		RenderInterface::getSingleton()->updateMaterialParam(section->mInstance.get(), "modelMat", var);
 	}
 }

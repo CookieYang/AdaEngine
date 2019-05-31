@@ -14,4 +14,5 @@ public:
 		std::vector<unsigned int> vertexIndices;
 	};
 	std::vector<VertexData> sectionsData;
+	unsigned int vboSize = 0;
 };
