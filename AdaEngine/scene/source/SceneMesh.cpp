@@ -10,29 +10,23 @@ SceneMesh::~SceneMesh() {
 }
 
 void SceneMesh::setMesh(const std::string& name) {
-	GPUResource* res = RenderInterface::getSingleton()->GetResourceByName(name, GPUResource::GResourceType::MESH);
-	MeshSource* mesh = dynamic_cast<MeshSource*>(res);
-	renderMesh = RefCountedPtr<MeshSource>(mesh);
+	mesh.setMesh(name);
 }
 
 void SceneMesh::setGeometry(const std::string& name) {
-	renderMesh->setGeometry(name);
+	mesh.setGeometry(name);
 }
 
 void SceneMesh::setMaterial(const std::string& name) {
-	for (size_t i = 0; i < getSectionNum(); i++)
-	{
-		setMaterialForSection(name, i);
-	}
+	mesh.setMaterial(name);
 }
 
 void SceneMesh::setMaterialForSection(const std::string& name, int sectionIndex) {
-	MaterialInstance* m = (MaterialInstance*)RenderInterface::getSingleton()->GetResourceByName(name, GPUResource::GResourceType::MATERIALINS);
-	renderMesh->getMeshSection(sectionIndex)->attachMaterial(m);
+	mesh.setMaterialForSection(name, sectionIndex);
 }
 
 int SceneMesh::getSectionNum() {
-	return renderMesh->getSectionNum();
+	return mesh.getSectionNum();
 }
 
 void SceneMesh::Run() {
@@ -40,12 +34,5 @@ void SceneMesh::Run() {
 }
 
 void SceneMesh::updateTransform() {
-	for (size_t i = 0; i < getSectionNum(); i++)
-	{
-		MeshSection* section = renderMesh->getMeshSection(i);
-		MaterialVar var;
-		var.mType = MaterialVar::VarType::MAT4;
-		var.mVar.mat4 = transform;
-		RenderInterface::getSingleton()->updateMaterialParam(section->mInstance.get(), "modelMat", var);
-	}
+	mesh.updateTransform(transComponent.GetTransform());
 }

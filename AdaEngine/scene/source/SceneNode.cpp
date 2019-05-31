@@ -17,34 +17,14 @@ void SceneNode::AttachToRoot() {
 	Engine::getInstance()->sceneTree->AddNode(this);
 }
 
-glm::mat4 SceneNode::GetTransform() {
-	return transform;
+void SceneNode::Scale(Vector3 scale) {
+	transComponent.SetScale(scale.toVec3());
 }
 
-glm::vec3 SceneNode::GetPosition() {
-	return position;
+void SceneNode::Rotate(Vector3 rotation) {
+	transComponent.SetRotation(rotation.toVec3());
 }
 
-glm::vec3 SceneNode::GetScale() {
-	return scale;
-}
-
-glm::vec3 SceneNode::GetRotation() {
-	return rotation;
-}
-
-void SceneNode::SetTransform(glm::mat4 newTransform) {
-	transform = newTransform;
-}
-
-void SceneNode::SetPosition(glm::vec3 newPosition) {
-	position = newPosition;
-}
-
-void SceneNode::SetScale(glm::vec3 newScale) {
-	scale = newScale;
-}
-
-void SceneNode::SetRotation(glm::vec3 newRotation) {
-	rotation = newRotation;
+void SceneNode::Translate(Vector3 translate) {
+	transComponent.SetTranslate(translate.toVec3() + transComponent.GetPosition());
 }

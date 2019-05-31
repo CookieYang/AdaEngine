@@ -7,6 +7,7 @@
 
 struct MeshSection
 {
+	glm::mat4 trans = glm::mat4(1.0f);
 	unsigned int passMask = 1;
 	unsigned int vao = 0;
 	std::vector<unsigned int> vbos;
@@ -26,6 +27,7 @@ public:
 	MeshSource():sectionNum(0),passMask(1 << 1),loaded(false) {};
 	~MeshSource();
 	void setGeometry(const std::string& name);
+	void setTransform(const glm::mat4& trans);
 	int getSectionNum();
 	MeshSection* getMeshSection(int sectionIndex);
 	GeometryData::VertexData* getSectionData(int sectionIndex);

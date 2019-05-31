@@ -160,6 +160,8 @@ static void passDraw(RenderPass* pass) {
 			{
 				glBindVertexArray(mesh->vao);
 				int texIndex = 0;
+				// update transform
+				mesh->mInstance.get()->materialVars["modelMat"] = mesh->trans;
 				for (auto item : mesh->mInstance.get()->materialVars) {
 					MaterialVar var = item.second;
 					setMaterialUniforms(mat->getShader()->program, item.first, var, texIndex);
@@ -170,7 +172,6 @@ static void passDraw(RenderPass* pass) {
 				}
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
 				glDrawElements(GL_TRIANGLES, mesh->drawCount, GL_UNSIGNED_INT, 0);
-				//glDrawArrays(GL_TRIANGLES, 0, 144);
 				glBindVertexArray(0);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			}
@@ -189,7 +190,7 @@ static void setMaterialUniforms(GLuint program, const std::string& bindingName, 
 	case MaterialVar::VarType::TEXTURE2D:
 	{
 		glActiveTexture(GL_TEXTURE0 + index);
-		glBindTexture(GL_TEXTURE_2D, *mat.mVar.tex);
+		glBindTexture(GL_TEXTURE_2D, *mat.mVar.texID);
 		glUniform1i(glGetUniformLocation(program, bindingName.c_str()), index);
 	}
 	break;

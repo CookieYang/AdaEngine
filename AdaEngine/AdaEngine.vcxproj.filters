@@ -39,9 +39,6 @@
     <ClCompile Include="scene\source\SceneNode.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="scene\source\Camera.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="bind.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -99,6 +96,18 @@
     <ClCompile Include="Render\source\RenderProxy.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Component\source\TransformComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\source\MeshComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\source\InputComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\source\CameraComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -123,9 +132,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="scene\head\SceneNode.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="scene\head\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Render\head\RenderInterfaceWrap.h">
@@ -198,6 +204,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Render\head\RenderProxy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\head\TransformComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\head\MeshComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\head\InputComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\head\CameraComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\head\AdaMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

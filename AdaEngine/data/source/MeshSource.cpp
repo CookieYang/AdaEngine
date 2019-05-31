@@ -33,6 +33,12 @@ void MeshSource::setGeometry(const std::string& name) {
 	}
 }
 
+void MeshSource::setTransform(const glm::mat4& trans) {
+	for (auto section : meshSections) {
+		section->trans = trans;
+	}
+}
+
 MeshSection* MeshSource::getMeshSection(int sectionIndex) {
 	return meshSections[sectionIndex];
 }

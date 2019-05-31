@@ -90,7 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)scene\head;$(ProjectDir)core\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Component\head;$(ProjectDir)scene\head;$(ProjectDir)core\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -121,7 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)core\head;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)scene\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Component\head;$(ProjectDir)core\head;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)scene\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -132,6 +132,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bind.cpp" />
+    <ClCompile Include="Component\source\CameraComponent.cpp" />
+    <ClCompile Include="Component\source\InputComponent.cpp" />
+    <ClCompile Include="Component\source\MeshComponent.cpp" />
+    <ClCompile Include="Component\source\TransformComponent.cpp" />
     <ClCompile Include="Render\source\RenderProxy.cpp" />
     <ClCompile Include="utils\source\CommandQueue.cpp" />
     <ClCompile Include="core\source\Engine.cpp" />
@@ -150,7 +154,6 @@
     <ClCompile Include="Render\source\RenderPineline.cpp" />
     <ClCompile Include="data\source\ShaderSource.cpp" />
     <ClCompile Include="data\source\TextureSource.cpp" />
-    <ClCompile Include="scene\source\Camera.cpp" />
     <ClCompile Include="data\source\GeometryData.cpp" />
     <ClCompile Include="data\source\RawSource.cpp" />
     <ClCompile Include="scene\source\SceneMesh.cpp" />
@@ -164,6 +167,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\head\CameraComponent.h" />
+    <ClInclude Include="Component\head\InputComponent.h" />
+    <ClInclude Include="Component\head\MeshComponent.h" />
+    <ClInclude Include="Component\head\TransformComponent.h" />
+    <ClInclude Include="core\head\AdaMath.h" />
     <ClInclude Include="Render\head\RenderProxy.h" />
     <ClInclude Include="utils\head\CommandQueue.h" />
     <ClInclude Include="utils\head\Delegate.h" />
@@ -185,7 +193,6 @@
     <ClInclude Include="Render\head\RenderPineline.h" />
     <ClInclude Include="data\head\ShaderSource.h" />
     <ClInclude Include="data\head\TextureSource.h" />
-    <ClInclude Include="scene\head\Camera.h" />
     <ClInclude Include="data\head\CPUResource.h" />
     <ClInclude Include="data\head\GeometryData.h" />
     <ClInclude Include="data\head\RawResource.h" />

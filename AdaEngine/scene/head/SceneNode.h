@@ -1,32 +1,24 @@
 #pragma once
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <vector>
 #include <memory>
+#include "TransformComponent.h"
 #include "RefCountedPtr.h"
+
 
 class SceneNode: public RefCountable {
 	friend class SceneTree;
 public:
+	TransformComponent transComponent;
 	SceneNode(){};
 	virtual ~SceneNode() {};
 	void AttachToRoot();
 	void AttachToParent(SceneNode* parent);
-	glm::mat4 GetTransform();
-	glm::vec3 GetPosition();
-	glm::vec3 GetScale();
-	glm::vec3 GetRotation();
-	void SetTransform(glm::mat4 newTransform);
-	void SetPosition(glm::vec3 newPosition);
-	void SetScale(glm::vec3 newScale);
-	void SetRotation(glm::vec3 newRotation);
+	void Scale(Vector3 scale);
+	void Rotate(Vector3 rotation);
+	void Translate(Vector3 translate);
 	virtual void Run() {};
 	virtual void updateTransform() {};
 protected:
-	glm::mat4 transform;
-	glm::vec3 position;
-	glm::vec3 scale;
-	glm::vec3 rotation;
 	std::vector<RefCountedPtr<SceneNode>> childrens;
 	SceneNode* weak_parent;                                           // be careful !!!
 private:

@@ -1,13 +1,11 @@
 #pragma once
 #include "SceneRenderable.h"
-#include "MeshSource.h"
+#include "MeshComponent.h"
 
 
 class SceneMesh : public SceneRenderable {
-	RefCountedPtr<MeshSource> renderMesh;
 	std::string meshName;
 	std::vector<std::string> materialNames;
-	virtual void updateTransform() override;
 public:
 	SceneMesh();
 	~SceneMesh();
@@ -17,4 +15,7 @@ public:
 	void setMaterialForSection(const std::string& name, int sectionIndex);
 	int getSectionNum();
 	virtual void Run() override;
+	virtual void updateTransform() override;
+protected:
+	MeshComponent mesh;
 };

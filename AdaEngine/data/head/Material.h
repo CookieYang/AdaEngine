@@ -33,7 +33,7 @@ struct MaterialVar
 		float f;
 		int i;
 		bool b;
-		unsigned int* tex;
+		unsigned int* texID;  
 	};
 	enum VarType
 	{
@@ -49,6 +49,17 @@ struct MaterialVar
 	};
 	VarType mType;
 	VarData mVar;
+	MaterialVar() {};
+	~MaterialVar() {};
+	MaterialVar(const glm::mat4& var) { mVar.mat4 = var; mType = VarType::MAT4; };
+	MaterialVar(const glm::mat3& var) { mVar.mat3 = var; mType = VarType::MAT3; };
+	MaterialVar(const glm::vec4& var) { mVar.vec4 = var; mType = VarType::VEC4; };
+	MaterialVar(const glm::vec3& var) { mVar.vec3 = var; mType = VarType::VEC3; };
+	MaterialVar(const glm::vec2& var) { mVar.vec2 = var; mType = VarType::VEC2; };
+	MaterialVar(float var) { mVar.f = var; mType = VarType::FLOAT; };
+	MaterialVar(bool var) { mVar.b = var; mType = VarType::BOOL; };
+	MaterialVar(int var) { mVar.i = var; mType = VarType::INT; };
+	MaterialVar(unsigned int* var) { mVar.texID = var; mType = VarType::TEXTURE2D; };
 };
 
 class MaterialInstance : public GPUResource {
