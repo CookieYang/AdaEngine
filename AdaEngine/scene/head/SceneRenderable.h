@@ -7,5 +7,4 @@ public:
 	SceneRenderable() {};
 	virtual ~SceneRenderable() {};
 	virtual void CreateRenderResource() {};
-	virtual void Run() override;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "Delegate.h"
+#include "Event.h"
 
 class GLFWwindow;
 class Engine;
@@ -18,5 +19,9 @@ public:
 	void PollEvent();
 	void MakeCurrent();
 	void ClearCurrent();
+	void setIcon(unsigned char* icon, int width, int height);
 	static delegate<void(int, int)> resizeDelegate;
+	static delegate<void(Event*)> keyDelegate;
+	static delegate<void(MouseMoveEvent*)> moveDelegate;
+	static delegate<void(ScrollEvent*)> scrollDelegate;
 };

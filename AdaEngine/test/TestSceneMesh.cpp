@@ -1,11 +1,12 @@
 #include "TestSceneMesh.h"
 #include "Engine.h"
-#include "glm/glm.hpp"
-#include <glm/gtc/matrix_transform.hpp>
+#include "AdaMath.h"
+#include "ScenePawn.h"
+
 
 void TestSceneMesh::doInit() {
 
-	cube = new SceneMesh();
+	cube = new SceneMesh;
 	// set Mesh 
 	cube->setMesh("cube_mesh");
 
@@ -13,10 +14,15 @@ void TestSceneMesh::doInit() {
 	cube->setMaterial("defalut_mat_ins");
 
 	cube->AttachToRoot();
+
+	// add one pawn
+	ScenePawn* pawn = new ScenePawn;
+
+	pawn->AttachToRoot();
 }
 
 void TestSceneMesh::doRun() {
 	double time = Engine::getInstance()->win->GetCurrentTime();
-	cube->Scale(Vector3(0.01, 0.01, 0.01));
-	cube->Rotate(Vector3((float)time * 20.0f, (float)time * 20.0f, (float)time * 20.0f));
+	cube->Scale(DVector3<float>(0.01, 0.01, 0.01));
+	cube->Rotate(DVector3<float>((float)time * 20.0f, (float)time * 20.0f, (float)time * 20.0f));
 }

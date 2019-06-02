@@ -3,6 +3,9 @@
 #include "Window.h"
 #include <string>
 
+class FIBITMAP;
+class Event;
+
 class Engine {
 public:
 	static Engine* getInstance();
@@ -15,4 +18,5 @@ private:
 	Engine() {};
 	~Engine() {};
 	void resizeViewPort(int width, int height);
+	void EventCallback(Event* event);
 };

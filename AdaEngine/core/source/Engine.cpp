@@ -8,6 +8,11 @@ void Engine::resizeViewPort(int width, int height) {
 	RenderInterface::getSingleton()->resizeViewport(width, height);
 }
 
+void Engine::EventCallback(Event* event) {
+	sceneTree->ProcessEvent(event);
+}
+
+
 Engine* Engine::getInstance() {
 	static Engine engine;
 	return &engine;
@@ -17,10 +22,21 @@ void Engine::init() {
 	win = std::unique_ptr<Window>(new Window);
 	win->Init();
 	Window::resizeDelegate += mem_call(*Engine::getInstance(), &Engine::resizeViewPort);
+	Window::keyDelegate += mem_call(*Engine::getInstance(), &Engine::EventCallback);
+	Window::moveDelegate += mem_call(*Engine::getInstance(), &Engine::EventCallback);
+	Window::scrollDelegate += mem_call(*Engine::getInstance(), &Engine::EventCallback);
+
 	OglRenderInterface* oglRenderInterface = new OglRenderInterface;
 	new RenderInterfaceWrap(oglRenderInterface, true);
 	new ResourceManager;
 	sceneTree = std::unique_ptr<SceneTree>(new SceneTree);
+
+	// set icon
+	FIBITMAP * img = FreeImage_Load(FIF_PNG, "resource/icon.png", PNG_DEFAULT);
+	int Width = FreeImage_GetWidth(img);
+	int Height = FreeImage_GetHeight(img);
+	win->setIcon(FreeImage_GetBits(img), Width, Height);
+	FreeImage_Unload(img);
 }
 
 void Engine::sleep(double time) {

@@ -133,10 +133,11 @@
   <ItemGroup>
     <ClCompile Include="bind.cpp" />
     <ClCompile Include="Component\source\CameraComponent.cpp" />
-    <ClCompile Include="Component\source\InputComponent.cpp" />
     <ClCompile Include="Component\source\MeshComponent.cpp" />
+    <ClCompile Include="Component\source\MoveComponent.cpp" />
     <ClCompile Include="Component\source\TransformComponent.cpp" />
     <ClCompile Include="Render\source\RenderProxy.cpp" />
+    <ClCompile Include="scene\source\ScenePawn.cpp" />
     <ClCompile Include="utils\source\CommandQueue.cpp" />
     <ClCompile Include="core\source\Engine.cpp" />
     <ClCompile Include="core\source\GLContext.cpp" />
@@ -168,11 +169,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\head\CameraComponent.h" />
-    <ClInclude Include="Component\head\InputComponent.h" />
     <ClInclude Include="Component\head\MeshComponent.h" />
+    <ClInclude Include="Component\head\MoveComponent.h" />
     <ClInclude Include="Component\head\TransformComponent.h" />
     <ClInclude Include="core\head\AdaMath.h" />
+    <ClInclude Include="core\head\Event.h" />
     <ClInclude Include="Render\head\RenderProxy.h" />
+    <ClInclude Include="scene\head\ScenePawn.h" />
     <ClInclude Include="utils\head\CommandQueue.h" />
     <ClInclude Include="utils\head\Delegate.h" />
     <ClInclude Include="core\head\Engine.h" />

@@ -1,5 +1,26 @@
 #include "TransformComponent.h"
 
+TransformComponent::TransformComponent():
+	transform(glm::mat4(1.0f)),
+	rotation(glm::qua<float>(glm::radians(glm::vec3(0.0, 0.0, 0.0)))),
+	scale(glm::vec3(1.0f, 1.0f, 1.0f)),
+	position(glm::vec3(0.0f, 0.0f, 0.0f))
+{
+	
+}
+
+glm::vec3 TransformComponent::GetForward(const glm::mat4& mat) {
+	return glm::vec3();
+}
+
+glm::vec3 TransformComponent::GetRight(const glm::mat4& mat) {
+	return glm::vec3();
+}
+
+glm::vec3 TransformComponent::GetUP(const glm::mat4& mat) {
+	return glm::vec3();
+}
+
 glm::mat4 TransformComponent::GetTransform() {
 	return transform;
 }

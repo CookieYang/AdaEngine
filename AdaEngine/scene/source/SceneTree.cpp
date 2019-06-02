@@ -5,18 +5,14 @@ void SceneTree::Init() {
 
 }
 
-void SceneTree::ergodic(SceneNode* node) {
-	node->Run();
-	for (size_t i = 0; i < node->childrens.size(); i++)
-	{
-		SceneNode* child = node->childrens[i].get();
-		child->Run();
-		child->updateTransform();
-	}
+void SceneTree::Run() {
+	root->Run();
+	root->updateTransform();
 }
 
-void SceneTree::Run() {
-	ergodic(root.get());
+void SceneTree::ProcessEvent(Event* event) {
+	root->ProcessEvent(event);
+	delete event;
 }
 
 void SceneTree::Destory() {

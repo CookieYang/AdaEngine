@@ -102,10 +102,13 @@
     <ClCompile Include="Component\source\MeshComponent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Component\source\InputComponent.cpp">
+    <ClCompile Include="Component\source\CameraComponent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Component\source\CameraComponent.cpp">
+    <ClCompile Include="scene\source\ScenePawn.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\source\MoveComponent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -212,13 +215,19 @@
     <ClInclude Include="Component\head\MeshComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Component\head\InputComponent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Component\head\CameraComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="core\head\AdaMath.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\head\Event.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\head\ScenePawn.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\head\MoveComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

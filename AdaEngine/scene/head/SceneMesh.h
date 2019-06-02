@@ -1,7 +1,7 @@
 #pragma once
 #include "SceneRenderable.h"
-#include "MeshComponent.h"
 
+class MeshComponent;
 
 class SceneMesh : public SceneRenderable {
 	std::string meshName;
@@ -14,8 +14,8 @@ public:
 	void setMaterial(const std::string& name);
 	void setMaterialForSection(const std::string& name, int sectionIndex);
 	int getSectionNum();
-	virtual void Run() override;
-	virtual void updateTransform() override;
+	virtual void doRun() override;
+	virtual void doUpdateTransform() override;
 protected:
-	MeshComponent mesh;
+	MeshComponent* mesh;
 };
