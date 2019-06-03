@@ -5,6 +5,7 @@
 #include <atomic>
 #include <map>
 #include "RenderPineline.h"
+#include "CameraComponent.h"
 
 class RenderInterfaceWrap;
 
@@ -39,7 +40,9 @@ public:
 	std::map<std::string, MeshSource*> MeshSourceMap;                         // 应当交给资源管理（导入时创建，目前就用名字吧）
 	std::map<std::string, TextureSource*> TextureSourceMap;
 	std::map<std::string, MaterialInstance*> MaterialInstanceMap;
+
 	RenderPineline* pineLine;
+	CameraComponent* camera;
 
 	virtual Material* createMaterial(const std::string& name, const std::string& shaderName) override;
 	virtual MaterialInstance* createMaterialInstance(const std::string& matInstanceName, const std::string& matName) override;
@@ -51,6 +54,8 @@ public:
 	virtual RenderPineline* createPineline(PinelineType type) override;
 	virtual void addMaterialToPineline(Material* mat) override;
 	virtual RenderPineline* getCurrentPineline() override;
+	virtual CameraComponent* getActiveCamera() override;
+	virtual void setActiveCamera(CameraComponent* camera) override;
 
 	FUNC1(uploadTexture, TextureSource*)
 	FUNC1(uploadGeometry, MeshSource*)

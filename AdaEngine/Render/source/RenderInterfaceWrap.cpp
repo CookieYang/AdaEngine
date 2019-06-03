@@ -209,6 +209,26 @@ RenderPineline* RenderInterfaceWrap::getCurrentPineline() {
 	}
 }
 
+CameraComponent* RenderInterfaceWrap::getActiveCamera() {
+	if (std::this_thread::get_id() != serverThreadID) {
+		return camera;
+	}
+	else {
+		CameraComponent* camera;
+		camera = innerRenderInterface->_getActiveCamera(this);
+		return camera;
+	}
+}
+
+void RenderInterfaceWrap::setActiveCamera(CameraComponent* camera) {
+	if (std::this_thread::get_id() != serverThreadID) {
+		cmdQueue.push(innerRenderInterface, &RenderInterface::_setActiveCamera, this, camera);
+	}
+	else {
+		innerRenderInterface->_setActiveCamera(this, camera);
+	}
+}
+
 void RenderInterfaceWrap::addMaterialToPineline(Material* mat) {
 	if (std::this_thread::get_id() != serverThreadID) {
 		cmdQueue.push(innerRenderInterface, &RenderInterface::_addMaterialToPineline, this, mat);

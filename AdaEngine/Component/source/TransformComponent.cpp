@@ -9,18 +9,6 @@ TransformComponent::TransformComponent():
 	
 }
 
-glm::vec3 TransformComponent::GetForward(const glm::mat4& mat) {
-	return glm::vec3();
-}
-
-glm::vec3 TransformComponent::GetRight(const glm::mat4& mat) {
-	return glm::vec3();
-}
-
-glm::vec3 TransformComponent::GetUP(const glm::mat4& mat) {
-	return glm::vec3();
-}
-
 glm::mat4 TransformComponent::GetTransform() {
 	return transform;
 }

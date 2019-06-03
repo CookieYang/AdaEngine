@@ -37,6 +37,10 @@ public:
 	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) override { return nullptr; };
 
 	virtual void resizeViewport(int width, int height) override;
+	virtual void setActiveCamera(CameraComponent* camera) override {};
+	virtual void _setActiveCamera(RenderInterfaceWrap* wrap, CameraComponent* camera) override;
+	virtual CameraComponent* getActiveCamera() override { return nullptr; };
+	virtual CameraComponent* _getActiveCamera(RenderInterfaceWrap* wrap) override;
 private:
 	std::unique_ptr<GLContext> context;
 };

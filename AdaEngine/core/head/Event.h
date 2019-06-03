@@ -50,16 +50,16 @@ class MouseMoveEvent : public Event {
 public:
 	MouseMoveEvent(double x, double y) :pos(x, y) {}
 	virtual EVENTYPE getType() { return EVENTYPE::MOUSEMOVEEVENT; };
-	DVector2<double> getMousePos() { return pos; };
+	DVector2 getMousePos() { return pos; };
 private:
-	DVector2<double> pos;
+	DVector2 pos;
 };
 
 class ScrollEvent : public Event {
 public:
 	ScrollEvent(double x, double y):offset(x, y) {}
 	virtual EVENTYPE getType() { return EVENTYPE::SCROLLEVENT; };
-	DVector2<double> getOffset() { return offset; };
+	DVector2 getOffset() { return offset; };
 private:
-	DVector2<double> offset;
+	DVector2 offset;
 };

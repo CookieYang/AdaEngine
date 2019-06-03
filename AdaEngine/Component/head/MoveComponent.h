@@ -6,9 +6,9 @@ public:
 	MoveComponent(SceneNode* p);
 	float speed;
 	float sensitivity;
-	void MoveForward();
-	void MoveRight();
-	void MoveUp();
+	void MoveForward(float cof);
+	void MoveRight(float cof);
+	void MoveUp(float cof);
 	void AddYaw(float offset);
 	void AddPitch(float offset);
 	void AddRoll(float offset);

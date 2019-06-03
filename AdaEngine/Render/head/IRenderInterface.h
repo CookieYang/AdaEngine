@@ -35,6 +35,7 @@
 	}
 
 class RenderInterfaceWrap;
+class CameraComponent;
 
 class RenderInterface {
 public:
@@ -68,6 +69,10 @@ public:
 	virtual RenderPineline* _getCurrentPineline(RenderInterfaceWrap* wrap) { return nullptr; };
 
 	virtual void resizeViewport(int width, int height) = 0;
+	virtual void setActiveCamera(CameraComponent* camera) = 0;
+	virtual void _setActiveCamera(RenderInterfaceWrap* wrap, CameraComponent* camera) {};
+	virtual CameraComponent* getActiveCamera() = 0;
+	virtual CameraComponent* _getActiveCamera(RenderInterfaceWrap* wrap) { return nullptr; };
 
 	RenderInterface();
 	virtual ~RenderInterface();

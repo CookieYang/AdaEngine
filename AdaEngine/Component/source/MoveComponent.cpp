@@ -9,28 +9,28 @@ MoveComponent::MoveComponent(SceneNode* p):parent(p) {
 	lastFrame = 0.0f;
 }
 
-void MoveComponent::MoveForward() {
+void MoveComponent::MoveForward(float cof) {
 	double currentTime = Engine::getInstance()->win->GetCurrentTime();
 	deltaTime = currentTime - lastFrame;
 	lastFrame = currentTime;
-	float velocity = speed * deltaTime;
-//	parent->transComponent.SetTranslate(velocity * parent->transComponent.GetForward());
+	float velocity = speed * deltaTime * cof;
+	parent->transComponent.SetTranslate(velocity * GetForward(parent->transComponent.GetTransform()));
 }
 
-void MoveComponent::MoveRight() {
+void MoveComponent::MoveRight(float cof) {
 	double currentTime = Engine::getInstance()->win->GetCurrentTime();
 	deltaTime = currentTime - lastFrame;
 	lastFrame = currentTime;
-	float velocity = speed * deltaTime;
-//	parent->transComponent.SetTranslate(velocity * parent->transComponent.GetRight());
+	float velocity = speed * deltaTime* cof;
+	parent->transComponent.SetTranslate(velocity * GetRight(parent->transComponent.GetTransform()));
 }
 
-void MoveComponent::MoveUp() {
+void MoveComponent::MoveUp(float cof) {
 	double currentTime = Engine::getInstance()->win->GetCurrentTime();
 	deltaTime = currentTime - lastFrame;
 	lastFrame = currentTime;
-	float velocity = speed * deltaTime;
-//	parent->transComponent.SetTranslate(velocity * parent->transComponent.GetUP());
+	float velocity = speed * deltaTime* cof;
+	parent->transComponent.SetTranslate(velocity * GetUP(parent->transComponent.GetTransform()));
 }
 
 void MoveComponent::AddYaw(float offset) {

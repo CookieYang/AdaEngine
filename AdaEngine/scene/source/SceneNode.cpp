@@ -17,35 +17,43 @@ void SceneNode::AttachToRoot() {
 	Engine::getInstance()->sceneTree->AddNode(this);
 }
 
-void SceneNode::Scale(DVector3<float> scale) {
+void SceneNode::Scale(DVector3 scale) {
 	transComponent.SetScale(scale.toVec3());
 }
 
-void SceneNode::Rotate(DVector3<float> rotation) {
+void SceneNode::Rotate(DVector3 rotation) {
 	transComponent.SetRotation(rotation.toVec3());
 }
 
-void SceneNode::Translate(DVector3<float> translate) {
+void SceneNode::Translate(DVector3 translate) {
 	transComponent.SetTranslate(translate.toVec3() + transComponent.GetPosition());
 }
 
-void SceneNode::ProcessEvent(Event* event) {
+bool SceneNode::ProcessEvent(Event* event) {
 	for (auto child : childrens) {
-		child->ProcessEvent(event);
+		if (child->ProcessEvent(event)) {
+			event->bProcced = true;
+		}
 	}
 	if (!event->bProcced) {
 		if (event->getType() == EVENTYPE::KEYEVENT)
 		{
-			ProcessKeyEvent(event);
+			if (ProcessKeyEvent(event)) {
+				event->bProcced = true;
+			}
 		}
 		else if (event->getType() == EVENTYPE::MOUSEMOVEEVENT) {
-			ProcessMouseMoveEvent(event);
+			if (ProcessMouseMoveEvent(event)) {
+				event->bProcced = true;
+			}
 		}
 		else if (event->getType() == EVENTYPE::SCROLLEVENT) {
-			ProcessScrollEvent(event);
+			if (ProcessScrollEvent(event)) {
+				event->bProcced = true;
+			}
 		}
-		event->bProcced = true;
 	}
+	return false;
 }
 
 void SceneNode::Run() {

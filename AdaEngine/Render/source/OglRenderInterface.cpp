@@ -162,6 +162,12 @@ static void passDraw(RenderPass* pass) {
 				int texIndex = 0;
 				// update transform
 				mesh->mInstance.get()->materialVars["modelMat"] = mesh->trans;
+				CameraComponent* camera = RenderInterface::getSingleton()->getActiveCamera();
+				if (camera)
+				{
+					mesh->mInstance.get()->materialVars["viewMat"] = camera->GetViewMatrix();
+					mesh->mInstance.get()->materialVars["projMat"] = camera->GetProjMatrix();
+				}
 				for (auto item : mesh->mInstance.get()->materialVars) {
 					MaterialVar var = item.second;
 					setMaterialUniforms(mat->getShader()->program, item.first, var, texIndex);
@@ -201,6 +207,14 @@ static void setMaterialUniforms(GLuint program, const std::string& bindingName, 
 
 RenderPineline* OglRenderInterface::_getCurrentPineline(RenderInterfaceWrap* wrap) {
 	return wrap->pineLine;
+}
+
+void OglRenderInterface::_setActiveCamera(RenderInterfaceWrap* wrap, CameraComponent* camera) {
+	wrap->camera = camera;
+}
+
+CameraComponent* OglRenderInterface::_getActiveCamera(RenderInterfaceWrap* wrap) {
+	return wrap->camera;
 }
 
 Material* OglRenderInterface::_createMaterial(RenderInterfaceWrap* wrap, const std::string& name, const std::string& shaderName) {

@@ -136,6 +136,7 @@
     <ClCompile Include="Component\source\MeshComponent.cpp" />
     <ClCompile Include="Component\source\MoveComponent.cpp" />
     <ClCompile Include="Component\source\TransformComponent.cpp" />
+    <ClCompile Include="core\source\AdaMath.cpp" />
     <ClCompile Include="Render\source\RenderProxy.cpp" />
     <ClCompile Include="scene\source\ScenePawn.cpp" />
     <ClCompile Include="utils\source\CommandQueue.cpp" />

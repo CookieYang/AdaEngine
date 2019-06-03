@@ -19,10 +19,12 @@ void TestSceneMesh::doInit() {
 	ScenePawn* pawn = new ScenePawn;
 
 	pawn->AttachToRoot();
+
+	pawn->ActiveControl();
 }
 
 void TestSceneMesh::doRun() {
-	double time = Engine::getInstance()->win->GetCurrentTime();
-	cube->Scale(DVector3<float>(0.01, 0.01, 0.01));
-	cube->Rotate(DVector3<float>((float)time * 20.0f, (float)time * 20.0f, (float)time * 20.0f));
+	//double time = Engine::getInstance()->win->GetCurrentTime();
+	cube->Scale(DVector3(0.01, 0.01, 0.01));
+	//cube->Rotate(DVector3((float)time * 20.0f, (float)time * 20.0f, (float)time * 20.0f));
 }
