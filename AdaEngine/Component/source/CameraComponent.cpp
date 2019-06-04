@@ -12,9 +12,12 @@ CameraComponent::CameraComponent(SceneNode* parent) :
 
 glm::mat4 CameraComponent::GetViewMatrix()
 {
-	glm::mat4 localToWorld = parent->transComponent.GetTransform() * trans->GetTransform();
-	glm::vec3 worldPosition = glm::vec3(localToWorld * glm::vec4(trans->GetPosition(), 1.0));
-	glm::mat4 mat = glm::lookAt(worldPosition, worldPosition + GetCameraForward(localToWorld), GetCameraUP(localToWorld));
+	DMath::matrix_t localToWorld = parent->transComponent.GetTransform() * trans->GetTransform();
+	glm::vec3 forward = glm::vec3(localToWorld.v.dir.x, localToWorld.v.dir.y, localToWorld.v.dir.z);
+	glm::vec3 up = glm::vec3(localToWorld.v.up.x, localToWorld.v.up.y, localToWorld.v.up.z);
+	DMath::vec_t wPos = DMath::TransformPoint(trans->GetPosition(), localToWorld); 
+	glm::vec3 worldPosition = glm::vec3(wPos.x, wPos.y, wPos.z);
+	glm::mat4 mat = glm::lookAt(worldPosition, worldPosition + forward, up);
 	return mat;
 }
 

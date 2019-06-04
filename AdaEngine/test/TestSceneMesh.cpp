@@ -15,6 +15,7 @@ void TestSceneMesh::doInit() {
 
 	cube->AttachToRoot();
 
+	cube->setScale(DMath::makeVect(0.01, 0.01, 0.01));
 	// add one pawn
 	ScenePawn* pawn = new ScenePawn;
 
@@ -24,7 +25,6 @@ void TestSceneMesh::doInit() {
 }
 
 void TestSceneMesh::doRun() {
-	//double time = Engine::getInstance()->win->GetCurrentTime();
-	cube->Scale(DVector3(0.01, 0.01, 0.01));
-	//cube->Rotate(DVector3((float)time * 20.0f, (float)time * 20.0f, (float)time * 20.0f));
+	double time = Engine::getInstance()->win->GetCurrentTime();
+	//cube->setRotatation(DMath::makeVect(time * 5.0f, 0.0, 0.0));
 }

@@ -17,16 +17,16 @@ void SceneNode::AttachToRoot() {
 	Engine::getInstance()->sceneTree->AddNode(this);
 }
 
-void SceneNode::Scale(DVector3 scale) {
-	transComponent.SetScale(scale.toVec3());
+void SceneNode::setScale(DMath::vec_t s) {
+	transComponent.setScale(s);
 }
 
-void SceneNode::Rotate(DVector3 rotation) {
-	transComponent.SetRotation(rotation.toVec3());
+void SceneNode::setRotatation(DMath::vec_t rot) {
+	transComponent.setRotation(rot);
 }
 
-void SceneNode::Translate(DVector3 translate) {
-	transComponent.SetTranslate(translate.toVec3() + transComponent.GetPosition());
+void SceneNode::setPosition(DMath::vec_t pos) {
+	transComponent.setPosition(pos);
 }
 
 bool SceneNode::ProcessEvent(Event* event) {

@@ -7,6 +7,9 @@ MoveComponent::MoveComponent(SceneNode* p):parent(p) {
 	sensitivity = 0.1f;
 	deltaTime = 0.0f;
 	lastFrame = 0.0f;
+	yaw = 0.0f;
+	pitch = 0.0f;
+	roll = 0.0f;
 }
 
 void MoveComponent::MoveForward(float cof) {
@@ -14,7 +17,7 @@ void MoveComponent::MoveForward(float cof) {
 	deltaTime = currentTime - lastFrame;
 	lastFrame = currentTime;
 	float velocity = speed * deltaTime * cof;
-	parent->transComponent.SetTranslate(velocity * GetForward(parent->transComponent.GetTransform()));
+	parent->transComponent.Translate(parent->transComponent.GetTransform().v.dir * velocity);
 }
 
 void MoveComponent::MoveRight(float cof) {
@@ -22,7 +25,7 @@ void MoveComponent::MoveRight(float cof) {
 	deltaTime = currentTime - lastFrame;
 	lastFrame = currentTime;
 	float velocity = speed * deltaTime* cof;
-	parent->transComponent.SetTranslate(velocity * GetRight(parent->transComponent.GetTransform()));
+	parent->transComponent.Translate(parent->transComponent.GetTransform().v.right * velocity);
 }
 
 void MoveComponent::MoveUp(float cof) {
@@ -30,20 +33,24 @@ void MoveComponent::MoveUp(float cof) {
 	deltaTime = currentTime - lastFrame;
 	lastFrame = currentTime;
 	float velocity = speed * deltaTime* cof;
-	parent->transComponent.SetTranslate(velocity * GetUP(parent->transComponent.GetTransform()));
+	parent->transComponent.Translate(parent->transComponent.GetTransform().v.up * velocity);
 }
 
 void MoveComponent::AddYaw(float offset) {
-	float yaw = offset * sensitivity;
-	parent->transComponent.SetRotation(glm::vec3(0.0, yaw, 0.0) + parent->transComponent.GetRotation());
+	yaw = offset * sensitivity;
+	parent->transComponent.RotateAxis(yaw, parent->transComponent.GetTransform().v.up);
 }
 
 void MoveComponent::AddPitch(float offset) {
-	float pitch = offset * sensitivity;
-	parent->transComponent.SetRotation(glm::vec3(pitch, 0.0, 0.0) + parent->transComponent.GetRotation());
+	 pitch = offset * sensitivity;
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+	parent->transComponent.RotateAxis(pitch, parent->transComponent.GetTransform().v.right);
 }
 
 void MoveComponent::AddRoll(float offset) {
-	float roll = offset * sensitivity;
-	parent->transComponent.SetRotation(glm::vec3(0.0, 0.0, roll) + parent->transComponent.GetRotation());
+	roll = offset * sensitivity;
+	parent->transComponent.RotateAxis(roll, parent->transComponent.GetTransform().v.dir);
 }

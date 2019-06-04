@@ -15,5 +15,8 @@ public:
 private:
 	float deltaTime ; 
 	float lastFrame ; 
+	float yaw;
+	float pitch;
+	float roll;
 	SceneNode * parent;
 };

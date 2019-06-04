@@ -1,51 +1,61 @@
 #include "TransformComponent.h"
 
 TransformComponent::TransformComponent():
-	transform(glm::mat4(1.0f)),
-	rotation(glm::qua<float>(glm::radians(glm::vec3(0.0, 0.0, 0.0)))),
-	scale(glm::vec3(1.0f, 1.0f, 1.0f)),
-	position(glm::vec3(0.0f, 0.0f, 0.0f))
+	transform(DMath::matrix_t()),
+	rotation(DMath::makeVect(0.0, 0.0, 0.0)),
+	scale(DMath::makeVect(1.0f, 1.0f, 1.0f)),
+	position(DMath::makeVect(0.0f, 0.0f, 0.0f))
 {
-	
+	DMath::composeMat(transform, position, scale, rotation);
 }
 
-glm::mat4 TransformComponent::GetTransform() {
+DMath::matrix_t TransformComponent::GetTransform() {
 	return transform;
 }
 
-glm::vec3 TransformComponent::GetPosition() {
+DMath::vec_t TransformComponent::GetPosition() {
 	return position;
 }
 
-glm::vec3 TransformComponent::GetScale() {
+DMath::vec_t TransformComponent::GetScale() {
 	return scale;
 }
 
-glm::vec3 TransformComponent::GetRotation() {
-	return glm::eulerAngles(rotation);
+DMath::vec_t TransformComponent::GetRotation() {
+	return rotation;
 }
 
-void TransformComponent::SetTransform(glm::mat4 newTransform) {
+void TransformComponent::SetTransform(DMath::matrix_t newTransform) {
 	transform = newTransform;
+	DMath::decomposeMat(transform, position, scale, rotation);
 }
 
-void TransformComponent::SetTranslate(glm::vec3 translate) {
-	position += translate;
-	glm::mat4 trans = glm::scale(glm::mat4(1.0f), scale);
-	trans = glm::mat4_cast(rotation) * trans;
-	transform =  glm::translate(trans, translate);
+void TransformComponent::setPosition(DMath::vec_t pos) {
+	position = pos;
+	DMath::composeMat(transform, position, scale, rotation);
 }
 
-void TransformComponent::SetScale(glm::vec3 newScale) {
-	scale = newScale;
-	glm::mat4 trans = glm::scale(glm::mat4(1.0f), scale);
-	trans = glm::mat4_cast(rotation) * trans;
-	transform = glm::translate(trans, position);
+void TransformComponent::setScale(DMath::vec_t s) {
+	scale = s;
+	DMath::composeMat(transform, position, scale, rotation);
 }
 
-void TransformComponent::SetRotation(glm::vec3 newRotation) {
-	rotation = glm::qua<float>(glm::radians(newRotation));
-	glm::mat4 trans = glm::scale(glm::mat4(1.0f), scale);
-	trans = glm::mat4_cast(rotation) * trans;
-	transform = glm::translate(trans, position);
+void TransformComponent::setRotation(DMath::vec_t rot) {
+	rotation = rot;
+	DMath::composeMat(transform, position, scale, rotation);
+}
+
+void TransformComponent::Translate(DMath::vec_t trans) {
+	transform.Translation(trans);
+	DMath::decomposeMat(transform, position, scale, rotation);
+}
+
+void TransformComponent::Scale(DMath::vec_t s) {
+	transform.Scale(s);
+	DMath::decomposeMat(transform, position, scale, rotation);
+}
+
+void TransformComponent::RotateAxis(float angle, DMath::vec_t axis) {
+	transform.RotationAxis(axis, glm::radians(angle));
+	DMath::decomposeMat(transform, position, scale, rotation);
 }

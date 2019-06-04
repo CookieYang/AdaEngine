@@ -15,7 +15,8 @@ enum KEY
 enum ACTION
 {
 	PRESS = 1,
-	RELEASE = 0
+	RELEASE = 0,
+	REPEATE = 2
 };
 
 enum EVENTYPE {
@@ -48,18 +49,18 @@ private:
 
 class MouseMoveEvent : public Event {
 public:
-	MouseMoveEvent(double x, double y) :pos(x, y) {}
+	MouseMoveEvent(double x, double y) { pos = DMath::makeVect(x, y); };
 	virtual EVENTYPE getType() { return EVENTYPE::MOUSEMOVEEVENT; };
-	DVector2 getMousePos() { return pos; };
+	DMath::vec_t getMousePos() { return pos; };
 private:
-	DVector2 pos;
+	DMath::vec_t pos;
 };
 
 class ScrollEvent : public Event {
 public:
-	ScrollEvent(double x, double y):offset(x, y) {}
+	ScrollEvent(double x, double y) { offset = DMath::makeVect(x, y); };
 	virtual EVENTYPE getType() { return EVENTYPE::SCROLLEVENT; };
-	DVector2 getOffset() { return offset; };
+	DMath::vec_t getOffset() { return offset; };
 private:
-	DVector2 offset;
+	DMath::vec_t offset;
 };

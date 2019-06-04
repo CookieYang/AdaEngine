@@ -13,9 +13,9 @@ public:
 	virtual ~SceneNode() {};
 	void AttachToRoot();
 	void AttachToParent(SceneNode* parent);
-	void Scale(DVector3 scale);
-	void Rotate(DVector3 rotation);
-	void Translate(DVector3 translate);
+	void setScale(DMath::vec_t s);
+	void setRotatation(DMath::vec_t rot);
+	void setPosition(DMath::vec_t pos);
 	virtual bool ProcessEvent(Event* event);
 	void Run();
 	void updateTransform();

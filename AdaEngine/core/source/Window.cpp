@@ -12,7 +12,6 @@ static void resizeCallback(GLFWwindow* win, int width, int height) {
 }
 
 static void keyCallback(GLFWwindow* win, int key, int scanCode, int action, int modBit) {
-	
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
 		if (bCursorEnable)

@@ -35,5 +35,5 @@ void SceneMesh::doRun() {
 }
 
 void SceneMesh::doUpdateTransform() {
-	mesh->updateTransform(transComponent.GetTransform());
+	mesh->updateTransform(transComponent.GetTransform().toGLM());
 }

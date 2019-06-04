@@ -16,6 +16,6 @@ protected:
 	virtual bool ProcessMouseMoveEvent(Event* mEvent) override;
 	virtual bool ProcessScrollEvent(Event* sEvent) override;
 private:
-	DVector2 lastMousePos;
+	DMath::vec_t lastMousePos;
 	bool bFirstMouse;
 };

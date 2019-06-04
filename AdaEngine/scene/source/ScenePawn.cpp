@@ -10,7 +10,7 @@ ScenePawn::ScenePawn() {
 
 bool ScenePawn::ProcessKeyEvent(Event* kEvent) {
 	 KeyEvent* event = dynamic_cast<KeyEvent*>(kEvent);
-	 if (event->getAction() == ACTION::PRESS) {
+	 if (event->getAction() == ACTION::PRESS || event->getAction() == ACTION::REPEATE) {
 		 if (event->getKey() == KEY_W)
 		 {
 			 moveCom->MoveForward(1.0f);
@@ -36,7 +36,7 @@ bool ScenePawn::ProcessKeyEvent(Event* kEvent) {
 
  bool ScenePawn::ProcessMouseMoveEvent(Event* mEvent) {
 	 MouseMoveEvent* event = dynamic_cast<MouseMoveEvent*>(mEvent);
-	 DVector2 pos = event->getMousePos();
+	 DMath::vec_t pos = event->getMousePos();
 	 if (bFirstMouse)
 	 {
 		 lastMousePos = pos;

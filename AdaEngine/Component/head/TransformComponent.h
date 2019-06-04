@@ -3,17 +3,20 @@
 class TransformComponent {
 public:
 	TransformComponent();
-	glm::mat4 GetTransform();
-	glm::vec3 GetPosition();
-	glm::vec3 GetScale();
-	glm::vec3 GetRotation();
-	void SetTransform(glm::mat4 newTransform);
-	void SetTranslate(glm::vec3 translate);
-	void SetScale(glm::vec3 newScale);
-	void SetRotation(glm::vec3 newRotation);
+	DMath::matrix_t GetTransform();
+	DMath::vec_t GetPosition();
+	DMath::vec_t GetScale();
+	DMath::vec_t GetRotation();
+	void SetTransform(DMath::matrix_t newTransform);
+	void setPosition(DMath::vec_t pos);
+	void setScale(DMath::vec_t s);
+	void setRotation(DMath::vec_t rot);
+	void Translate(DMath::vec_t trans);
+	void Scale(DMath::vec_t s);
+	void RotateAxis(float angle, DMath::vec_t axis);
 private:
-	glm::mat4 transform;
-	glm::vec3 position;
-	glm::vec3 scale;
-	glm::qua<float> rotation;
+	DMath::matrix_t transform;
+	DMath::vec_t position;
+	DMath::vec_t scale;
+	DMath::vec_t rotation;
 };
