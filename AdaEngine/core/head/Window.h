@@ -12,6 +12,7 @@ public:
 	~Window();
 	double GetCurrentTime();
 	bool Init();
+	bool isSendEvent();
 	bool Closed();
 	void SwapBuffer();
 	void SetSwapInterval(int i);
@@ -24,4 +25,5 @@ public:
 	static delegate<void(Event*)> keyDelegate;
 	static delegate<void(MouseMoveEvent*)> moveDelegate;
 	static delegate<void(ScrollEvent*)> scrollDelegate;
+	static bool bSendEvent;
 };

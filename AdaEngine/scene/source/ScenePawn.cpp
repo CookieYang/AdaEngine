@@ -3,14 +3,14 @@
 #include "MoveComponent.h"
 #include "IRenderInterface.h"
 
-ScenePawn::ScenePawn() {
+ScenePawn::ScenePawn():bFirstMouse(true) {
 	cameraCom = new CameraComponent(this);
 	moveCom = new MoveComponent(this);
 }
 
 bool ScenePawn::ProcessKeyEvent(Event* kEvent) {
 	 KeyEvent* event = dynamic_cast<KeyEvent*>(kEvent);
-	 if (event->getAction() == ACTION::PRESS || event->getAction() == ACTION::REPEATE) {
+	 if (event->getAction() == ACTION::REPEATE) {
 		 if (event->getKey() == KEY_W)
 		 {
 			 moveCom->MoveForward(1.0f);

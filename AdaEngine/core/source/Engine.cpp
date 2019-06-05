@@ -9,7 +9,7 @@ void Engine::resizeViewPort(int width, int height) {
 }
 
 void Engine::EventCallback(Event* event) {
-	sceneTree->ProcessEvent(event);
+	sceneTree->ProcessEvent(event, Window::bSendEvent);
 }
 
 

@@ -27,7 +27,7 @@ DMath::vec_t TransformComponent::GetRotation() {
 
 void TransformComponent::SetTransform(DMath::matrix_t newTransform) {
 	transform = newTransform;
-	DMath::decomposeMat(transform, position, scale, rotation);
+	DMath::decomposeMat(DMath::matrix_t(transform), position, scale, rotation);
 }
 
 void TransformComponent::setPosition(DMath::vec_t pos) {
@@ -45,17 +45,21 @@ void TransformComponent::setRotation(DMath::vec_t rot) {
 	DMath::composeMat(transform, position, scale, rotation);
 }
 
+void TransformComponent::Rotate(DMath::vec_t rot){
+	rotation += rot;
+	DMath::composeMat(transform, position, scale, rotation);
+}
+
 void TransformComponent::Translate(DMath::vec_t trans) {
-	transform.Translation(trans);
-	DMath::decomposeMat(transform, position, scale, rotation);
+	position += trans;
+	DMath::composeMat(transform, position, scale, rotation);
 }
 
 void TransformComponent::Scale(DMath::vec_t s) {
-	transform.Scale(s);
-	DMath::decomposeMat(transform, position, scale, rotation);
+	scale += s;
+	DMath::composeMat(transform, position, scale, rotation);
 }
 
 void TransformComponent::RotateAxis(float angle, DMath::vec_t axis) {
-	transform.RotationAxis(axis, glm::radians(angle));
-	DMath::decomposeMat(transform, position, scale, rotation);
+
 }

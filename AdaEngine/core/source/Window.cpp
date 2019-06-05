@@ -6,6 +6,7 @@ delegate<void(Event*)> Window::keyDelegate;
 delegate<void(MouseMoveEvent*)> Window::moveDelegate;
 delegate<void(ScrollEvent*)> Window::scrollDelegate;
 static bool bCursorEnable = true;
+bool	Window::bSendEvent = false;
 
 static void resizeCallback(GLFWwindow* win, int width, int height) {
 	Window::resizeDelegate(width, height);
@@ -22,6 +23,7 @@ static void keyCallback(GLFWwindow* win, int key, int scanCode, int action, int 
 			glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 		bCursorEnable = !bCursorEnable;
+		Window::bSendEvent = !Window::bSendEvent;
 	}
 	else {
 		ACTION a = ACTION(action);

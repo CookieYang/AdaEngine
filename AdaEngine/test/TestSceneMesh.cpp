@@ -22,6 +22,8 @@ void TestSceneMesh::doInit() {
 	pawn->AttachToRoot();
 
 	pawn->ActiveControl();
+
+	pawn->setPosition(DMath::makeVect(0.0, 0.0, 5.0f));
 }
 
 void TestSceneMesh::doRun() {

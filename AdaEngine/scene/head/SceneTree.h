@@ -9,7 +9,7 @@ public:
     void Run();
     void Destory();
 	void AddNode(SceneNode* node);
-	void ProcessEvent(Event* event);
+	void ProcessEvent(Event* event, bool bMouseEnable);
 	SceneTree() ;
 	~SceneTree() ;
 private:

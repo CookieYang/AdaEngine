@@ -13,6 +13,7 @@ public:
 	void setRotation(DMath::vec_t rot);
 	void Translate(DMath::vec_t trans);
 	void Scale(DMath::vec_t s);
+	void Rotate(DMath::vec_t rot);
 	void RotateAxis(float angle, DMath::vec_t axis);
 private:
 	DMath::matrix_t transform;

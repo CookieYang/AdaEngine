@@ -10,8 +10,11 @@ void SceneTree::Run() {
 	root->updateTransform();
 }
 
-void SceneTree::ProcessEvent(Event* event) {
-	root->ProcessEvent(event);
+void SceneTree::ProcessEvent(Event* event, bool bMouseEnable) {
+	if (bMouseEnable)
+	{
+		root->ProcessEvent(event);
+	}
 	delete event;
 }
 
