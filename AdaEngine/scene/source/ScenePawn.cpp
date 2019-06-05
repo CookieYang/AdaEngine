@@ -2,30 +2,36 @@
 #include "CameraComponent.h"
 #include "MoveComponent.h"
 #include "IRenderInterface.h"
+#include "Engine.h"
 
 ScenePawn::ScenePawn():bFirstMouse(true) {
 	cameraCom = new CameraComponent(this);
 	moveCom = new MoveComponent(this);
+	deltaTime = 0.0f;
+	lastFrame = 0.0f;
 }
 
 bool ScenePawn::ProcessKeyEvent(Event* kEvent) {
 	 KeyEvent* event = dynamic_cast<KeyEvent*>(kEvent);
+	 double currentTime = Engine::getInstance()->win->GetCurrentTime();
+	 deltaTime = currentTime - lastFrame;
+	 lastFrame = currentTime;
 	 if (event->getAction() == ACTION::REPEATE) {
 		 if (event->getKey() == KEY_W)
 		 {
-			 moveCom->MoveForward(1.0f);
+			 moveCom->MoveForward(deltaTime * 1.0f);
 		 }
 		 else if (event->getKey() == KEY_S)
 		 {
-			 moveCom->MoveForward(-1.0f);
+			 moveCom->MoveForward(deltaTime * (-1.0f));
 		 }
 		 else if (event->getKey() == KEY_D)
 		 {
-			 moveCom->MoveRight(1.0f);
+			 moveCom->MoveRight(deltaTime * 1.0f);
 		 }
 		 else if (event->getKey() == KEY_A)
 		 {
-			 moveCom->MoveRight(-1.0f);
+			 moveCom->MoveRight(deltaTime * (-1.0f));
 		 }
 		 return true;
 	 }

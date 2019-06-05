@@ -6,15 +6,13 @@ public:
 	MoveComponent(SceneNode* p);
 	float speed;
 	float sensitivity;
-	void MoveForward(float cof);
-	void MoveRight(float cof);
-	void MoveUp(float cof);
+	void MoveForward(float deltaTime);
+	void MoveRight(float deltaTime);
+	void MoveUp(float deltaTime);
 	void AddYaw(float offset);
 	void AddPitch(float offset);
 	void AddRoll(float offset);
 private:
-	float deltaTime ; 
-	float lastFrame ; 
 	float yaw;
 	float pitch;
 	float roll;
