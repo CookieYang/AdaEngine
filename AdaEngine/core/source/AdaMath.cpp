@@ -1,4 +1,5 @@
 #include "AdaMath.h"
+#include "operators.h"
 using namespace DMath;
 
 static const float ZPI = 3.14159265358979323846f;
@@ -192,6 +193,7 @@ matrix_t::matrix_t(const matrix_t& other) { memcpy(&m16[0], &other.m16[0], sizeo
 
 matrix_t::operator float * () { return m16; }
 matrix_t::operator const float* () const { return m16; }
+float* matrix_t::data() { return m16; };
 void matrix_t::Translation(float _x, float _y, float _z) { this->Translation(makeVect(_x, _y, _z)); }
 void matrix_t::Scale(const vec_t& s) { Scale(s.x, s.y, s.z); }
 
@@ -449,4 +451,61 @@ void DMath::decomposeMat(matrix_t mat, vec_t &pos, vec_t &scale, vec_t &rot) {
 	pos[0] = mat.v.position.x;
 	pos[1] = mat.v.position.y;
 	pos[2] = mat.v.position.z;
+}
+
+void init_DMath(pybind11::module& m) {
+	pybind11::class_<vec_t>(m, "DVector")
+		.def(pybind11::init<>())
+		.def_readwrite("x", &vec_t::x)
+		.def_readwrite("y", &vec_t::y)
+		.def_readwrite("z", &vec_t::z)
+		.def_readwrite("w", &vec_t::w)
+		.def("Lerp", &vec_t::Lerp)
+		.def("Length", &vec_t::Length)
+		.def("LengthSq", &vec_t::LengthSq)
+		.def("Abs", &vec_t::Abs)
+		.def("Dot", &vec_t::Dot)
+		.def("Dot3", &vec_t::Dot3)
+		.def("Normalize", pybind11::overload_cast<>(&vec_t::Normalize))
+		.def("Normalize", pybind11::overload_cast<const vec_t&>(&vec_t::Normalize))
+		.def("Cross", pybind11::overload_cast<const vec_t&, const vec_t&>(&vec_t::Cross))
+		.def("Cross", pybind11::overload_cast<const vec_t&>(&vec_t::Cross))
+		.def("Transform", pybind11::overload_cast<const matrix_t&>(&vec_t::Transform))
+		.def("Transform", pybind11::overload_cast<const vec_t&, const matrix_t&>(&vec_t::Transform))
+		.def("TransformVector", pybind11::overload_cast<const matrix_t&>(&vec_t::TransformVector))
+		.def("TransformVector", pybind11::overload_cast<const vec_t&, const matrix_t&>(&vec_t::TransformVector))
+		.def("TransformPoint", pybind11::overload_cast<const matrix_t&>(&vec_t::TransformPoint))
+		.def("TransformPoint", pybind11::overload_cast<const vec_t&, const matrix_t&>(&vec_t::TransformPoint))
+		.def("Set", pybind11::overload_cast<float>(&vec_t::Set))
+		.def("Set", pybind11::overload_cast<float, float, float, float>(&vec_t::Set))
+		.def(pybind11::self += pybind11::self)
+		.def(pybind11::self -= pybind11::self)
+		.def(pybind11::self *= pybind11::self)
+		.def(pybind11::self * float())
+		.def(float() * pybind11::self)
+		.def(pybind11::self - vec_t())
+		.def(pybind11::self * vec_t())
+		.def(vec_t() * pybind11::self)
+		;
+
+	m.def("MakeVec", pybind11::overload_cast<float, float, float, float>(&makeVect));
+	m.def("BuildPlan", &BuildPlan);
+
+	pybind11::class_<matrix_t>(m, "DMatrix")
+		.def(pybind11::init<>())
+		.def(pybind11::init([](matrix_t& other) { return new matrix_t(other); }))
+		.def("data", &matrix_t::data)
+		.def("Scale", pybind11::overload_cast<float, float, float>(&matrix_t::Scale))
+		.def("Scale", pybind11::overload_cast<const vec_t&>(&matrix_t::Scale))
+		.def(pybind11::self *= pybind11::self)
+		.def(pybind11::self * const matrix_t())
+		.def("Multiply", pybind11::overload_cast<const matrix_t &>(&matrix_t::Multiply))
+		.def("Multiply", pybind11::overload_cast<const matrix_t &, const matrix_t &>(&matrix_t::Multiply))
+		.def("GetDeterminant", &matrix_t::GetDeterminant)
+		.def("Inverse", &matrix_t::Inverse)
+		.def("SetToIdentity", &matrix_t::SetToIdentity)
+		.def("Transpose", &matrix_t::Transpose)
+		.def("RotationAxis", &matrix_t::RotationAxis)
+		.def("OrthoNormalize", &matrix_t::OrthoNormalize)
+		;
 }

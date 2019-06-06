@@ -19,13 +19,15 @@ public:
 	virtual bool ProcessEvent(Event* event);
 	void Run();
 	void updateTransform();
-protected:
-	std::vector<RefCountedPtr<SceneNode>> childrens;
+
+	// expose to python
 	virtual bool ProcessKeyEvent(Event* kEvent) { return false; };
 	virtual bool ProcessMouseMoveEvent(Event* mEvent) { return false; };
 	virtual bool ProcessScrollEvent(Event* sEvent) { return false; };
 	virtual void doRun() {};
 	virtual void doUpdateTransform() {};
+protected:
+	std::vector<RefCountedPtr<SceneNode>> childrens;
 	SceneNode* weak_parent;                                           // be careful !!!
 private:
 	void AddChildren(SceneNode* child);

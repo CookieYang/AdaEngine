@@ -114,6 +114,9 @@
     <ClCompile Include="core\source\AdaMath.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="core\source\Event.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

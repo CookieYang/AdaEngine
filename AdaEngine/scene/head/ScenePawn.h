@@ -1,14 +1,14 @@
 #pragma once
-#include "SceneNode.h"
+#include "SceneRenderable.h"
 
 class CameraComponent;
 class MoveComponent;
 
-class ScenePawn : public SceneNode { 
+class ScenePawn : public SceneRenderable { 
 public:
 	ScenePawn();
 	virtual ~ScenePawn() {};
-	virtual void ActiveControl();
+	void ActiveControl();
 protected:
 	CameraComponent* cameraCom;
 	MoveComponent* moveCom;

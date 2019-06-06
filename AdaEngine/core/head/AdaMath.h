@@ -4,6 +4,7 @@
 #include "glm/gtx/matrix_decompose.hpp"
 #include <glm/gtc/type_ptr.hpp>
 #include "glm/gtc/quaternion.hpp"
+#include "pybind11.h"
 
 namespace DMath {
 	void FPU_MatrixF_x_MatrixF(const float *a, const float *b, float *r);
@@ -91,6 +92,7 @@ namespace DMath {
 		operator const float* () const;
 		void Translation(float _x, float _y, float _z);
 		void Translation(const vec_t& vt);
+		float* data();
 
 		void Scale(float _x, float _y, float _z);
 		void Scale(const vec_t& s);
@@ -115,4 +117,6 @@ namespace DMath {
 	void composeMat(matrix_t& mat, const vec_t &pos, const vec_t &scale, const vec_t &rot);
 	void decomposeMat(matrix_t mat, vec_t &pos, vec_t &scale, vec_t &rot);
 };
+
+void init_DMath(pybind11::module& m);
 

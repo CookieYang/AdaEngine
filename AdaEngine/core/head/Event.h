@@ -1,5 +1,6 @@
 #pragma once
 #include "AdaMath.h"
+#include "pybind11.h"
 
 enum KEY
 {
@@ -64,3 +65,12 @@ public:
 private:
 	DMath::vec_t offset;
 };
+
+template <class Base = Event> 
+class PyEvent : public Base {
+public:
+	using Base::Base; // Inherit constructors
+	EVENTYPE getType() override { PYBIND11_OVERLOAD(EVENTYPE, Base, getType, );}
+};
+
+void init_Event(pybind11::module& m);
