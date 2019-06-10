@@ -30,11 +30,11 @@ enum EVENTYPE {
 class Event
 {
 public:
-	Event():bProcced(false) {}
+	Event() {};
 	virtual EVENTYPE getType() { return EVENTYPE::NONE; };
 	virtual ~Event() {};
 public:
-	bool bProcced;
+	bool bProcced = false;
 };
 
 class KeyEvent: public Event {

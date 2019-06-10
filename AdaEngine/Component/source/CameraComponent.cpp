@@ -1,5 +1,6 @@
 #include "CameraComponent.h"
 #include "SceneNode.h"
+#include "IRenderInterface.h"
 
 CameraComponent::CameraComponent(SceneNode* parent) :
 	parent(parent),
@@ -8,7 +9,9 @@ CameraComponent::CameraComponent(SceneNode* parent) :
 	trans = new TransformComponent;
 }
 
-
+void CameraComponent::setActive() {
+	RenderInterface::getSingleton()->setActiveCamera(this);
+}
 
 glm::mat4 CameraComponent::GetViewMatrix()
 {

@@ -12,7 +12,6 @@ public:
 	~Window();
 	double GetCurrentTime();
 	bool Init();
-	bool isSendEvent();
 	bool Closed();
 	void SwapBuffer();
 	void SetSwapInterval(int i);

@@ -19,3 +19,5 @@ public:
 protected:
 	MeshComponent* mesh;
 };
+
+void init_SceneMesh(pybind11::module& m);

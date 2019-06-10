@@ -28,17 +28,16 @@ void init_Event(pybind11::module& m) {
 	pybind11::class_<Event, PyEvent<>>(m, "Event")
 		.def(pybind11::init<>());
 
-
 	pybind11::class_<KeyEvent, PyEvent<KeyEvent>>(m, "KeyEvent")
-		.def(pybind11::init<>())
+		.def(pybind11::init<KEY, ACTION>())
 		.def("getKey", &KeyEvent::getKey)
 		.def("getAction", &KeyEvent::getAction);
 
 	pybind11::class_<MouseMoveEvent, PyEvent<MouseMoveEvent>>(m, "MouseMoveEvent")
-		.def(pybind11::init<>())
+		.def(pybind11::init<double, double>())
 		.def("getMousePos", &MouseMoveEvent::getMousePos);
 
 	pybind11::class_<ScrollEvent, PyEvent<ScrollEvent>>(m, "ScrollEvent")
-		.def(pybind11::init<>())
+		.def(pybind11::init<double, double>())
 		.def("getOffset", &ScrollEvent::getOffset);
 }

@@ -12,6 +12,10 @@ void Engine::EventCallback(Event* event) {
 	sceneTree->ProcessEvent(event, Window::bSendEvent);
 }
 
+double Engine::getTime() {
+	return getInstance()->win->GetCurrentTime();
+}
+
 
 Engine* Engine::getInstance() {
 	static Engine engine;
@@ -46,4 +50,9 @@ void Engine::sleep(double time) {
 
 void Engine::print(std::string log) {
 	std::cout << log.c_str() << std::endl;
+}
+
+void init_Engine(pybind11::module& m) {
+	pybind11::class_<Engine>(m, "Engine")
+		.def_static("CurrrentTime", &Engine::getTime);
 }

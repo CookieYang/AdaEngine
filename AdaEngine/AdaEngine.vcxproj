@@ -90,7 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Component\head;$(ProjectDir)scene\head;$(ProjectDir)core\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)thirdParty\rapidjson;$(ProjectDir)Component\head;$(ProjectDir)scene\head;$(ProjectDir)core\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -121,7 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Component\head;$(ProjectDir)core\head;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)scene\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Component\head;$(ProjectDir)core\head;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)scene\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\rapidjson;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -137,6 +137,7 @@
     <ClCompile Include="Component\source\MoveComponent.cpp" />
     <ClCompile Include="Component\source\TransformComponent.cpp" />
     <ClCompile Include="core\source\AdaMath.cpp" />
+    <ClCompile Include="core\source\Config.cpp" />
     <ClCompile Include="core\source\Event.cpp" />
     <ClCompile Include="Render\source\RenderProxy.cpp" />
     <ClCompile Include="scene\source\ScenePawn.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Component\head\MoveComponent.h" />
     <ClInclude Include="Component\head\TransformComponent.h" />
     <ClInclude Include="core\head\AdaMath.h" />
+    <ClInclude Include="core\head\Config.h" />
     <ClInclude Include="core\head\Event.h" />
     <ClInclude Include="Render\head\RenderProxy.h" />
     <ClInclude Include="scene\head\ScenePawn.h" />

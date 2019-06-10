@@ -1,7 +1,6 @@
 #include "ScenePawn.h"
 #include "CameraComponent.h"
 #include "MoveComponent.h"
-#include "IRenderInterface.h"
 #include "Engine.h"
 
 ScenePawn::ScenePawn():bFirstMouse(true) {
@@ -65,5 +64,12 @@ bool ScenePawn::ProcessKeyEvent(Event* kEvent) {
  }
 
  void ScenePawn::ActiveControl() {
-	 RenderInterface::getSingleton()->setActiveCamera(cameraCom);
+	 cameraCom->setActive();
+ }
+
+ void init_ScenePawn(pybind11::module& m) {
+	 pybind11::class_<ScenePawn, SceneRenderable, PySceneRenderable<ScenePawn>>(m, "ScenePawn")
+		 .def(pybind11::init<>())
+		 .def("ActiveControl", &ScenePawn::ActiveControl)
+		 ;
  }

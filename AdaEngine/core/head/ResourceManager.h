@@ -20,6 +20,7 @@ public:
 	CPUResource* loadGeometryResourceFromFile(const std::string& name, const std::string& path);
 	CPUResource* loadShaderGroupFromFile(const std::string& name);
 	CPUResource* GetResourceByName(const std::string& name);
+	static std::string readFileAsString(const std::string& path);
 	static ResourceManager* singleton();
 	ResourceManager();
 	~ResourceManager();

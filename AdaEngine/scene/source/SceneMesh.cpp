@@ -37,3 +37,14 @@ void SceneMesh::doRun() {
 void SceneMesh::doUpdateTransform() {
 	mesh->updateTransform(transComponent.GetTransform().toGLM());
 }
+
+void init_SceneMesh(pybind11::module& m) {
+	pybind11::class_<SceneMesh, SceneRenderable, PySceneRenderable<SceneMesh>>(m, "SceneMesh")
+		.def(pybind11::init<>())
+		.def("setGeometry", &SceneMesh::setGeometry)
+		.def("setMesh", &SceneMesh::setMesh)
+		.def("setMaterial", &SceneMesh::setMaterial)
+		.def("setMaterialForSection", &SceneMesh::setMaterialForSection)
+		.def("getSectionNum", &SceneMesh::getSectionNum)
+		;
+}

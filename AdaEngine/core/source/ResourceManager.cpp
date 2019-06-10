@@ -176,6 +176,15 @@ static void processMesh(GeometryData*& raw, aiMesh* mesh, const aiScene* scene) 
 	geoVertexData->sectionsData.push_back(vertexData);
 }
 
+std::string ResourceManager::readFileAsString(const std::string& path) {
+	std::ifstream ifile(path);
+	std::ostringstream buf;
+	char ch;
+	while (buf&&ifile.get(ch))
+		buf.put(ch);
+	return buf.str();
+}
+
 ResourceManager* ResourceManager::singleton() {
 	if (resManager)
 	{

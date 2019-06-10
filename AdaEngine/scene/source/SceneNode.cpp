@@ -69,3 +69,16 @@ void SceneNode::updateTransform() {
 		child->updateTransform();
 	}
 }
+
+void init_SceneNode(pybind11::module& m) {
+	pybind11::class_<SceneNode, PySceneNode<>>(m, "SceneNode")
+		.def(pybind11::init<>())
+		.def("AttachToRoot", &SceneNode::AttachToRoot)
+		.def("AttachToParent", &SceneNode::AttachToParent)
+		.def("setScale", &SceneNode::setScale)
+		.def("setRotatation", &SceneNode::setRotatation)
+		.def("setPosition", &SceneNode::setPosition)
+		.def("Run", &SceneNode::Run)
+		.def("updateTransform", &SceneNode::updateTransform)
+		;
+}

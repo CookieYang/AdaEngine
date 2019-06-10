@@ -8,6 +8,7 @@ class TransformComponent;
 class CameraComponent {
 public:
 	TransformComponent* trans;
+	void setActive();
 	// Camera options
 	float Zoom;
 	CameraComponent(SceneNode* parent);

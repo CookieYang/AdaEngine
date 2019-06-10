@@ -21,3 +21,5 @@ private:
 	DMath::vec_t lastMousePos;
 	bool bFirstMouse;
 };
+
+void init_ScenePawn(pybind11::module& m);

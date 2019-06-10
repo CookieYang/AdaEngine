@@ -3,7 +3,6 @@
 #include "AdaMath.h"
 #include "ScenePawn.h"
 
-
 void TestSceneMesh::doInit() {
 
 	cube = new SceneMesh;
