@@ -2,7 +2,7 @@
 #include "TransformComponent.h"
 #include "MeshSource.h"
 
-class MeshComponent {
+class MeshComponent: public Component {
 public:
 	RefCountedPtr<MeshSource> sMesh;
 	TransformComponent transComponent;

@@ -13,7 +13,7 @@ void OglRenderInterface::Init() {
 	RenderInterface::MakeCurrent();
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClearDepth(1.0f);
-	glViewport(0, 0, 1280, 720);
+	glViewport(0, 0, Engine::getInstance()->config->windowFrame[2], Engine::getInstance()->config->windowFrame[3]);
 }
 
 void OglRenderInterface::Draw(double time) {

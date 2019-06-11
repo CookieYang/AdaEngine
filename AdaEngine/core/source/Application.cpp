@@ -51,6 +51,7 @@ void Application::Initilize() {
 void Application::Run() {
 	while (!Engine::getInstance()->win->Closed()) {
 		double currentTime = Engine::getInstance()->win->GetCurrentTime();
+		Engine::getInstance()->updateDeltaTime(currentTime);
 		Engine::getInstance()->sceneTree->Run();
 		doRun();
 		RenderInterface::getSingleton()->sync();

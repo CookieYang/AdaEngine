@@ -1,6 +1,7 @@
 #pragma once
 #include "AdaMath.h"
-class TransformComponent {
+#include "Component.h"
+class TransformComponent : public Component {
 public:
 	TransformComponent();
 	DMath::matrix_t GetTransform();

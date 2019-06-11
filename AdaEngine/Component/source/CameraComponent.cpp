@@ -1,6 +1,7 @@
 #include "CameraComponent.h"
 #include "SceneNode.h"
 #include "IRenderInterface.h"
+#include "Engine.h"
 
 CameraComponent::CameraComponent(SceneNode* parent) :
 	parent(parent),
@@ -30,5 +31,5 @@ glm::mat4 CameraComponent::GetProjMatrix() {
 		Zoom = 1.0f;
 	if (Zoom >= 45.0f)
 		Zoom = 45.0f;
-	return glm::perspective(glm::radians(Zoom), 1280.0f / 720.0f, 0.01f, 200.0f);
+	return glm::perspective(glm::radians(Zoom), Engine::getInstance()->config->windowFrame[2] / Engine::getInstance()->config->windowFrame[3], 0.01f, 200.0f);
 }

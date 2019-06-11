@@ -1,9 +1,17 @@
 {
     "RenderConfig":{
-        "WindowFrame": [0.0, 0.0, 1024, 720],
+        "WindowFrame": [0.0, 0.0, 400, 400],
         "UseMultiThread": true
     },
-    "InputConfig":{
-
+    "KeyboardInputConfig":{
+        "KeyA":"MoveLeft",
+        "KeyD":"MoveRight",
+        "KeyW":"MoveForward",
+        "KeyS":"MoveBack"
+    },
+    "MouseInputCofig":{
+        "MouseMoveY":"TurnUp",
+        "MouseMoveX":"TurnRight",
+        "MouseScroll":"Zoom"
     }
 }

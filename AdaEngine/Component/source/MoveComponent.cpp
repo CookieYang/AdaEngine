@@ -26,19 +26,19 @@ void MoveComponent::MoveUp(float deltaTime) {
 
 void MoveComponent::AddYaw(float offset) {
 	yaw += offset * sensitivity;
-	if (yaw > 85.0f)
-		yaw = 85.0f;
-	if (yaw < -85.0f)
-		yaw = -85.0f;
-	parent->transComponent.setRotation(DMath::makeVect(yaw, pitch, roll));
+	parent->transComponent.setRotation(DMath::makeVect(pitch, yaw, roll));
 }
 
 void MoveComponent::AddPitch(float offset) {
 	 pitch += offset * sensitivity;
-	parent->transComponent.setRotation(DMath::makeVect(yaw, pitch, roll));
+	 if (pitch > 85.0f)
+		 pitch = 85.0f;
+	 if (pitch < -85.0f)
+		 pitch = -85.0f;
+	parent->transComponent.setRotation(DMath::makeVect(pitch, yaw, roll));
 }
 
 void MoveComponent::AddRoll(float offset) {
 	roll += offset * sensitivity;
-	parent->transComponent.setRotation(DMath::makeVect(yaw, pitch, roll));
+	parent->transComponent.setRotation(DMath::makeVect(pitch, yaw, roll));
 }

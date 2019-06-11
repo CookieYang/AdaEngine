@@ -120,6 +120,9 @@
     <ClCompile Include="core\source\Config.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Component\source\InputComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -240,6 +243,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="core\head\Config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\head\Component.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\head\InputComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

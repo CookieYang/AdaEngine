@@ -1,11 +1,12 @@
 #pragma once
 #include "AdaMath.h"
+#include "Component.h"
 
 const float ZOOM = 45.0f;
 
 class SceneNode;
 class TransformComponent;
-class CameraComponent {
+class CameraComponent: public Component {
 public:
 	TransformComponent* trans;
 	void setActive();

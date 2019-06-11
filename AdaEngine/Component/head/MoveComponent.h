@@ -1,7 +1,8 @@
 #pragma once
 #include "AdaMath.h"
+#include "Component.h"
 class SceneNode;
-class MoveComponent {
+class MoveComponent : public Component {
 public:
 	MoveComponent(SceneNode* p);
 	float speed;

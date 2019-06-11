@@ -9,6 +9,7 @@ class Window {
 	GLFWwindow* win;
 public:
 	Window();
+	Window(DMath::vec_t frame);
 	~Window();
 	double GetCurrentTime();
 	bool Init();
@@ -25,4 +26,8 @@ public:
 	static delegate<void(MouseMoveEvent*)> moveDelegate;
 	static delegate<void(ScrollEvent*)> scrollDelegate;
 	static bool bSendEvent;
+	static bool bFirstMouse;
+	static DMath::vec_t lastMousePos;
+private:
+	DMath::vec_t frame;
 };

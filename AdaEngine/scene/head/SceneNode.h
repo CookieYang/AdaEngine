@@ -5,6 +5,7 @@
 #include "RefCountedPtr.h"
 #include "Event.h"
 #include "pybind11.h"
+#include "Component.h"
 
 class SceneNode: public RefCountable {
 	friend class SceneTree;
@@ -20,12 +21,9 @@ public:
 	void Run();
 	void updateTransform();
 
-	// expose to python
-	virtual bool ProcessKeyEvent(Event* kEvent) { return false; };
-	virtual bool ProcessMouseMoveEvent(Event* mEvent) { return false; };
-	virtual bool ProcessScrollEvent(Event* sEvent) { return false; };
 	virtual void doRun() {};
 	virtual void doUpdateTransform() {};
+	std::vector<RefCountedPtr<Component>> components;
 protected:
 	std::vector<RefCountedPtr<SceneNode>> childrens;
 	SceneNode* weak_parent;                                           // be careful !!!
@@ -38,9 +36,6 @@ template <class Base = SceneNode>
 class PySceneNode : public Base {
 public:
 	using Base::Base; // Inherit constructors
-	bool ProcessKeyEvent(Event* kEvent) override { PYBIND11_OVERLOAD(bool, Base, ProcessKeyEvent, kEvent); }
-	bool ProcessMouseMoveEvent(Event* mEvent) override { PYBIND11_OVERLOAD(bool, Base, ProcessMouseMoveEvent, mEvent); }
-	bool ProcessScrollEvent(Event* sEvent) override { PYBIND11_OVERLOAD(bool, Base, ProcessScrollEvent, sEvent); }
 	void doRun() override { PYBIND11_OVERLOAD(void, Base, doRun, ); }
 	void doUpdateTransform() override { PYBIND11_OVERLOAD(void, Base, doUpdateTransform, ); }
 };

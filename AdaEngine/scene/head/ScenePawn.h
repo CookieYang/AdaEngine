@@ -12,14 +12,14 @@ public:
 protected:
 	CameraComponent* cameraCom;
 	MoveComponent* moveCom;
-	virtual bool ProcessKeyEvent(Event* kEvent) override;
-	virtual bool ProcessMouseMoveEvent(Event* mEvent) override;
-	virtual bool ProcessScrollEvent(Event* sEvent) override;
 private:
-	float deltaTime;
-	float lastFrame;
-	DMath::vec_t lastMousePos;
-	bool bFirstMouse;
+	void MoveForward(Event* event);
+	void MoveBack(Event* event);
+	void MoveRight(Event* event);
+	void MoveLeft(Event* event);
+	void TurnRight(Event* event);
+	void TurnUp(Event* event);
+	void Zoom(Event* event);
 };
 
 void init_ScenePawn(pybind11::module& m);

@@ -6,7 +6,9 @@ delegate<void(Event*)> Window::keyDelegate;
 delegate<void(MouseMoveEvent*)> Window::moveDelegate;
 delegate<void(ScrollEvent*)> Window::scrollDelegate;
 static bool bCursorEnable = true;
+bool Window::bFirstMouse = true;
 bool	Window::bSendEvent = false;
+DMath::vec_t Window::lastMousePos = DMath::makeVect(0, 0);
 
 static void resizeCallback(GLFWwindow* win, int width, int height) {
 	Window::resizeDelegate(width, height);
@@ -18,6 +20,7 @@ static void keyCallback(GLFWwindow* win, int key, int scanCode, int action, int 
 		if (bCursorEnable)
 		{
 			glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			Window::bFirstMouse = true;
 		}
 		else {
 			glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -41,15 +44,31 @@ static void mouseCallback(GLFWwindow* win, int key, int action, int modBit) {
 }
 
 static void mousePosCallback(GLFWwindow* win, double xpos, double ypos) {
-	Window::moveDelegate(new MouseMoveEvent(xpos, ypos));
+	DMath::vec_t pos = DMath::makeVect(xpos, ypos);
+	if (Window::bFirstMouse)
+	{
+		Window::lastMousePos = pos;
+		Window::bFirstMouse = false;
+	}
+	float xoffset = xpos - Window::lastMousePos.x;
+	float yoffset = Window::lastMousePos.y - ypos;
+	Window::lastMousePos = pos;
+	MouseMoveEvent* mEvent = new MouseMoveEvent(xpos, ypos);
+	mEvent->deltaX = xoffset;
+	mEvent->deltaY = yoffset;
+	Window::moveDelegate(mEvent);
 }
 
 static void scrollCallback(GLFWwindow* win, double xoffset, double yoffset) {
 	Window::scrollDelegate(new ScrollEvent(xoffset, yoffset));
 }
 
-Window::Window() {
+Window::Window():frame(DMath::makeVect(0, 0, 1024, 700)) {
 	
+}
+
+Window::Window(DMath::vec_t frame):frame(frame) {
+
 }
 
 Window::~Window() {
@@ -61,7 +80,7 @@ bool Window::Init() {
 		return false;
 
 	/* Create a windowed mode window and its OpenGL context */
-	win = glfwCreateWindow(1280, 720, "Ada Engine", NULL, NULL);
+	win = glfwCreateWindow(frame[2], frame[3], "Ada Engine", NULL, NULL);
 
 	if (!win)
 	{

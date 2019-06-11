@@ -1,6 +1,7 @@
 #include "SceneNode.h"
 #include "Engine.h"
 #include "SceneTree.h"
+#include "InputComponent.h"
 void SceneNode::AttachToParent(SceneNode* parent) {
 	if (parent)
 	{
@@ -35,22 +36,15 @@ bool SceneNode::ProcessEvent(Event* event) {
 			event->bProcced = true;
 		}
 	}
-	if (!event->bProcced) {
-		if (event->getType() == EVENTYPE::KEYEVENT)
+	for (auto component : components) {
+		InputComponent* com = dynamic_cast<InputComponent*>(component.get());
+		if (com)
 		{
-			if (ProcessKeyEvent(event)) {
+			if (com->ProcessEvent(event))
+			{
 				event->bProcced = true;
 			}
-		}
-		else if (event->getType() == EVENTYPE::MOUSEMOVEEVENT) {
-			if (ProcessMouseMoveEvent(event)) {
-				event->bProcced = true;
-			}
-		}
-		else if (event->getType() == EVENTYPE::SCROLLEVENT) {
-			if (ProcessScrollEvent(event)) {
-				event->bProcced = true;
-			}
+			break;
 		}
 	}
 	return false;

@@ -23,7 +23,10 @@ Engine* Engine::getInstance() {
 }
 
 void Engine::init() {
-	win = std::unique_ptr<Window>(new Window);
+	config = std::unique_ptr<EngineConfig>(new EngineConfig);
+	config->loadConfig();
+
+	win = std::unique_ptr<Window>(new Window(config->windowFrame));
 	win->Init();
 	Window::resizeDelegate += mem_call(*Engine::getInstance(), &Engine::resizeViewPort);
 	Window::keyDelegate += mem_call(*Engine::getInstance(), &Engine::EventCallback);
@@ -31,7 +34,7 @@ void Engine::init() {
 	Window::scrollDelegate += mem_call(*Engine::getInstance(), &Engine::EventCallback);
 
 	OglRenderInterface* oglRenderInterface = new OglRenderInterface;
-	new RenderInterfaceWrap(oglRenderInterface, true);
+	new RenderInterfaceWrap(oglRenderInterface, config->bUseRenderingThread);
 	new ResourceManager;
 	sceneTree = std::unique_ptr<SceneTree>(new SceneTree);
 
@@ -41,6 +44,11 @@ void Engine::init() {
 	int Height = FreeImage_GetHeight(img);
 	win->setIcon(FreeImage_GetBits(img), Width, Height);
 	FreeImage_Unload(img);
+}
+
+void Engine::updateDeltaTime(double time) {
+	deltaTime = time - lastTime;
+	lastTime = time;
 }
 
 void Engine::sleep(double time) {
