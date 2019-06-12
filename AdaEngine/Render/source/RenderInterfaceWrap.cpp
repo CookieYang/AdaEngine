@@ -106,6 +106,7 @@ RenderInterfaceWrap::RenderInterfaceWrap(RenderInterface* innerRender, bool bCre
 RenderInterfaceWrap::~RenderInterfaceWrap() {
 	delete innerRenderInterface;
 	delete allocMutex;
+	delete pineLine;
 }
 
 Material* RenderInterfaceWrap::createMaterial(const std::string& name, const std::string& shaderName) {

@@ -46,6 +46,11 @@ void Engine::init() {
 	FreeImage_Unload(img);
 }
 
+Engine::~Engine() {
+	delete RenderInterface::getSingleton();
+	delete ResourceManager::singleton();
+};
+
 void Engine::updateDeltaTime(double time) {
 	deltaTime = time - lastTime;
 	lastTime = time;

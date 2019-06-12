@@ -40,7 +40,7 @@ void SceneMesh::doUpdateTransform() {
 
 void init_SceneMesh(pybind11::module& m) {
 	pybind11::class_<SceneMesh, SceneRenderable, PySceneRenderable<SceneMesh>>(m, "SceneMesh")
-		.def(pybind11::init<>())
+		.def("MakeMesh", []() { return new SceneMesh; }, pybind11::return_value_policy::reference)
 		.def("setGeometry", &SceneMesh::setGeometry)
 		.def("setMesh", &SceneMesh::setMesh)
 		.def("setMaterial", &SceneMesh::setMaterial)

@@ -1,6 +1,7 @@
 #pragma once
 #include <cassert>
 #include <atomic>
+#include <iostream>
 
 class RefCountable {
 public:
@@ -21,7 +22,9 @@ public:
 
 protected:
 	RefCountable():refCount(0) {};
-	virtual ~RefCountable() { assert(refCount == 0); };
+	virtual ~RefCountable() { 
+		assert(refCount == 0); 
+	};
 private:
 	std::atomic_long refCount;
 	RefCountable(const RefCountable&);

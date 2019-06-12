@@ -3,7 +3,11 @@
 #include "IRenderInterface.h"
 
 MeshSource::~MeshSource() {
-	
+	for (size_t i = 0; i < sectionNum; i++)
+	{
+		MeshSection* section = meshSections[i];
+		delete section;
+	}
 }
 
 int MeshSource::getSectionNum() {

@@ -251,5 +251,8 @@
     <ClInclude Include="Component\head\InputComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Bind.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

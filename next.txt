@@ -1,2 +1,2 @@
-1.资源销毁
-2.shader json化
+1.shader json化
+2.前向管线

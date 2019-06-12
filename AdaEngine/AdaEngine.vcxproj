@@ -90,7 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)thirdParty\rapidjson;$(ProjectDir)Component\head;$(ProjectDir)scene\head;$(ProjectDir)core\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)thirdParty\rapidjson;$(ProjectDir)Component\head;$(ProjectDir)scene\head;$(ProjectDir)core\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir);$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -121,7 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Component\head;$(ProjectDir)core\head;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)scene\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\rapidjson;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Component\head;$(ProjectDir)core\head;$(ProjectDir)data\head;$(ProjectDir)utils\head;$(ProjectDir)scene\head;$(ProjectDir)thirdParty\freeImage\include;$(ProjectDir)Render\head;%(AdditionalIncludeDirectories);$(PYHOME)include;$(ProjectDir)thirdParty\rapidjson;$(ProjectDir)thirdParty\pybind11;$(FBXSDKPATH)\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -172,6 +172,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bind.h" />
     <ClInclude Include="Component\head\CameraComponent.h" />
     <ClInclude Include="Component\head\Component.h" />
     <ClInclude Include="Component\head\InputComponent.h" />

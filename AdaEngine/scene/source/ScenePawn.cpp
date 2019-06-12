@@ -19,6 +19,11 @@ ScenePawn::ScenePawn(){
 	components.push_back(RefCountedPtr<Component>(inputCom));
 }
 
+ScenePawn::~ScenePawn (){
+	delete cameraCom;
+	delete moveCom;
+}
+
 void ScenePawn::MoveForward(Event* event) {
 	moveCom->MoveForward(Engine::getInstance()->deltaTime * 1.0f);
 }
@@ -56,7 +61,7 @@ void  ScenePawn::Zoom(Event* event) {
 
  void init_ScenePawn(pybind11::module& m) {
 	 pybind11::class_<ScenePawn, SceneRenderable, PySceneRenderable<ScenePawn>>(m, "ScenePawn")
-		 .def(pybind11::init<>())
+		 .def("MakePawn", []() { return new ScenePawn; }, pybind11::return_value_policy::reference)
 		 .def("ActiveControl", &ScenePawn::ActiveControl)
 		 ;
  }

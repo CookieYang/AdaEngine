@@ -7,7 +7,7 @@ class MoveComponent;
 class ScenePawn : public SceneRenderable { 
 public:
 	ScenePawn();
-	virtual ~ScenePawn() {};
+	virtual ~ScenePawn();
 	void ActiveControl();
 protected:
 	CameraComponent* cameraCom;

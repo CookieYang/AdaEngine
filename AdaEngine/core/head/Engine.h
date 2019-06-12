@@ -11,7 +11,7 @@ class Event;
 class Engine {
 public:
 	Engine() {};
-	~Engine() {};
+	~Engine();
 	static Engine* getInstance();
 	void init();
 	void updateDeltaTime(double time);

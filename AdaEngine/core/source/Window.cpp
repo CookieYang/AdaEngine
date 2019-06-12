@@ -139,4 +139,5 @@ void Window::setIcon(unsigned char* icon, int width, int height) {
 	img->height = height;
 	img->pixels = icon;
 	glfwSetWindowIcon(win, 1, img);
+	delete img;
 }

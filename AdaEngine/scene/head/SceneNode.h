@@ -2,17 +2,19 @@
 #include <vector>
 #include <memory>
 #include "TransformComponent.h"
-#include "RefCountedPtr.h"
 #include "Event.h"
-#include "pybind11.h"
 #include "Component.h"
+#include "Bind.h"
 
 class SceneNode: public RefCountable {
 	friend class SceneTree;
 public:
 	TransformComponent transComponent;
 	SceneNode(){};
-	virtual ~SceneNode() {};
+	virtual ~SceneNode() {
+		//components.clear();
+		//childrens.clear();
+	};
 	void AttachToRoot();
 	void AttachToParent(SceneNode* parent);
 	void setScale(DMath::vec_t s);

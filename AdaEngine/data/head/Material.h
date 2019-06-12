@@ -15,7 +15,9 @@ public:
 	void attachToMeshSection(MeshSection* meshSection);
 	ShaderSource* getShader();
 	Material():dirty(true) {};
-	virtual ~Material() {};
+	virtual ~Material() {
+	
+	};
 	std::vector<MeshSection*> meshRefs;
 	bool getDirty();
 	void setDirty(bool dirty);
@@ -68,4 +70,8 @@ public:
 	std::map<std::string, MaterialVar> materialVars;
 	void attachTexture(const std::string& name);
 	Material* mat;
+	MaterialInstance() {};
+	~MaterialInstance() {
+	
+	};
 };

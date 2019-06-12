@@ -66,7 +66,7 @@ void SceneNode::updateTransform() {
 
 void init_SceneNode(pybind11::module& m) {
 	pybind11::class_<SceneNode, PySceneNode<>>(m, "SceneNode")
-		.def(pybind11::init<>())
+		.def("MakeNode", []() { return new SceneNode; }, pybind11::return_value_policy::reference)
 		.def("AttachToRoot", &SceneNode::AttachToRoot)
 		.def("AttachToParent", &SceneNode::AttachToParent)
 		.def("setScale", &SceneNode::setScale)
