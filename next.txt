@@ -1,2 +1,4 @@
-1.shader json化
-2.前向管线
+1.资源json化
+2.remove shadersource
+3.所有资源操作移到资源管理中去。
+3.前向管线

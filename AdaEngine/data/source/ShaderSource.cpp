@@ -12,6 +12,7 @@ ShaderSource::~ShaderSource() {
 void ShaderSource::setShaderData(const std::string& name) {
 	ShaderData* sData = (ShaderData*)ResourceManager::singleton()->GetResourceByName(name);
 	mShaderData = RefCountedPtr<ShaderData>(sData);
+	setResPath(sData->getResPath());
 }
 
 ShaderData* ShaderSource::getShaderData() {

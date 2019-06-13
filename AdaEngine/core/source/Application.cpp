@@ -27,16 +27,16 @@ void Application::createDefalutResource() {
 	ShaderSource* sha = RenderInterface::getSingleton()->createShader("defalut_shader");
 	sha->setShaderData("defalut_shader_c");
 
+	TextureSource* tex = RenderInterface::getSingleton()->createTexture("defalut_tex");
+	tex->setImageRef("defalut_tex_c");
+
 	RenderInterface::getSingleton()->createMaterial("defalut_mat", "defalut_shader");
 
 	MeshSource* mesh = RenderInterface::getSingleton()->createMesh("cube_mesh");
 	mesh->setGeometry("cube_mesh_c");
 
-	TextureSource* tex = RenderInterface::getSingleton()->createTexture("defalut_tex");
-	tex->setImageRef("defalut_tex_c");
-
 	MaterialInstance* matInstance = RenderInterface::getSingleton()->createMaterialInstance("defalut_mat_ins", "defalut_mat");
-	matInstance->attachTexture("defalut_tex");
+	matInstance->loadDefalutValues();
 }
 
 void Application::Initilize() {

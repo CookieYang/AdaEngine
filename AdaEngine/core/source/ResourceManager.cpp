@@ -60,6 +60,7 @@ CPUResource* ResourceManager::loadShaderGroupFromFile(const std::string& name) {
 	shader->shaderStrs.push_back(shaderFrag1);
 	shader->shaderStrs.push_back(shaderFrag2);
 	loadedResource.insert(std::pair<std::string, RefCountedPtr<CPUResource>>(shader->getName(), shader));
+	shader->setResPath("shaders/forward");
 	return shader;
 }
 

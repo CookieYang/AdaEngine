@@ -7,7 +7,9 @@
 class  Config {
 public:
 	Config() {};
-	virtual ~Config() {};
+	virtual ~Config() {
+		delete document;
+	};
 	bool loadJson(const std::string& path);
 	std::string asString(const char* key);
 	bool asBool(const char* key);

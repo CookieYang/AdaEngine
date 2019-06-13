@@ -2,11 +2,13 @@
 #include "RenderInterfaceWrap.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/glm.hpp>
+#include "Config.h"
 
 void passDraw(RenderPass* pass);
 void buildPass(RenderPass* pass);
 void buildShader(ShaderSource* shader);
 void setMaterialUniforms(GLuint program, const std::string& bindingName, MaterialVar var, int index);
+void readMaterialDefalutValue(const MaterialVar::VarType& type, const rapidjson::Value& value, MaterialVar::VarData& data);
 
 void OglRenderInterface::Init() {
 	// init gl in rendering thread
@@ -222,6 +224,37 @@ Material* OglRenderInterface::_createMaterial(RenderInterfaceWrap* wrap, const s
 	ShaderSource* shader = (ShaderSource*)this->_GetResourceByName(wrap, shaderName, GPUResource::GResourceType::SHDADER);
 	m->setName(name);
 	m->attachShader(shader);
+
+	//get uniforms from json
+	Config matCig;
+	matCig.loadJson(shader->getResPath() + "/" + name + ".json");
+
+	const rapidjson::Value& VS = matCig.asMap("VS");
+	const rapidjson::Value& PS = matCig.asMap("PS");
+	const rapidjson::Value& VSUniforms = VS.operator[]("uniforms");
+	const rapidjson::Value& PSUniforms = PS.operator[]("uniforms");
+
+	for (rapidjson::Value::ConstMemberIterator itr = VSUniforms.MemberBegin();
+		itr != VSUniforms.MemberEnd(); ++itr)
+	{
+		std::string uniformName = itr->name.GetString();
+		// location 0 means uniform type
+		MaterialVar::VarType varType = UNIFORMCONVERTMAP.at(itr->value[0].GetString());
+		// location 1 means defalut value
+		MaterialVar::VarData defalutValue;
+		readMaterialDefalutValue(varType, itr->value[1], defalutValue);
+		m->uniforms[uniformName] =  std::make_pair(varType, defalutValue);
+	}
+
+	for (rapidjson::Value::ConstMemberIterator itr = PSUniforms.MemberBegin();
+		itr != PSUniforms.MemberEnd(); ++itr)
+	{
+		std::string uniformName = itr->name.GetString();
+		MaterialVar::VarType varType = UNIFORMCONVERTMAP.at(itr->value[0].GetString());
+		MaterialVar::VarData defalutValue;
+		readMaterialDefalutValue(varType, itr->value[1], defalutValue);
+		m->uniforms[uniformName] = std::make_pair(varType, defalutValue);
+	}
 	return m;
 }
 
@@ -231,22 +264,12 @@ MaterialInstance* OglRenderInterface::_createMaterialInstance(RenderInterfaceWra
 	matInstance->mat = m;
 	matInstance->setName(matInstanceName);
 
-	// create defalut material Instance
-	MaterialVar var1;
-	var1.mType = MaterialVar::VarType::MAT4;
-	var1.mVar.mat4 =glm::mat4(1.0f);
-
-	MaterialVar var2;
-	var2.mType = MaterialVar::VarType::MAT4;
-	var2.mVar.mat4 = glm::mat4(1.0f);
-
-	MaterialVar var3;
-	var3.mType = MaterialVar::VarType::MAT4;
-	var3.mVar.mat4 = glm::mat4(1.0f);
-
-	matInstance->materialVars["modelMat"] = var1;
-	matInstance->materialVars["viewMat"] = var2;
-	matInstance->materialVars["projMat"] = var3;
+	for (auto uniform : m->uniforms) {
+		MaterialVar var;
+		var.mType = uniform.second.first;
+		var.mVar = uniform.second.second;
+		matInstance->materialVars[uniform.first] = var;
+	}
 
 	return matInstance;
 }
@@ -383,4 +406,27 @@ void OglRenderInterface::resizeViewport(int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
-
+void readMaterialDefalutValue(const MaterialVar::VarType& type, const rapidjson::Value& value, MaterialVar::VarData& data) {
+	switch (type)
+	{
+	case MaterialVar::VarType::MAT4:
+	{
+		float mat4[16];
+		int index = 0;
+		for (auto& v : value.GetArray()) {
+			mat4[index] = v.GetFloat();
+			index++;
+		}
+		data.mat4 = glm::make_mat4x4(mat4);
+	}
+	break;
+	case MaterialVar::VarType::TEXTURE2D:
+	{
+		std::string* textureName = new std::string(value.GetString());
+		data.texName = textureName;
+	}
+	break;
+	default:
+		break;
+	}
+}

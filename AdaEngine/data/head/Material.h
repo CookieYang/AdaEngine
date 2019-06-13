@@ -7,21 +7,6 @@
 #include <glm/glm.hpp>
 
 class MeshSection;
-class Material : public GPUResource {
-	RefCountedPtr<ShaderSource> materialShader;
-	volatile bool dirty;
-public:
-	void attachShader(ShaderSource* shader);
-	void attachToMeshSection(MeshSection* meshSection);
-	ShaderSource* getShader();
-	Material():dirty(true) {};
-	virtual ~Material() {
-	
-	};
-	std::vector<MeshSection*> meshRefs;
-	bool getDirty();
-	void setDirty(bool dirty);
-};
 
 struct MaterialVar
 {
@@ -35,7 +20,8 @@ struct MaterialVar
 		float f;
 		int i;
 		bool b;
-		unsigned int* texID;  
+		unsigned int* texID;
+		std::string* texName;
 	};
 	enum VarType
 	{
@@ -64,14 +50,35 @@ struct MaterialVar
 	MaterialVar(unsigned int* var) { mVar.texID = var; mType = VarType::TEXTURE2D; };
 };
 
+const std::map<std::string, MaterialVar::VarType> UNIFORMCONVERTMAP = {
+	{"MAT4",MaterialVar::VarType::MAT4},
+	{"TEXTURE2D",MaterialVar::VarType::TEXTURE2D}
+};
+
+class Material : public GPUResource {
+	RefCountedPtr<ShaderSource> materialShader;
+	volatile bool dirty;
+public:
+	void attachShader(ShaderSource* shader);
+	void attachToMeshSection(MeshSection* meshSection);
+	ShaderSource* getShader();
+	Material():dirty(true) {};
+	virtual ~Material() {
+	
+	};
+	std::vector<MeshSection*> meshRefs;
+	bool getDirty();
+	void setDirty(bool dirty);
+	std::map<std::string, std::pair<MaterialVar::VarType, MaterialVar::VarData>> uniforms;
+};
+
 class MaterialInstance : public GPUResource {
 public:
 	std::vector<RefCountedPtr<TextureSource>> textureRefs; // for release count (when there are too much texture existing)
 	std::map<std::string, MaterialVar> materialVars;
 	void attachTexture(const std::string& name);
+	void loadDefalutValues();
 	Material* mat;
-	MaterialInstance() {};
-	~MaterialInstance() {
-	
-	};
+	MaterialInstance();
+	~MaterialInstance();
 };
