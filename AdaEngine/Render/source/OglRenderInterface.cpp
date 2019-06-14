@@ -2,13 +2,12 @@
 #include "RenderInterfaceWrap.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/glm.hpp>
-#include "Config.h"
+#include "MeshSource.h"
 
 void passDraw(RenderPass* pass);
 void buildPass(RenderPass* pass);
 void buildShader(ShaderSource* shader);
 void setMaterialUniforms(GLuint program, const std::string& bindingName, MaterialVar var, int index);
-void readMaterialDefalutValue(const MaterialVar::VarType& type, const rapidjson::Value& value, MaterialVar::VarData& data);
 
 void OglRenderInterface::Init() {
 	// init gl in rendering thread
@@ -219,75 +218,8 @@ CameraComponent* OglRenderInterface::_getActiveCamera(RenderInterfaceWrap* wrap)
 	return wrap->camera;
 }
 
-Material* OglRenderInterface::_createMaterial(RenderInterfaceWrap* wrap, const std::string& name, const std::string& shaderName) {
-	Material* m = new Material;
-	ShaderSource* shader = (ShaderSource*)this->_GetResourceByName(wrap, shaderName, GPUResource::GResourceType::SHDADER);
-	m->setName(name);
-	m->attachShader(shader);
-
-	//get uniforms from json
-	Config matCig;
-	matCig.loadJson(shader->getResPath() + "/" + name + ".json");
-
-	const rapidjson::Value& VS = matCig.asMap("VS");
-	const rapidjson::Value& PS = matCig.asMap("PS");
-	const rapidjson::Value& VSUniforms = VS.operator[]("uniforms");
-	const rapidjson::Value& PSUniforms = PS.operator[]("uniforms");
-
-	for (rapidjson::Value::ConstMemberIterator itr = VSUniforms.MemberBegin();
-		itr != VSUniforms.MemberEnd(); ++itr)
-	{
-		std::string uniformName = itr->name.GetString();
-		// location 0 means uniform type
-		MaterialVar::VarType varType = UNIFORMCONVERTMAP.at(itr->value[0].GetString());
-		// location 1 means defalut value
-		MaterialVar::VarData defalutValue;
-		readMaterialDefalutValue(varType, itr->value[1], defalutValue);
-		m->uniforms[uniformName] =  std::make_pair(varType, defalutValue);
-	}
-
-	for (rapidjson::Value::ConstMemberIterator itr = PSUniforms.MemberBegin();
-		itr != PSUniforms.MemberEnd(); ++itr)
-	{
-		std::string uniformName = itr->name.GetString();
-		MaterialVar::VarType varType = UNIFORMCONVERTMAP.at(itr->value[0].GetString());
-		MaterialVar::VarData defalutValue;
-		readMaterialDefalutValue(varType, itr->value[1], defalutValue);
-		m->uniforms[uniformName] = std::make_pair(varType, defalutValue);
-	}
-	return m;
-}
-
-MaterialInstance* OglRenderInterface::_createMaterialInstance(RenderInterfaceWrap* wrap, const std::string& matInstanceName, const std::string& matName) {
-	MaterialInstance* matInstance = new MaterialInstance;
-	Material* m = (Material*)this->_GetResourceByName(wrap, matName, GPUResource::GResourceType::MATRERIAL);
-	matInstance->mat = m;
-	matInstance->setName(matInstanceName);
-
-	for (auto uniform : m->uniforms) {
-		MaterialVar var;
-		var.mType = uniform.second.first;
-		var.mVar = uniform.second.second;
-		matInstance->materialVars[uniform.first] = var;
-	}
-
-	return matInstance;
-}
-
 void OglRenderInterface::updateMaterialParam(MaterialInstance* mat, const std::string& paramName, MaterialVar var) {
 	mat->materialVars[paramName] = var;
-}
-
-ShaderSource* OglRenderInterface::createShader(const std::string& name) {
-	ShaderSource* shader = new ShaderSource;
-	shader->setName(name);
-	return shader;
-}
-
-TextureSource* OglRenderInterface::createTexture(const std::string& name) {
-	TextureSource* tex =  new TextureSource;
-	tex->setName(name);
-	return tex;
 }
 
 void OglRenderInterface::uploadTexture(TextureSource* tex) {
@@ -308,11 +240,7 @@ void OglRenderInterface::uploadTexture(TextureSource* tex) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-MeshSource* OglRenderInterface::createMesh(const std::string& name) {
-	MeshSource* mesh = new MeshSource;
-	mesh->setName(name);
-	return mesh;
-}
+
 
 void OglRenderInterface::uploadGeometry(MeshSource* meshSource) {
 	RenderInterface::MakeCurrent();
@@ -376,57 +304,7 @@ void OglRenderInterface::uploadGeometry(MeshSource* meshSource) {
 	}
 }
 
-GPUResource* OglRenderInterface::_GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) {
-	GPUResource* resource = nullptr;
-	switch (type)
-	{
-	case GPUResource::MESH:
-		resource = wrap->MeshSourceMap[name];
-		break;
-	case GPUResource::SHDADER:
-		resource = wrap->ShaderSourceMap[name].get();
-		break;
-	case GPUResource::TEXTURE:
-		resource = wrap->TextureSourceMap[name];
-		break;
-	case GPUResource::MATRERIAL:
-		resource = wrap->MaterialMap[name].get();
-		break;
-	case GPUResource::MATERIALINS:
-		resource = wrap->MaterialInstanceMap[name];
-		break;
-	default:
-		break;
-	}
-	return resource;
-}
-
 void OglRenderInterface::resizeViewport(int width, int height) {
 	RenderInterface::MakeCurrent();
 	glViewport(0, 0, width, height);
-}
-
-void readMaterialDefalutValue(const MaterialVar::VarType& type, const rapidjson::Value& value, MaterialVar::VarData& data) {
-	switch (type)
-	{
-	case MaterialVar::VarType::MAT4:
-	{
-		float mat4[16];
-		int index = 0;
-		for (auto& v : value.GetArray()) {
-			mat4[index] = v.GetFloat();
-			index++;
-		}
-		data.mat4 = glm::make_mat4x4(mat4);
-	}
-	break;
-	case MaterialVar::VarType::TEXTURE2D:
-	{
-		std::string* textureName = new std::string(value.GetString());
-		data.texName = textureName;
-	}
-	break;
-	default:
-		break;
-	}
 }

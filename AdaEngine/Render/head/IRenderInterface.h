@@ -3,9 +3,10 @@
 #include <string>
 #include "RenderPineline.h"
 #include "RenderPass.h"
-#include "MeshSource.h"
-#include "ShaderSource.h"
-#include "TextureSource.h"
+#include "Material.h"
+
+class TextureSource;
+class MeshSource;
 
 #define FUNC1(m_type, m_arg1)                          \
 	virtual void m_type(m_arg1 p1) {						\
@@ -46,22 +47,13 @@ public:
 	virtual void Finish() = 0;             
 	virtual void sync() = 0;
 
-	virtual Material* createMaterial(const std::string& name, const std::string& shaderName) = 0;
-	virtual MaterialInstance* createMaterialInstance(const std::string& matInstanceName, const std::string& matName) = 0;
 	virtual void updateMaterialParam(MaterialInstance* mat, const std::string& paramName, MaterialVar var) = 0;
 
-	virtual ShaderSource* createShader(const std::string& name) = 0;
-
-	virtual TextureSource* createTexture(const std::string& name) = 0;
 	virtual void uploadTexture(TextureSource* tex) = 0;
 
 	virtual void uploadGeometry(MeshSource* mesh) = 0;
-	virtual MeshSource* createMesh(const std::string& name) = 0;
-	virtual GPUResource* GetResourceByName(std::string name, GPUResource::GResourceType type) = 0;
-	virtual Material* _createMaterial(RenderInterfaceWrap* wrap, const std::string& name, const std::string& shaderName) { return nullptr; };
-	virtual MaterialInstance* _createMaterialInstance(RenderInterfaceWrap* wrap, const std::string& matInstanceName, const std::string& matName) { return nullptr; };
+
 	virtual void _addMaterialToPineline(RenderInterfaceWrap* wrap, Material* mat) { };
-	virtual GPUResource* _GetResourceByName(RenderInterfaceWrap* wrap, std::string name, GPUResource::GResourceType type) { return nullptr; };
 
 	virtual RenderPineline* createPineline(PinelineType type) = 0;
 	virtual void addMaterialToPineline(Material* mat) = 0;

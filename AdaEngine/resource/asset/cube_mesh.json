@@ -1,0 +1,5 @@
+{
+    "NAME": "cube_mesh",
+    "RESPATH":"resource/origin/Cube.OBJ",
+    "FORMAT":"OBJ"
+}

@@ -7,67 +7,66 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "TextureData.h"
+#include "ShaderData.h"
+#include "GeometryData.h"
+#include "Config.h"
 
 ResourceManager* ResourceManager::resManager = nullptr;
 void loadGeometryModel(GeometryData*& raw, std::string path);
 void processNode(GeometryData*& raw, aiNode* node, const aiScene* scene);
 void processMesh(GeometryData*& raw, aiMesh* mesh, const aiScene* scene);
-std::string readFileToString(const std::string& path);
+void readMaterialDefalutValue(const MaterialVar::VarType& type, const rapidjson::Value& value, MaterialVar::VarData& data);
 
-CPUResource* ResourceManager::loadTextureFromFile(const std::string& name, const std::string& path, FREE_IMAGE_FORMAT imageFormat, int loadFlag) {
+TextureData*  ResourceManager::loadTextureData(const std::string& path, const std::string& format) {
+	FREE_IMAGE_FORMAT imageFormat;
+
+	if (format == "PNG")
+	{
+		imageFormat = FIF_PNG;
+	}
+	else if (format == "JPG") {
+		imageFormat = FIF_JPEG;
+	}
+
 	TextureData* tex = new TextureData;
-	FIBITMAP * img = FreeImage_Load(imageFormat, path.c_str(), loadFlag);
+	FIBITMAP * img = FreeImage_Load(imageFormat, path.c_str(), 0);
 	int Width = FreeImage_GetWidth(img);
 	int Height = FreeImage_GetHeight(img);
-	tex->setName(name);
-	tex->setResPath(path);
 	tex->imageData = img;
 	tex->height = Height;
 	tex->width = Width;
-	loadedResource.insert(std::pair<std::string, RefCountedPtr<CPUResource>>(tex->getName(), tex));
 	return tex;
 }
 
-CPUResource* ResourceManager::loadGeometryResourceFromFile(const std::string& name, const std::string& path) {
-	GeometryData* gData = new GeometryData;
-	loadGeometryModel(gData, path);
-	gData->setName(name);
-	gData->setResPath(path);
-	loadedResource.insert(std::pair<std::string, RefCountedPtr<CPUResource>>(gData->getName(), gData));
-	return gData;
+GeometryData* ResourceManager::loadGeometryData(const std::string& path, const std::string& format) {
+	if (format == "OBJ")
+	{
+		GeometryData* gData = new GeometryData;
+		loadGeometryModel(gData, path);
+		return gData;
+	}
+	else {
+		return nullptr;
+	}
 }
 
-std::string readFileToString(const std::string& path) {
-	std::ifstream ifile(path);
-	//将文件读入到ostringstream对象buf中
-	std::ostringstream buf;
-	char ch;
-	while (buf&&ifile.get(ch))
-		buf.put(ch);
-	//返回与流对象buf关联的字符串
-	return buf.str();
-}
-
-CPUResource* ResourceManager::loadShaderGroupFromFile(const std::string& name) {
+ShaderData* ResourceManager::loadShaderDataFromFile(std::vector<std::string> paths, std::vector<std::string> types) {
 	ShaderData* shader = new ShaderData;
-	shader->setName(name);
-	ShaderData::shaderString shaderFrag1;
-	shaderFrag1.shaderType = ShaderData::ShaderType::VERTEXSHADER;
-	shaderFrag1.shaderStr = readFileToString("shaders/forward/defalut_fs.glsl");
-	ShaderData::shaderString shaderFrag2;
-	shaderFrag2.shaderType = ShaderData::ShaderType::FRAGMENTSHADER;
-	shaderFrag2.shaderStr = readFileToString("shaders/forward/defalut_ps.glsl");
-	shader->shaderStrs.push_back(shaderFrag1);
-	shader->shaderStrs.push_back(shaderFrag2);
-	loadedResource.insert(std::pair<std::string, RefCountedPtr<CPUResource>>(shader->getName(), shader));
-	shader->setResPath("shaders/forward");
+	for (size_t i = 0; i < paths.size(); i++)
+	{
+		ShaderData::shaderString shaderFrag;
+		if (types[i] == "VERTEXSHADER")
+		{
+			shaderFrag.shaderType = ShaderData::ShaderType::VERTEXSHADER;
+		}
+		else if (types[i] == "FRAGMENTSHADER") {
+			shaderFrag.shaderType = ShaderData::ShaderType::FRAGMENTSHADER;
+		}
+		shaderFrag.shaderStr = readFileAsString(paths[i]);
+		shader->shaderStrs.push_back(shaderFrag);
+	}
 	return shader;
-}
-
-CPUResource* ResourceManager::GetResourceByName(const std::string& name) {
-	CPUResource* res = nullptr;
-	res = loadedResource[name].get();
-	return res;
 }
 
  static void loadGeometryModel(GeometryData*& raw, std::string path) {
@@ -177,6 +176,109 @@ static void processMesh(GeometryData*& raw, aiMesh* mesh, const aiScene* scene) 
 	geoVertexData->sectionsData.push_back(vertexData);
 }
 
+Material* ResourceManager::createMaterial(const std::string& path) {
+	// load Material
+	Config matCig;
+	matCig.loadJson(path);
+
+	std::string name = matCig.asString("NAME");
+	const rapidjson::Value& VS = matCig.asMap("VS");
+	const rapidjson::Value& PS = matCig.asMap("PS");
+	const rapidjson::Value& VSUniforms = VS.operator[]("UNIFORMS");
+	const rapidjson::Value& PSUniforms = PS.operator[]("UNIFORMS");
+	std::string vsPath = VS.operator[]("SHADERPATH").GetString();
+	std::string vsType = VS.operator[]("SHADERTYPE").GetString();
+	std::string psPath = PS.operator[]("SHADERPATH").GetString();
+	std::string psType = PS.operator[]("SHADERTYPE").GetString();
+
+	std::vector<std::string> paths;
+	std::vector<std::string> types;
+
+	paths.push_back(vsPath);
+	paths.push_back(psPath);
+
+	types.push_back(vsType);
+	types.push_back(psType);
+
+	ShaderSource* shader = new ShaderSource(ResourceManager::singleton()->loadShaderDataFromFile(paths, types));
+	Material* m = new Material(shader);
+	m->setName(name);
+
+	for (rapidjson::Value::ConstMemberIterator itr = VSUniforms.MemberBegin();
+		itr != VSUniforms.MemberEnd(); ++itr)
+	{
+		std::string uniformName = itr->name.GetString();
+		// location 0 means uniform type
+		MaterialVar::VarType varType = UNIFORMCONVERTMAP.at(itr->value[0].GetString());
+		// location 1 means defalut value
+		MaterialVar::VarData defalutValue;
+		readMaterialDefalutValue(varType, itr->value[1], defalutValue);
+		m->uniforms[uniformName] = std::make_pair(varType, defalutValue);
+	}
+
+	for (rapidjson::Value::ConstMemberIterator itr = PSUniforms.MemberBegin();
+		itr != PSUniforms.MemberEnd(); ++itr)
+	{
+		std::string uniformName = itr->name.GetString();
+		MaterialVar::VarType varType = UNIFORMCONVERTMAP.at(itr->value[0].GetString());
+		MaterialVar::VarData defalutValue;
+		readMaterialDefalutValue(varType, itr->value[1], defalutValue);
+		m->uniforms[uniformName] = std::make_pair(varType, defalutValue);
+	}
+	MaterialMap[m->getName()] = m;
+	return m;
+}
+
+TextureSource* ResourceManager::createTexture(const std::string& path) {
+	TextureSource* tex = new TextureSource(path);
+	TextureSourceMap[tex->getName()] = tex;
+	return tex;
+}
+
+MeshSource* ResourceManager::createMesh(const std::string& path) {
+	MeshSource* mesh = new MeshSource(path);
+	MeshSourceMap[mesh->getName()] = mesh;
+	return mesh;
+}
+
+MaterialInstance* ResourceManager::createMaterialInstance(const std::string& matInstanceName, const std::string& matName) {
+	MaterialInstance* matInstance = new MaterialInstance;
+	Material* m = (Material*)this->GetResourceByName(matName, GPUResource::GResourceType::MATRERIAL);
+	matInstance->mat = m;
+	matInstance->setName(matInstanceName);
+
+	for (auto uniform : m->uniforms) {
+		MaterialVar var;
+		var.mType = uniform.second.first;
+		var.mVar = uniform.second.second;
+		matInstance->materialVars[uniform.first] = var;
+	}
+	MaterialInstanceMap[matInstanceName] = matInstance;
+	return matInstance;
+}
+
+GPUResource* ResourceManager::GetResourceByName(const std::string& name, GPUResource::GResourceType type) {
+	GPUResource* resource = nullptr;
+	switch (type)
+	{
+	case GPUResource::MESH:
+		resource = MeshSourceMap[name].get();
+		break;
+	case GPUResource::TEXTURE:
+		resource = TextureSourceMap[name];
+		break;
+	case GPUResource::MATRERIAL:
+		resource = MaterialMap[name].get();
+		break;
+	case GPUResource::MATERIALINS:
+		resource = MaterialInstanceMap[name];
+		break;
+	default:
+		break;
+	}
+	return resource;
+}
+
 std::string ResourceManager::readFileAsString(const std::string& path) {
 	std::ifstream ifile(path);
 	std::ostringstream buf;
@@ -201,4 +303,29 @@ ResourceManager::ResourceManager() {
 
 ResourceManager::~ResourceManager() {
 	FreeImage_DeInitialise();
+}
+
+void readMaterialDefalutValue(const MaterialVar::VarType& type, const rapidjson::Value& value, MaterialVar::VarData& data) {
+	switch (type)
+	{
+	case MaterialVar::VarType::MAT4:
+	{
+		float mat4[16];
+		int index = 0;
+		for (auto& v : value.GetArray()) {
+			mat4[index] = v.GetFloat();
+			index++;
+		}
+		data.mat4 = glm::make_mat4x4(mat4);
+	}
+	break;
+	case MaterialVar::VarType::TEXTURE2D:
+	{
+		std::string* textureName = new std::string(value.GetString());
+		data.texName = textureName;
+	}
+	break;
+	default:
+		break;
+	}
 }

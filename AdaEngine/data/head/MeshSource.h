@@ -25,6 +25,7 @@ public:
 	bool loaded;
 	unsigned int passMask;
 	MeshSource():sectionNum(0),passMask(1 << 1),loaded(false) {};
+	MeshSource(const std::string& resPath);
 	~MeshSource();
 	void setGeometry(const std::string& name);
 	void setTransform(const glm::mat4& trans);

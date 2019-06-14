@@ -11,6 +11,6 @@ public:
 	void setShaderData(const std::string& name);
 	ShaderData* getShaderData();
 	unsigned int program;
-	ShaderSource();
+	ShaderSource(ShaderData* data);
 	~ShaderSource();
 };

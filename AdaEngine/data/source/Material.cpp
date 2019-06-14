@@ -1,7 +1,7 @@
 #include "Material.h"
 #include "MeshSource.h"
 #include "IRenderInterface.h"
-
+#include "ResourceManager.h"
 
 std::pair<std::string, MaterialVar::VarType> pairArray[] =
 {
@@ -21,8 +21,8 @@ void Material::attachToMeshSection(MeshSection* meshSection) {
 	meshRefs.push_back(meshSection);
 }
 
-void Material::attachShader(ShaderSource* shader) {
-	materialShader = RefCountedPtr<ShaderSource>(shader);
+Material::Material(ShaderSource* ss):dirty(true) {
+	materialShader = RefCountedPtr<ShaderSource>(ss);
 }
 
 MaterialInstance::MaterialInstance() {
@@ -45,7 +45,7 @@ void MaterialInstance::loadDefalutValues() {
 }
 
 void MaterialInstance::attachTexture(const std::string& name) {
-	TextureSource* tex = (TextureSource*)RenderInterface::getSingleton()->GetResourceByName(name, GPUResource::GResourceType::TEXTURE);
+	TextureSource* tex = (TextureSource*)ResourceManager::singleton()->GetResourceByName(name, GPUResource::GResourceType::TEXTURE);
 	if (tex)
 	{
 		materialVars["baseColor"].mVar.texID = &tex->textureID;

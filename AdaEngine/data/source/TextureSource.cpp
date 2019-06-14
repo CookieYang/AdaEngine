@@ -1,13 +1,24 @@
 #include "TextureSource.h"
 #include "ResourceManager.h"
+#include "Config.h"
 
 TextureSource::TextureSource(): loaded(false) {
 
 }
 
-void TextureSource::setImageRef(const std::string& name) {
-	TextureData* texData = (TextureData*)ResourceManager::singleton()->GetResourceByName(name);
+TextureSource::TextureSource(const std::string& jsonPath):loaded(false) {
+	Config texConfig;
+	texConfig.loadJson(jsonPath);
+	this->setName(texConfig.asString("NAME"));
+	this->setResPath(texConfig.asString("RESPATH"));
+	this->setFormat(texConfig.asString("FORMAT"));
+	TextureData* texData = ResourceManager::singleton()->loadTextureData(this->getResPath(), this->getFormat());
 	imageRef = RefCountedPtr<TextureData>(texData);
+}
+
+void TextureSource::setImageRef(const std::string& name) {
+	//TextureData* texData = (TextureData*)ResourceManager::singleton()->GetResourceByName(name);
+	//imageRef = RefCountedPtr<TextureData>(texData);
 }
 
 int TextureSource::getWidth() {

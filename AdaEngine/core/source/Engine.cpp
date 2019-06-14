@@ -39,7 +39,7 @@ void Engine::init() {
 	sceneTree = std::unique_ptr<SceneTree>(new SceneTree);
 
 	// set icon
-	FIBITMAP * img = FreeImage_Load(FIF_PNG, "resource/icon.png", PNG_DEFAULT);
+	FIBITMAP * img = FreeImage_Load(FIF_PNG, "resource/origin/icon.png", PNG_DEFAULT);
 	int Width = FreeImage_GetWidth(img);
 	int Height = FreeImage_GetHeight(img);
 	win->setIcon(FreeImage_GetBits(img), Width, Height);

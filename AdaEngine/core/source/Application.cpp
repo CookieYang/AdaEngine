@@ -13,29 +13,18 @@ Application::~Application() {
 
 void Application::createDefalutResource() {
 
-	// create CPU data
-	ResourceManager::singleton()->loadShaderGroupFromFile("defalut_shader_c");
-
-	ResourceManager::singleton()->loadGeometryResourceFromFile("cube_mesh_c", "resource/Cube.OBJ");
-
-	ResourceManager::singleton()->loadTextureFromFile("defalut_tex_c", "resource/defalut.png", FIF_PNG, PNG_DEFAULT);
-
 	// create forward pineline
 	RenderInterface::getSingleton()->createPineline(PinelineType::FORWARD);
 	
-	// create GPU resource
-	ShaderSource* sha = RenderInterface::getSingleton()->createShader("defalut_shader");
-	sha->setShaderData("defalut_shader_c");
+	// create  resource
 
-	TextureSource* tex = RenderInterface::getSingleton()->createTexture("defalut_tex");
-	tex->setImageRef("defalut_tex_c");
+	TextureSource* tex = ResourceManager::singleton()->createTexture("resource/asset/defalut_tex.json");
 
-	RenderInterface::getSingleton()->createMaterial("defalut_mat", "defalut_shader");
+	ResourceManager::singleton()->createMaterial("resource/asset/defalut_mat.json");
 
-	MeshSource* mesh = RenderInterface::getSingleton()->createMesh("cube_mesh");
-	mesh->setGeometry("cube_mesh_c");
+	MeshSource* mesh = ResourceManager::singleton()->createMesh("resource/asset/cube_mesh.json");
 
-	MaterialInstance* matInstance = RenderInterface::getSingleton()->createMaterialInstance("defalut_mat_ins", "defalut_mat");
+	MaterialInstance* matInstance = ResourceManager::singleton()->createMaterialInstance("defalut_mat_ins", "defalut_mat");
 	matInstance->loadDefalutValues();
 }
 

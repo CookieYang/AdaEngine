@@ -1,16 +1,19 @@
 {
+"NAME":"defalut_mat",
 "VS":{
-    "uniforms": {
+    "UNIFORMS": {
         "modelMat":["MAT4", [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]],
         "viewMat": ["MAT4", [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]],
         "projMat": ["MAT4", [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]]
     },
-    "code": ""
+    "SHADERPATH": "shaders/forward/defalut_fs.glsl",
+    "SHADERTYPE": "VERTEXSHADER"
 },
 "PS":{
-    "uniforms": {
+    "UNIFORMS": {
         "baseColor":["TEXTURE2D", "defalut_tex"]
     },
-    "code": ""
+    "SHADERPATH": "shaders/forward/defalut_ps.glsl",
+    "SHADERTYPE": "FRAGMENTSHADER"
 }
 }

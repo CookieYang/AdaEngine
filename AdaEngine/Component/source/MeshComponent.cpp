@@ -1,10 +1,16 @@
 #include "MeshComponent.h"
 #include "IRenderInterface.h"
+#include "ResourceManager.h"
 
 void MeshComponent::setMesh(const std::string& name) {
-	GPUResource* res = RenderInterface::getSingleton()->GetResourceByName(name, GPUResource::GResourceType::MESH);
+	GPUResource* res = ResourceManager::singleton()->GetResourceByName(name, GPUResource::GResourceType::MESH);
 	MeshSource* mRes = dynamic_cast<MeshSource*>(res);
 	sMesh = RefCountedPtr<MeshSource>(mRes);
+	if (!mRes->loaded)
+	{
+		RenderInterface::getSingleton()->uploadGeometry(mRes);
+		mRes->loaded = true;
+	}
 }
 
 void MeshComponent::setGeometry(const std::string& name) {
@@ -19,7 +25,7 @@ void MeshComponent::setMaterial(const std::string& name) {
 }
 
 void MeshComponent::setMaterialForSection(const std::string& name, int sectionIndex) {
-	MaterialInstance* m = (MaterialInstance*)RenderInterface::getSingleton()->GetResourceByName(name, GPUResource::GResourceType::MATERIALINS);
+	MaterialInstance* m = (MaterialInstance*)ResourceManager::singleton()->GetResourceByName(name, GPUResource::GResourceType::MATERIALINS);
 	sMesh->getMeshSection(sectionIndex)->attachMaterial(m);
 }
 

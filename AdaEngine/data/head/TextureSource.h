@@ -7,11 +7,11 @@ class TextureSource : public GPUResource {
 public:
 	bool loaded;
 	unsigned int textureID;
-	std::string bindingName;
 	void setImageRef(const std::string& name);
 	int getWidth();
 	int getHeight();
 	unsigned char* getRawData();
 	TextureSource();
+	TextureSource(const std::string& jsonPath);
 	~TextureSource();
 };

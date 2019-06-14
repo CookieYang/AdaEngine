@@ -59,10 +59,10 @@ class Material : public GPUResource {
 	RefCountedPtr<ShaderSource> materialShader;
 	volatile bool dirty;
 public:
-	void attachShader(ShaderSource* shader);
 	void attachToMeshSection(MeshSection* meshSection);
 	ShaderSource* getShader();
 	Material():dirty(true) {};
+	Material(ShaderSource* ss);
 	virtual ~Material() {
 	
 	};
